@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Prestamos-mutualidades</string>
+    <string name="app_name">Prestamos Mutualidades</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_cobros">Cobros</string>
+    <string name="title_activity_pagos">Pagos</string>
+    <string name="Buscar">Buscar</string>
+    <string name="BuscarSocio">Folio Socio : </string>
+    <string name="RegistrarCobro">Regitrar Cobros: </string>
+    <string name = "Cobranza"> Cobranza del dia</string>
+    <string name = "Pagos"> Pagos del dia</string>
+    <string name = "pendientes_cobros">Pendientes del dia (Cobranza)</string>
+    <string name = "pendientes_pagos">Pendientes del dia (Pagos)</string>
+    <string name = "fecha_actual"> Fecha del dia</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="cargar_datos">Cargar datos al servidor</string>
+    <string name="ip">IP Servidor</string>
+    <string name="total_cobranza">Total cobranza : </string>
+    <string name="total_pagos">Total Pagos : </string>
+    
 
 </resources>

@@ -1,0 +1,109 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#000000"
+    tools:context=".Main" >
+
+    <Button
+        android:id="@+id/cobros"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="67dp"
+        android:background="#ffffff"
+        android:text="@string/Cobranza" />
+
+    <TextView
+        android:id="@+id/fechaDia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cobros"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/cobros"
+        android:layout_marginTop="15dp"
+        android:text="@string/fecha_actual"
+        android:background="#ffffff"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/pagos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignRight="@+id/cobros"
+        android:layout_below="@+id/cobros"
+        android:layout_marginTop="22dp"
+        android:background="#ffffff"
+        android:text="@string/Pagos" />
+
+    <EditText
+        android:id="@+id/ipServidor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignRight="@+id/pagos"
+        android:layout_marginLeft="23dp"
+        android:layout_toRightOf="@+id/textView3"
+        android:background="#ffffff"
+        android:ems="10"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="#ffffff"
+        android:text="@string/ip"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/actualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignRight="@+id/ipServidor"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="26dp"
+        android:background="#ffffff"
+        android:text="@string/actualizar" />
+
+    <Button
+        android:id="@+id/cargarDatos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/actualizar"
+        android:layout_alignRight="@+id/actualizar"
+        android:layout_below="@+id/actualizar"
+        android:layout_marginTop="14dp"
+        android:background="#ffffff"
+        android:text="@string/cargar_datos" />
+
+    <TextView
+        android:id="@+id/totalCobranza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cargarDatos"
+        android:layout_below="@+id/cargarDatos"
+        android:layout_marginTop="23dp"
+        android:background="#ffffff"
+        android:text="@string/total_cobranza" />
+
+    <TextView
+        android:id="@+id/totalPagos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/totalCobranza"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff"
+        android:text="@string/total_pagos"/>
+
+</RelativeLayout>
