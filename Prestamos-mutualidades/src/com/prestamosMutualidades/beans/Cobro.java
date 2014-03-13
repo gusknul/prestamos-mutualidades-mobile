@@ -13,7 +13,7 @@ public class Cobro {
 	private int folio;
 	private double recargo;
 	
-	Cobro(){
+	public Cobro(){
 		
 	}
 	

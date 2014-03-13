@@ -7,7 +7,7 @@
     <string name="title_activity_pagos">Pagos</string>
     <string name="Buscar">Buscar</string>
     <string name="BuscarSocio">Folio Socio : </string>
-    <string name="RegistrarCobro">Regitrar Cobros: </string>
+    <string name="RegistrarCobro">Regitrar Cobros </string>
     <string name = "Cobranza"> Cobranza del dia</string>
     <string name = "Pagos"> Pagos del dia</string>
     <string name = "pendientes_cobros">Pendientes del dia (Cobranza)</string>
@@ -18,6 +18,17 @@
     <string name="ip">IP Servidor</string>
     <string name="total_cobranza">Total cobranza : </string>
     <string name="total_pagos">Total Pagos : </string>
+    <string name="folio_socio">Folio socio: </string>
+    <string name="nombre_socio">Nombre: </string>
+    <string name="folio_mutualista">Folio mutualista: </string>
+    <string name="numero_bloc"># Bloc: </string>
+    <string name="monto">Monto: </string>
+    <string name="atraso">Atraso: </string>
+    <string name="recargo">Recargo: </string>
+    <string name="numero_sorteo"># Sorteo: </string>
+    <string name="fecha_pago_socio"> Fecha de pago al socio: </string>
+    <string name="telefono">Teléfono</string>
+    <string name="direccion">Direccion: </string>
     
 
 </resources>

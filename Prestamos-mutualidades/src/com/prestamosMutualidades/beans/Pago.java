@@ -13,7 +13,7 @@ public class Pago {
 	private int atraso;
 	
 	
-	Pago(){
+	public Pago(){
 		
 	}
 	

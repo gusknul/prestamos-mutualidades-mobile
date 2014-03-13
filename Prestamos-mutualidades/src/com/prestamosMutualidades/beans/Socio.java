@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Socio {
 	
-	private int idSocio;
+	private Integer idSocio;
 	private String nombreCompleto;
 	private String direccion;
 	private String telefono;
@@ -14,18 +14,20 @@ public class Socio {
 	private ArrayList<Cobro> listaCobros;
 	
 	
-	Socio(){
+	public Socio(){
 		listaPagos = new ArrayList<Pago>();
 		listaCobros = new ArrayList<Cobro>();
 		
 	}
 	
 
-	Socio(int idSocio, String nombreCompleto, String direccion, String telefono){
+	public Socio(int idSocio, String nombreCompleto, String direccion, String telefono){
 		this.idSocio = idSocio;
 		this.nombreCompleto = nombreCompleto;
 		this.direccion = direccion;
 		this.telefono = telefono;
+		listaPagos = new ArrayList<Pago>();
+		listaCobros = new ArrayList<Cobro>();
 	}
 	
 	public List<Pago> getListaPagos() {
@@ -44,11 +46,11 @@ public class Socio {
 		this.listaCobros = listaCobros;
 	}
 	
-	public int getIdSocio() {
+	public Integer getIdSocio() {
 		return idSocio;
 	}
 	
-	public void setIdSocio(int idSocio) {
+	public void setIdSocio(Integer idSocio) {
 		this.idSocio = idSocio;
 	}
 	
@@ -78,9 +80,10 @@ public class Socio {
 
 	@Override
 	public String toString() {
-		return "Socio [idSocio=" + idSocio + ", nombreCompleto="
-				+ nombreCompleto + ", direccion=" + direccion + ", telefono="
-				+ telefono + "]";
+		return    idSocio + "\n"
+				+ nombreCompleto + "\n"
+				+ direccion + "\n"
+				+ telefono;
 	}
 	
 	

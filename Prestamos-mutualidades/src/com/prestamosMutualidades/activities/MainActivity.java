@@ -1,8 +1,7 @@
 package com.prestamosMutualidades.activities;
 
+import com.prestamosMutualidades.adapter.AdapterDAO;
 import com.prestamosMutualidades.beans.R;
-import com.prestamosMutualidades.beans.R.layout;
-import com.prestamosMutualidades.beans.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -12,12 +11,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class Main extends Activity {
+public class MainActivity extends Activity {
 
 	Intent activity;
 	Button cobranza;
-	
 	Button pagos;
+	
+	AdapterDAO adapterSocio;
 	@Override
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,7 @@ public class Main extends Activity {
 		cobros();
 		
 	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -43,7 +44,7 @@ public class Main extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				activity = new Intent(Main.this, Pagos.class);
+				activity = new Intent(MainActivity.this, PagosActivity.class);
 				startActivity(activity);
 			}
 		});
@@ -56,7 +57,7 @@ public class Main extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				activity = new Intent(Main.this, Cobros.class);
+				activity = new Intent(MainActivity.this, CobrosActivity.class);
 				startActivity(activity);
 			}
 		});
