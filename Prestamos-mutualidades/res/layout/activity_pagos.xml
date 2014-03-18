@@ -1,10 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:weightSum="5">
 	
 	   <TextView
+	       android:id="@+id/fecha_dia_pagos"
 	       android:layout_width="match_parent"
 	       android:layout_height="wrap_content"
 	       android:text="@string/fecha_actual"
@@ -61,7 +62,7 @@
         <ListView
             android:id="@+id/lViewMember"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
         </ListView>
         <LinearLayout
@@ -75,51 +76,51 @@
                      
 
             <TextView
-                android:id="@+id/folio_socio"
+                android:id="@+id/folio_socio_pago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/folio_socio" />
 
             <TextView
-                android:id="@+id/nombre_socio"
+                android:id="@+id/nombre_socio_pago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/nombre_socio" />
 
             <TextView
-                android:id="@+id/folio_mutualista"
+                android:id="@+id/folio_mutualista_pago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/folio_mutualista" />
             <TextView
-                android:id="@+id/numero_bloc"
+                android:id="@+id/numero_bloc_pago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/numero_bloc" />
             <TextView
-                android:id="@+id/monto"
+                android:id="@+id/monto_pago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/monto" />
             <TextView
-                android:id="@+id/atraso"
+                android:id="@+id/atraso_pago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/atraso" />
             <TextView
-                android:id="@+id/recargo"
+                android:id="@+id/recargo_pago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/recargo" />
             <TextView
-                android:id="@+id/numero_sorteo"
+                android:id="@+id/numero_sorteo_pago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -135,7 +136,7 @@
                 android:id="@+id/btn_registrar_cobro_pagos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/RegistrarCobro" />
+                android:text="@string/RegistrarPago" />
 
         </LinearLayout>
     	</LinearLayout>

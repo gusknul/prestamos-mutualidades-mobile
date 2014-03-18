@@ -5,6 +5,7 @@
     android:weightSum="5">
 	
 	   <TextView
+	       android:id="@+id/fecha_dia"
 	       android:layout_width="match_parent"
 	       android:layout_height="wrap_content"
 	       android:text="@string/fecha_actual"
@@ -29,16 +30,16 @@
         </TextView>
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/buscar_socio_cobro"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
-            android:layout_weight="1"
+            android:layout_weight="1" 
             />
 
         <Button
-            android:id="@+id/searchMenber"
+            android:id="@+id/btn_buscar_socio_cobros"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/Buscar"
@@ -60,8 +61,9 @@
         <ListView
             android:id="@+id/lViewMember"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
         </ListView>
         
       <LinearLayout
@@ -75,70 +77,70 @@
           
             
             <TextView
-                android:id="@+id/folio_socio"
+                android:id="@+id/folio_socio_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/folio_socio" />
 
             <TextView
-                android:id="@+id/nombre_socio"
+                android:id="@+id/nombre_socio_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/nombre_socio" />
 
             <TextView
-                android:id="@+id/folio_mutualista"
+                android:id="@+id/folio_mutualista_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/folio_mutualista" />
             <TextView
-                android:id="@+id/numero_bloc"
+                android:id="@+id/numero_bloc_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/numero_bloc" />
             <TextView
-                android:id="@+id/monto"
+                android:id="@+id/monto_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/monto" />
             <TextView
-                android:id="@+id/atraso"
+                android:id="@+id/atraso_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/atraso" />
             <TextView
-                android:id="@+id/recargo"
+                android:id="@+id/recargo_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/recargo" />
             <TextView
-                android:id="@+id/numero_sorteo"
+                android:id="@+id/numero_sorteo_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/numero_sorteo" />
             <TextView
-                android:id="@+id/fecha_pago"
+                android:id="@+id/fecha_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/fecha_pago_socio" />
             <TextView
-                android:id="@+id/telefono"
+                android:id="@+id/telefono_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/telefono" />
             
             <TextView
-                android:id="@+id/direccion"
+                android:id="@+id/direccion_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

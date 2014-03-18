@@ -1,24 +1,28 @@
 package com.prestamosMutualidades.beans;
 
-import java.util.Date;
 
 public class Pago {
 	
+	private int idPago;
+
 	private int idSocio;
 	private int idMutualidad;
-	private Date fecha;
+	private String fecha;
 	private double monto;
 	private String estado;
 	private int sorteo;
 	private int atraso;
+	private int numeroBloc;
+	private double recargo;
 	
 	
 	public Pago(){
 		
 	}
 	
-	public Pago(int idSocio, int idMutualidad, Date fecha, double monto,
-			String estado, int sorteo, int atraso) {
+	public Pago(int idPago , int idSocio, int idMutualidad, String fecha, double monto,
+			String estado, int sorteo, int atraso, int numeroBloc, double recargo) {
+		this.idPago = idPago;
 		this.idSocio = idSocio;
 		this.idMutualidad = idMutualidad;
 		this.fecha = fecha;
@@ -26,7 +30,23 @@ public class Pago {
 		this.estado = estado;
 		this.sorteo = sorteo;
 		this.atraso = atraso;
+		this.numeroBloc = numeroBloc;
+		this.recargo= recargo;
 	}
+	
+	public Pago( int idSocio, int idMutualidad, String fecha, double monto,
+			String estado, int sorteo, int atraso,int numeroBloc, double recargo) {
+		this.idSocio = idSocio;
+		this.idMutualidad = idMutualidad;
+		this.fecha = fecha;
+		this.monto = monto;
+		this.estado = estado;
+		this.sorteo = sorteo;
+		this.atraso = atraso;
+		this.numeroBloc = numeroBloc;
+		this.recargo= recargo;
+	}
+
 
 	public int getIdSocio() {
 		return idSocio;
@@ -44,11 +64,11 @@ public class Pago {
 		this.idMutualidad = idMutualidad;
 	}
 	
-	public Date getFecha() {
+	public String getFecha() {
 		return fecha;
 	}
 	
-	public void setFecha(Date fecha) {
+	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
 	
@@ -82,6 +102,30 @@ public class Pago {
 	
 	public void setAtraso(int atraso) {
 		this.atraso = atraso;
+	}
+	
+	public int getIdPago() {
+		return idPago;
+	}
+
+	public void setIdPago(int idPago) {
+		this.idPago = idPago;
+	}
+
+	public int getNumeroBloc() {
+		return numeroBloc;
+	}
+
+	public void setNumeroBloc(int numeroBloc) {
+		this.numeroBloc = numeroBloc;
+	}
+
+	public double getRecargo() {
+		return recargo;
+	}
+
+	public void setRecargo(double recargo) {
+		this.recargo = recargo;
 	}
 	
 }

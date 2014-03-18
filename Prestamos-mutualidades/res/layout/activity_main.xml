@@ -12,14 +12,14 @@
         android:id="@+id/cobros"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignLeft="@+id/label_ip"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="67dp"
         android:text="@string/Cobranza" />
 
     <TextView
-        android:id="@+id/fechaDia"
+        android:id="@+id/fecha_dia_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/cobros"
@@ -33,14 +33,14 @@
         android:id="@+id/pagos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignLeft="@+id/label_ip"
         android:layout_alignRight="@+id/cobros"
         android:layout_below="@+id/cobros"
         android:layout_marginTop="22dp"
         android:text="@string/Pagos" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/label_ip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -52,9 +52,9 @@
         android:id="@+id/actualizar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignLeft="@+id/label_ip"
         android:layout_alignRight="@+id/pagos"
-        android:layout_below="@+id/textView3"
+        android:layout_below="@+id/label_ip"
         android:layout_marginTop="26dp"
         android:text="@string/actualizar" />
 
@@ -77,15 +77,13 @@
         android:text="@string/total_pagos"/>
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/ip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/totalCobranza"
         android:ems="10"
         android:inputType="phone" >
-
-        <requestFocus />
     </EditText>
 
     <TextView

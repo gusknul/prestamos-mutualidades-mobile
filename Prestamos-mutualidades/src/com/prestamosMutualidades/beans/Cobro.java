@@ -1,24 +1,24 @@
 package com.prestamosMutualidades.beans;
 
-import java.util.Date;
 
 public class Cobro {
 	
 	private int idCobro;
 	private int idSocio;
 	private int idMutualidad;
-	private Date date;
+	private String date;
 	private double monto;
 	private String estado;
 	private int folio;
 	private double recargo;
-	
+	private int atraso;
+	private double numeroSorteo;
 	public Cobro(){
 		
 	}
 	
-	public Cobro(int idCobro, int idSocio, int idMutualidad, Date date,
-			double monto, String estado, int folio, double recargo) {
+	public Cobro(int idCobro, int idSocio, int idMutualidad, String date,
+			double monto, String estado, int folio, double recargo,int numeroSorteo, int atraso) {
 		this.idCobro = idCobro;
 		this.idSocio = idSocio;
 		this.idMutualidad = idMutualidad;
@@ -27,7 +27,23 @@ public class Cobro {
 		this.estado = estado;
 		this.folio = folio;
 		this.recargo = recargo;
+		this.numeroSorteo = numeroSorteo;
+		this.atraso = atraso;
 	}
+	
+	public Cobro(int idSocio, int idMutualidad, String date,
+			double monto, String estado, int folio, double recargo,int numeroSorteo, int atraso) {
+		this.idSocio = idSocio;
+		this.idMutualidad = idMutualidad;
+		this.date = date;
+		this.monto = monto;
+		this.estado = estado;
+		this.folio = folio;
+		this.recargo = recargo;
+		this.numeroSorteo = numeroSorteo;
+		this.atraso = atraso;
+	}
+	
 
 	public int getIdCobro() {
 		return idCobro;
@@ -53,11 +69,11 @@ public class Cobro {
 		this.idMutualidad = idMutualidad;
 	}
 	
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 	
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	
@@ -92,5 +108,21 @@ public class Cobro {
 	public void setRecargo(double recargo) {
 		this.recargo = recargo;
 	}
-	
+
+	public int getAtraso() {
+		return atraso;
+	}
+
+	public void setAtraso(int atraso) {
+		this.atraso = atraso;
+	}
+
+	public double getNumeroSorteo() {
+		return numeroSorteo;
+	}
+
+	public void setNumeroSorteo(double numeroSorteo) {
+		this.numeroSorteo = numeroSorteo;
+	}
+
 }
