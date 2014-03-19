@@ -247,15 +247,15 @@ public class BaseDatos extends SQLiteOpenHelper
 		Cobro cobro1 , cobro2,cobro4,cobro5,cobro6,cobro7,cobro8,cobro9,cobro10,cobro11;
 		Date date = new Date();
 		
-		cobro1 = new Cobro(1, 2, dateFormat.format(date), 1054, "cobrado", 2, 3,4,7);
-		cobro2 = new Cobro(2, 3, dateFormat.format(date), 1470, "cobrado", 13, 5,6,8);
-		cobro4 = new Cobro(4, 2, dateFormat.format(date), 140, "cobrado", 4, 8,6,8);
+		cobro1 = new Cobro(1, 2, dateFormat.format(date), 1054, "faltante", 2, 3,4,7);
+		cobro2 = new Cobro(2, 3, dateFormat.format(date), 1470, "faltante", 13, 5,6,8);
+		cobro4 = new Cobro(4, 2, dateFormat.format(date), 140, "faltante", 4, 8,6,8);
 		cobro5 = new Cobro(5, 5, dateFormat.format(date), 157, "faltante", 7, 9,3,7);
-		cobro6 = new Cobro(6, 2, dateFormat.format(date), 970, "cobrado", 67, 9,3,3);
-		cobro7 = new Cobro(7, 8, dateFormat.format(date), 97324, "cobrado", 132, 1,1,3);
+		cobro6 = new Cobro(6, 2, dateFormat.format(date), 970, "faltante", 67, 9,3,3);
+		cobro7 = new Cobro(7, 8, dateFormat.format(date), 97324, "faltante", 132, 1,1,3);
 		cobro8 = new Cobro(8, 9, dateFormat.format(date), 43270, "faltante", 98, 18,4,6);
-		cobro9 = new Cobro(9, 65, dateFormat.format(date), 97423, "cobrado", 47, 6,7,7);
-		cobro10 = new Cobro(10, 34, dateFormat.format(date), 2430, "cobrado", 54, 1,8,9);
+		cobro9 = new Cobro(9, 65, dateFormat.format(date), 97423, "faltante", 47, 6,7,7);
+		cobro10 = new Cobro(10, 34, dateFormat.format(date), 2430, "faltante", 54, 1,8,9);
 		cobro11 = new Cobro(11, 12, dateFormat.format(date), 460, "faltante", 56, 4,7,8);
 		
 		

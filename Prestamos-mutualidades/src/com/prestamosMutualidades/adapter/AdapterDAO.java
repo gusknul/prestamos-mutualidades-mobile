@@ -1,9 +1,7 @@
 package com.prestamosMutualidades.adapter;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,11 +21,8 @@ import com.prestamosMutualidades.dao.BaseDatos;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
-import android.sax.StartElementListener;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -42,6 +37,7 @@ public class AdapterDAO
 	private BaseDatos baseDatos;
 	private SQLiteDatabase baseDatosSQL;
 	private static final String SELECT_ALL = " SELECT * FROM " ;
+	private static final String URL = "";
 	
 	
 	public AdapterDAO(Context context)
@@ -268,8 +264,26 @@ public class AdapterDAO
 		
 	}
 	
+	
+	public boolean realizarCobro(int idSocio){
+		baseDatosSQL = baseDatos.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(BaseDatos.ESTADO_COBRO, "cobrado");
+		int cant = baseDatosSQL.update(BaseDatos.TABLA_COBRO, values, BaseDatos.ID_SOCIO_COBRO + "=" + idSocio, null);
+		
+		if(cant==1){
+			baseDatosSQL.close();
+			return true;
+		}
+		else{
+			baseDatosSQL.close();
+			return false;
+		}
+		
+	}
+	
 	public void enviarDatos(){
-		String url = "192.168.1.5/json/server.php?nombre=";
+		
 		RestTemplate template = new RestTemplate();
 		Gson gson = new Gson();
 		
@@ -278,11 +292,8 @@ public class AdapterDAO
 		ArrayList<Cobro> cobros = obtenerCobros();
 		
 		ArrayList<Object> o = new ArrayList<Object>();
-		o.add("Socios : ");
 		o.add(socios);
-		o.add("Pagos : ");
 		o.add(pagos);
-		o.add("Cobros : ");
 		o.add(cobros);
 		
 		String message = gson.toJson(o);
@@ -293,7 +304,7 @@ public class AdapterDAO
 		
 		template.getMessageConverters().add(new GsonHttpMessageConverter());
 		template.getMessageConverters().add(new StringHttpMessageConverter());
-		ResponseEntity<Object> responseEntity = template.exchange(url + message , HttpMethod.GET, requestEntity, Object.class);
+		ResponseEntity<Object> responseEntity = template.exchange(URL + message , HttpMethod.GET, requestEntity, Object.class);
 		Object result = responseEntity.getBody();
 		if(result != null){
 			
@@ -304,46 +315,56 @@ public class AdapterDAO
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void recibirDatos(){
-		
+		String URL = "http://127.0.0.1:8000/"; 
 		Gson gson = new Gson();
-		
-		ArrayList<Socio> socios = obtenerListaSocios();
-		ArrayList<Pago> pagos = obtenerPagos();
-		ArrayList<Cobro> cobros = obtenerCobros();
-		
-		ArrayList<Object> o = new ArrayList<Object>();
-		o.add("Socios : ");
-		o.add(socios);
-		o.add("Pagos : ");
-		o.add(pagos);
-		o.add("Cobros : ");
-		o.add(cobros);
-		
-		String message = gson.toJson(o);
-		
+		Socio s = new Socio();
+		s.setIdSocio(1);
+		s.setNombreCompleto("Gustavo Canul");
+		s.setDireccion("Santa isabel");
+		s.setTelefono("9991919191");
+		String ss = gson.toJson(s);
+				
+		//HttpHeaders requestHeaders = new HttpHeaders();
+		//requestHeaders.setAccept(Collections.singletonList(new MediaType("application","json")));
+		//HttpEntity<?> requestEntity = new HttpEntity<Object>(requestHeaders);
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
-		@SuppressWarnings("unchecked")
-		ArrayList<Object> object = restTemplate.getForObject(message, ArrayList.class);
-		loadObjects(object);
+		Socio[] sss = restTemplate.getForObject(URL, Socio[].class);
+		//ResponseEntity<Socio> responseEntity = restTemplate.exchange(URL+ss, HttpMethod.GET, requestEntity, Socio.class);
+		//Socio events = responseEntity.getBody();
+		Log.i("socios", sss.toString());	
 		
 	}
 
 
 
-	@SuppressWarnings({ "unchecked", "unused" })
+	@SuppressWarnings({ "unchecked" })
 	private void loadObjects(ArrayList<Object> object) {
 		// TODO Auto-generated method stub
+		
 		ArrayList<Socio> socios = new ArrayList<Socio>();
 		ArrayList<Cobro> cobros = new ArrayList<Cobro>();
 		ArrayList<Pago> pagos = new ArrayList<Pago>();
-		for(int i = 0; i<object.size(); i++){
-			socios = (ArrayList<Socio>) object.get(0);
-			cobros = (ArrayList<Cobro>) object.get(1);
-			pagos = ((ArrayList<Pago>) object.get(2));
+		
+		for( int i = 0 ; i < object.size() ; i++){
+			socios = (ArrayList<Socio>) object.get(0) ;
+			cobros = (ArrayList<Cobro>) object.get(1) ;
+			pagos = (ArrayList<Pago>) object.get(2) ;
 		}
-		//baseDatos.insertarSocio(s);
+		
+		for( int i = 0 ; i < socios.size() ; i++ ){
+			baseDatos.insertarSocio(socios.get(i));
+		}
+		
+		for(int i = 0; i < cobros.size() ; i ++){
+			baseDatos.insertarCobro(cobros.get(i));
+		}
+		
+		for (int i = 0; i<pagos.size() ; i ++){
+			baseDatos.insertarPago(pagos.get(i));
+		}
 	}
 	
 	

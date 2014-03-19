@@ -12,6 +12,7 @@ import com.prestamosMutualidades.beans.Socio;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -94,13 +95,13 @@ public class PagosActivity extends Activity {
 			@SuppressLint("NewApi")
 			@Override
 			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long idInDB){
-					setText(position);
+					setText(position , parent);
 					
 				}});
 	}
 	
 	
-	private void setText(int position){
+	private void setText(int position,AdapterView<?> parent){
 		Integer id = list.get(position).getIdSocio();
 		ArrayList<String> pagos = adapterSocio.obtenerDatosPago(id);
 			if (pagos!= null) {
@@ -113,12 +114,12 @@ public class PagosActivity extends Activity {
 				numeroBloc.setText("# Bloc: " + pagos.get(11));
 				recargo.setText("Recargo: " +pagos.get(12));
 				atraso.setText("Atraso: " + pagos.get(13));
-				registrarPago(id);
+				registrarPago(id, parent);
 	}
 			
 }
 	
-	private void registrarPago(int id){
+	private void registrarPago(int id, final AdapterView<?> parent){
 	    final int idSocio = id;
 		
 		registrarPago.setOnClickListener(new OnClickListener() {
@@ -128,6 +129,13 @@ public class PagosActivity extends Activity {
 				// TODO Auto-generated method stub
 				if(adapterSocio.realizarPago(idSocio)){
 					Toast.makeText(PagosActivity.this, "Pago realizado" ,Toast.LENGTH_SHORT).show();
+					if(idSocio < parent.getChildCount()){
+						parent.getChildAt(idSocio).setBackgroundColor(Color.GREEN);
+					}
+					else{
+						return;
+					}
+					
 				}
 				else{
 					Toast.makeText(PagosActivity.this, "no se puede realizar el pago", Toast.LENGTH_SHORT).show();

@@ -52,6 +52,7 @@ public class CobrosActivity extends Activity {
 	
 	EditText buscarSocio;
 	Button buscar;
+	Button registrarCobro;
 
 	@SuppressLint("SimpleDateFormat")
 	@Override
@@ -81,6 +82,8 @@ public class CobrosActivity extends Activity {
 		buscarSocio = (EditText) findViewById(R.id.buscar_socio_cobro);
 		buscar = (Button) findViewById(R.id.btn_buscar_socio_cobros);
 		listView = (ListView) findViewById(R.id.lViewMember);
+		registrarCobro = (Button) findViewById(R.id.btn_registrar_cobro_cobros);
+		
 		AdapterClass cl = (AdapterClass) getApplication();
 		adapterSocio = cl.getAdapter();
 		registrarEventoClick();
@@ -107,12 +110,12 @@ public class CobrosActivity extends Activity {
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long idInDB){
-					setText(position);
+					setText(position,parent);
 
 				}});
 	}
 	
-	private void setText(int position){
+	private void setText(int position,AdapterView<?> parent){
 		Integer id = list.get(position).getIdSocio();
 		ArrayList<String> cobro = adapterSocio.obtenerDatosCobro(id);
 			if (cobro!= null) {
@@ -127,7 +130,7 @@ public class CobrosActivity extends Activity {
 					recargo.setText("Recargo: " + cobro.get(13) );
 					numeroSorteo.setText("# Sorteo: " + cobro.get(12));
 					fechaPagoSocio.setText("Fecha de pago al socio: " + cobro.get(7));
-					
+					registrarCobro(id,parent);
 	}
 
 	}
@@ -141,8 +144,7 @@ public class CobrosActivity extends Activity {
 				String id = buscarSocio.getText().toString();
 				int position = Integer.parseInt(id);
 				if( position < listView.getChildCount() ){
-					listView.getChildAt(position).setBackgroundColor(Color.BLUE);
-					listView.getCount();
+					listView.getChildAt(position).setFocusable(true);
 				}
 				else{
 					Toast.makeText(CobrosActivity.this, "No existe un socio con ese folio", Toast.LENGTH_SHORT).show();
@@ -151,7 +153,28 @@ public class CobrosActivity extends Activity {
 				
 			}
 		});
-		
 	}
+	
+	private void registrarCobro(int id, final AdapterView<?> parent){
+			final int idSocio = id;
+	    	registrarCobro.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					if(adapterSocio.realizarCobro(idSocio)){
+						Toast.makeText(CobrosActivity.this, "Pago realizado" ,Toast.LENGTH_SHORT).show();
+						if(idSocio < parent.getChildCount()){
+							parent.getChildAt(idSocio).setBackgroundColor(Color.GREEN);
+						}
+						else{
+							return;
+						}
+					}
+					else{
+						Toast.makeText(CobrosActivity.this, "no se puede realizar el pago", Toast.LENGTH_SHORT).show();
+						}
+					}
+				});
+		}
 	
 }
