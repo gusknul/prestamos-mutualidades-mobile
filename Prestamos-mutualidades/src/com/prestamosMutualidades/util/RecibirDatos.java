@@ -23,9 +23,12 @@ import android.widget.Toast;
 public class RecibirDatos extends AsyncTask<Void, Void, String>{
 	
 	Context context;
-	public RecibirDatos(Context context) {
+	AdapterDAO adapter;
+	String ip;
+	public RecibirDatos(Context context, String ip) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
+		this.ip = ip;
 	}
 	
 	
@@ -34,7 +37,7 @@ public class RecibirDatos extends AsyncTask<Void, Void, String>{
 	
 	@Override
 	protected String doInBackground(Void... params) {
-		    final String url = "http://192.168.1.4/datos.json";
+		    final String url = "http://"+ip+"/datos.json";
 		    
 		    
 		    if (verificaConexion(context)) {
@@ -53,17 +56,14 @@ public class RecibirDatos extends AsyncTask<Void, Void, String>{
 	@Override
     protected void onPostExecute(String datos) {
 		Gson gson = new Gson();
-		Object[] s = gson.fromJson(datos.toString(), Object[].class);
-		List<Object> s1 = Arrays.asList(s);
-		ArrayList<Socio> socios = null;
-		ArrayList<Pago> pagos= null;
-		ArrayList<Cobro> cobros = null;
-		Log.i(TAG, String.valueOf(s1.size()));
-		for(int i = 0; i < s1.size(); i ++){
-			 socios = (ArrayList<Socio>) s1.get(0);
-			 pagos = (ArrayList<Pago>) s1.get(1);
-			 cobros = (ArrayList<Cobro>) s1.get(2);
-		}
+		Object[] responseData= gson.fromJson(datos.toString(), Object[].class);
+		List<Object> datosRecibidos = Arrays.asList(responseData);
+		adapter = new AdapterDAO(context);
+		AdapterClass ad = (AdapterClass) context.getApplicationContext();
+		ad.setContext(context);
+		ad.setDatos(datosRecibidos);
+		ad.setAdapter(adapter);
+		ad.abrirConexion();
 		Toast.makeText(context, "Base de datos cargada con exito", Toast.LENGTH_LONG).show();
     }
 	

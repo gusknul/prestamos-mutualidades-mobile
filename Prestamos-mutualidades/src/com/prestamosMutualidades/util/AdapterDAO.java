@@ -1,6 +1,7 @@
 package com.prestamosMutualidades.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.prestamosMutualidades.beans.Cobro;
 import com.prestamosMutualidades.beans.Pago;
@@ -26,13 +27,13 @@ public class AdapterDAO
 	
 	public AdapterDAO(Context context)
 	{
-		// TODO Auto-generated constructor stub
 		this.context = context;
-		baseDatos = new BaseDatos(context);
 		
 	}
 	
-	
+	public void cargarDatos(List<Object> datos){
+		baseDatos = new BaseDatos(context,datos);
+	}
 	
 	public AdapterDAO abrirConexion()
 	{

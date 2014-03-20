@@ -4,9 +4,12 @@ package com.prestamosMutualidades.util;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import com.prestamosMutualidades.beans.Cobro;
 import com.prestamosMutualidades.beans.Pago;
 import com.prestamosMutualidades.beans.Socio;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -57,21 +60,15 @@ public class BaseDatos extends SQLiteOpenHelper
 	public static final String ATRASO_PAGO = "atraso";
 	public static final String NUMERO_BLOC_PAGO = "numero_bloc";
 	public static final String RECARGO_PAGO = "recargo";
-	SimpleDateFormat dateFormat;
-	
-	
-	
+	SimpleDateFormat dateFormat;	
 	private static int version = 1;
+	List<Object> datos;
 	
-	public static final String[] COLUMNAS_SOCIO = new String[] {ID_SOCIO,NOMBRE_SOCIO,DIRECCION_SOCIO,TELEFONO_SOCIO};
-	
-	
-	
-	public BaseDatos(Context context) 
+	public BaseDatos(Context context, List<Object> datos) 
 	{
 		super(context, NOMBRE_BASE_DATOS, null, version);
 		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		onUpgrade(this.getWritableDatabase(), 1, 2);
+		this.datos = datos;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -82,24 +79,32 @@ public class BaseDatos extends SQLiteOpenHelper
 		dataBase.execSQL(crearSocio());
 		dataBase.execSQL(crearPagos());
 		dataBase.execSQL(crearCobros());
+		insertarDatos(dataBase,datos);
 		
-		ArrayList<Pago> pagos = agregarPagos();
-		ArrayList<Cobro> cobros = agregarCobros();
-		ArrayList<Socio> socios = agregarSocio();
-		
-		for(int i = 0; i<pagos.size();i++){
-			dataBase.execSQL(insertarPago(pagos.get(i)));
+	}
+
+	private void insertarDatos(SQLiteDatabase dataBase, List<Object> datos2) {
+		// TODO Auto-generated method stub
+		ArrayList<Socio> socios = null;
+		ArrayList<Pago> pagos = null;
+		ArrayList<Cobro> cobros = null;
+		for(int i = 0; i < datos.size(); i++){
+			socios = (ArrayList<Socio>) datos.get(0);
+			pagos = (ArrayList<Pago>) datos.get(1);
+			cobros = (ArrayList<Cobro>) datos.get(2);
 		}
 		
-		for(int i = 0; i<cobros.size();i++){
-			dataBase.execSQL(insertarCobro(cobros.get(i)));
-		}
-		
-		for (int i = 0; i <socios.size() ; i++) {
+		for(int i = 0; i < socios.size(); i++){
 			dataBase.execSQL(insertarSocio(socios.get(i)));
 		}
 		
+		for (int j = 0; j < pagos.size(); j++) {
+			dataBase.execSQL(insertarPago(pagos.get(j)));
+		}
 		
+		for (int k = 0; k < cobros.size(); k++) {
+			dataBase.execSQL(insertarCobro(cobros.get(k)));
+		}
 	}
 
 	@Override
@@ -211,59 +216,4 @@ public class BaseDatos extends SQLiteOpenHelper
 		return query;
 	}
 	
-	
-	public ArrayList<Pago> agregarPagos(){
-		ArrayList<Pago> pagos  = new ArrayList<Pago>();
-		Pago pago1 , pago2,pago3;
-		
-		Date date = new Date();
-		
-		pago1 = new Pago(1, 2, dateFormat.format(date), 111, "faltante", 13, 33 , 3 , 4.5);
-		pago2 = new Pago(4, 3, dateFormat.format(date), 222, "faltante", 21, 44 , 5 , 6);
-		pago3 = new Pago(3, 4, dateFormat.format(date), 333, "faltante", 22, 55 ,4 ,5);
-		
-		pagos.add(pago1);
-		pagos.add(pago2);
-		pagos.add(pago3);
-		
-		return pagos;
-	}
-	
-	
-	public ArrayList<Cobro> agregarCobros(){
-		ArrayList<Cobro> cobros  = new ArrayList<Cobro>();
-		Cobro cobro1 , cobro2,cobro4;
-		Date date = new Date();
-		
-		cobro1 = new Cobro(1, 2, dateFormat.format(date), 1054, "faltante", 2, 3,4,7);
-		cobro2 = new Cobro(2, 3, dateFormat.format(date), 1470, "faltante", 13, 5,6,8);
-		cobro4 = new Cobro(4, 2, dateFormat.format(date), 140, "faltante", 4, 8,6,8);
-		
-		cobros.add(cobro1);
-		cobros.add(cobro2);
-		cobros.add(cobro4);
-		
-		return cobros;
-	}
-	
-	public ArrayList<Socio> agregarSocio(){
-		ArrayList<Socio> socios = new ArrayList<Socio>();
-		Socio s1 , s2 , s3, s4 , s5;
-		
-		s1 = new Socio("gustavo canul", "cerritos mulchechen", "9992104610");
-		s2 = new Socio("oswaldo ceballos", "fco. montejo", "9302405768");
-		s3 = new Socio("abril sonda", "chenku", "3928476395");
-		s4 = new Socio("odalys medina", "sta. isabel", "3859673923");
-		s5 = new Socio("carlos rubio", "sta. isabel", "99918594332");		
-		
-		socios.add(s1);
-		socios.add(s2);
-		socios.add(s3);
-		socios.add(s4);
-		socios.add(s5);
-		
-		return socios;
-	}
-	
-
 }

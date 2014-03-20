@@ -1,5 +1,8 @@
 package com.prestamosMutualidades.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Application;
 import android.content.Context;
 
@@ -8,6 +11,7 @@ public class AdapterClass extends Application{
 	private AdapterDAO adapter;
 	private BaseDatos baseDatos;
 	private Context context;
+	private List<Object> datos;
 	
 	public AdapterClass(Context context){
 		this.context = context;
@@ -17,6 +21,7 @@ public class AdapterClass extends Application{
 	}
 	
 	public void abrirConexion(){
+		adapter.cargarDatos(datos);
 		adapter.abrirConexion();
 	}
 	
@@ -42,6 +47,14 @@ public class AdapterClass extends Application{
 
 	public void setContext(Context context) {
 		this.context = context;
+	}
+	
+	public List<Object> getDatos(){
+		return datos;
+	}
+	
+	public void setDatos(List<Object> datos){
+		this.datos = datos;
 	}
 	
 }

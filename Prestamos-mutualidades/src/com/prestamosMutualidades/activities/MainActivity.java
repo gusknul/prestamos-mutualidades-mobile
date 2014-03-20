@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
 		cobranza = (Button) findViewById(R.id.cobros);
 		actualizarDB = (Button) findViewById(R.id.actualizar);
 		cargarDBS = (Button) findViewById(R.id.cargarDatos);
-		ip = (EditText) findViewById(R.id.ip);
+		ip = (EditText) findViewById(R.id.direccionIp);
 		fechaActual = (TextView) findViewById(R.id.fecha_dia_main);
 		
 		SimpleDateFormat formatDate = new SimpleDateFormat(FORMATO_FECHA);
@@ -120,18 +120,21 @@ public class MainActivity extends Activity {
 	
 	
 	private void actualizar(){
+		final String direccionIp = ip.getText().toString();
+		Log.i("ip", direccionIp);
 		
 			actualizarDB.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					adapterSocio = new AdapterDAO(MainActivity.this);
-					AdapterClass ad = (AdapterClass) MainActivity.this.getApplication();
-					ad.setContext(MainActivity.this);
-					ad.setAdapter(adapterSocio);
-					ad.abrirConexion();
-					
+					// TODO Auto-generated method stub					
+					if(direccionIp != ""){
+						RecibirDatos recibir = new RecibirDatos(MainActivity.this,ip.getText().toString());
+						recibir.execute();
+					}
+					else{
+						Toast.makeText(MainActivity.this, "Ingrese una direccion ip valida", Toast.LENGTH_SHORT).show();
+					}
 				}
 			});
 	}
@@ -142,59 +145,41 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				RecibirDatos recibir = new RecibirDatos(MainActivity.this);
-				recibir.execute();
 				
 			}
 		});
 	}
 	
-	private void gson(){
-		Gson gson = new Gson();
-		ArrayList<Socio> socios = adapterSocio.obtenerListaSocios();
-		ArrayList<Pago> pagos = adapterSocio.obtenerPagos();
-		ArrayList<Cobro> cobros = adapterSocio.obtenerCobros();
-		ArrayList<Object> o = new ArrayList<Object>();
-		o.add(socios);
-		o.add(pagos);
-		o.add(cobros);
-		String message = gson.toJson(o);
-		Log.i("mensaje", message);
-	}
-	
-	
-	
-	
-	private class EnviarDatos extends AsyncTask<Void, Void , Void>{
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			// TODO Auto-generated method stub
-			
-			Gson gson = new Gson();
-			ArrayList<Socio> socios = adapterSocio.obtenerListaSocios();
-			ArrayList<Pago> pagos = adapterSocio.obtenerPagos();
-			ArrayList<Cobro> cobros = adapterSocio.obtenerCobros();
-			
-			
-			ArrayList<Object> o = new ArrayList<Object>();
-			o.add(socios);
-			o.add(pagos);
-			o.add(cobros);
-			String url = "http://127.0.0.1";
-			String message = gson.toJson(o);
-			
-			HttpHeaders requestHeaders = new HttpHeaders();
-			requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-			HttpEntity<ArrayList<Object>> requestEntity = new HttpEntity<ArrayList<Object>>(o, requestHeaders);
-			RestTemplate restTemplate = new RestTemplate();
-			restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
-			restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-			ResponseEntity<String> responseEntity = restTemplate.exchange(message, HttpMethod.POST, requestEntity, String.class);
-			String result = responseEntity.getBody();
-			return null;
-		}
-		
-	}
+//	private class EnviarDatos extends AsyncTask<Void, Void , Void>{
+//
+//		@Override
+//		protected Void doInBackground(Void... params) {
+//			// TODO Auto-generated method stub
+//			
+//			Gson gson = new Gson();
+//			ArrayList<Socio> socios = adapterSocio.obtenerListaSocios();
+//			ArrayList<Pago> pagos = adapterSocio.obtenerPagos();
+//			ArrayList<Cobro> cobros = adapterSocio.obtenerCobros();
+//			
+//			
+//			ArrayList<Object> o = new ArrayList<Object>();
+//			o.add(socios);
+//			o.add(pagos);
+//			o.add(cobros);
+//			String url = "http://127.0.0.1";
+//			String message = gson.toJson(o);
+//			
+//			HttpHeaders requestHeaders = new HttpHeaders();
+//			requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+//			HttpEntity<ArrayList<Object>> requestEntity = new HttpEntity<ArrayList<Object>>(o, requestHeaders);
+//			RestTemplate restTemplate = new RestTemplate();
+//			restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
+//			restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+//			ResponseEntity<String> responseEntity = restTemplate.exchange(message, HttpMethod.POST, requestEntity, String.class);
+//			String result = responseEntity.getBody();
+//			return null;
+//		}
+//		
+//	}
 	
 }
