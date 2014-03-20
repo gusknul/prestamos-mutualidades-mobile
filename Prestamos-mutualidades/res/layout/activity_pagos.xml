@@ -31,7 +31,7 @@
         </TextView>
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/buscarSocioPago"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"

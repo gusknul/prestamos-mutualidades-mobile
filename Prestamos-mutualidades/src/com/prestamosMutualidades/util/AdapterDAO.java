@@ -1,31 +1,17 @@
-package com.prestamosMutualidades.adapter;
+package com.prestamosMutualidades.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
-import com.google.gson.Gson;
 import com.prestamosMutualidades.beans.Cobro;
 import com.prestamosMutualidades.beans.Pago;
 import com.prestamosMutualidades.beans.Socio;
-import com.prestamosMutualidades.dao.BaseDatos;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.util.SparseArray;
-
 
 
 @SuppressLint("SimpleDateFormat")
@@ -36,9 +22,7 @@ public class AdapterDAO
 	private Context context;
 	private BaseDatos baseDatos;
 	private SQLiteDatabase baseDatosSQL;
-	private static final String SELECT_ALL = " SELECT * FROM " ;
-	private static final String URL = "";
-	
+	private static final String SELECT_ALL = " SELECT * FROM " ;	
 	
 	public AdapterDAO(Context context)
 	{
@@ -281,91 +265,5 @@ public class AdapterDAO
 		}
 		
 	}
-	
-	public void enviarDatos(){
-		
-		RestTemplate template = new RestTemplate();
-		Gson gson = new Gson();
-		
-		ArrayList<Socio> socios = obtenerListaSocios();
-		ArrayList<Pago> pagos = obtenerPagos();
-		ArrayList<Cobro> cobros = obtenerCobros();
-		
-		ArrayList<Object> o = new ArrayList<Object>();
-		o.add(socios);
-		o.add(pagos);
-		o.add(cobros);
-		
-		String message = gson.toJson(o);
-		Log.i("mensaje", message);
-		
-		HttpHeaders requestHeaders = new HttpHeaders();
-		HttpEntity<Object> requestEntity = new HttpEntity<Object>(o, requestHeaders);
-		
-		template.getMessageConverters().add(new GsonHttpMessageConverter());
-		template.getMessageConverters().add(new StringHttpMessageConverter());
-		ResponseEntity<Object> responseEntity = template.exchange(URL + message , HttpMethod.GET, requestEntity, Object.class);
-		Object result = responseEntity.getBody();
-		if(result != null){
-			
-		}
-		else{
-			return;
-		}
-		
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void recibirDatos(){
-		String URL = "http://127.0.0.1:8000/"; 
-		Gson gson = new Gson();
-		Socio s = new Socio();
-		s.setIdSocio(1);
-		s.setNombreCompleto("Gustavo Canul");
-		s.setDireccion("Santa isabel");
-		s.setTelefono("9991919191");
-		String ss = gson.toJson(s);
-				
-		//HttpHeaders requestHeaders = new HttpHeaders();
-		//requestHeaders.setAccept(Collections.singletonList(new MediaType("application","json")));
-		//HttpEntity<?> requestEntity = new HttpEntity<Object>(requestHeaders);
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
-		Socio[] sss = restTemplate.getForObject(URL, Socio[].class);
-		//ResponseEntity<Socio> responseEntity = restTemplate.exchange(URL+ss, HttpMethod.GET, requestEntity, Socio.class);
-		//Socio events = responseEntity.getBody();
-		Log.i("socios", sss.toString());	
-		
-	}
 
-
-
-	@SuppressWarnings({ "unchecked" })
-	private void loadObjects(ArrayList<Object> object) {
-		// TODO Auto-generated method stub
-		
-		ArrayList<Socio> socios = new ArrayList<Socio>();
-		ArrayList<Cobro> cobros = new ArrayList<Cobro>();
-		ArrayList<Pago> pagos = new ArrayList<Pago>();
-		
-		for( int i = 0 ; i < object.size() ; i++){
-			socios = (ArrayList<Socio>) object.get(0) ;
-			cobros = (ArrayList<Cobro>) object.get(1) ;
-			pagos = (ArrayList<Pago>) object.get(2) ;
-		}
-		
-		for( int i = 0 ; i < socios.size() ; i++ ){
-			baseDatos.insertarSocio(socios.get(i));
-		}
-		
-		for(int i = 0; i < cobros.size() ; i ++){
-			baseDatos.insertarCobro(cobros.get(i));
-		}
-		
-		for (int i = 0; i<pagos.size() ; i ++){
-			baseDatos.insertarPago(pagos.get(i));
-		}
-	}
-	
-	
 }

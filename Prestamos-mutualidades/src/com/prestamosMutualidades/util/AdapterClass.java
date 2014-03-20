@@ -1,6 +1,4 @@
-package com.prestamosMutualidades.adapter;
-
-import com.prestamosMutualidades.dao.BaseDatos;
+package com.prestamosMutualidades.util;
 
 import android.app.Application;
 import android.content.Context;

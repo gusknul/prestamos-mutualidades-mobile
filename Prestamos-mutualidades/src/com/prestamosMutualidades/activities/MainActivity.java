@@ -1,23 +1,47 @@
 package com.prestamosMutualidades.activities;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import com.prestamosMutualidades.adapter.AdapterClass;
-import com.prestamosMutualidades.adapter.AdapterDAO;
+import org.json.JSONObject;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import com.google.gson.Gson;
+import com.prestamosMutualidades.beans.Cobro;
+import com.prestamosMutualidades.beans.Pago;
 import com.prestamosMutualidades.beans.R;
+import com.prestamosMutualidades.beans.Socio;
+import com.prestamosMutualidades.util.AdapterClass;
+import com.prestamosMutualidades.util.AdapterDAO;
+import com.prestamosMutualidades.util.RecibirDatos;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 @SuppressLint("SimpleDateFormat")
 public class MainActivity extends Activity {
@@ -59,10 +83,7 @@ public class MainActivity extends Activity {
 		
 		SimpleDateFormat formatDate = new SimpleDateFormat(FORMATO_FECHA);
 		Date date = new Date();
-		fechaActual.setText(formatDate.format(date));
-		pagos.setEnabled(false);
-		cobranza.setEnabled(false);
-		cargarDBS.setEnabled(false);
+		fechaActual.setText(formatDate.format(date));		
 		pagos();
 		cobros();
 		actualizar();
@@ -110,9 +131,6 @@ public class MainActivity extends Activity {
 					ad.setContext(MainActivity.this);
 					ad.setAdapter(adapterSocio);
 					ad.abrirConexion();
-					pagos.setEnabled(true);
-					cobranza.setEnabled(true);
-					cargarDBS.setEnabled(true);
 					
 				}
 			});
@@ -124,12 +142,59 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-					//adapterSocio.enviarDatos();
-				adapterSocio.recibirDatos();
+				RecibirDatos recibir = new RecibirDatos(MainActivity.this);
+				recibir.execute();
 				
 			}
 		});
 	}
 	
+	private void gson(){
+		Gson gson = new Gson();
+		ArrayList<Socio> socios = adapterSocio.obtenerListaSocios();
+		ArrayList<Pago> pagos = adapterSocio.obtenerPagos();
+		ArrayList<Cobro> cobros = adapterSocio.obtenerCobros();
+		ArrayList<Object> o = new ArrayList<Object>();
+		o.add(socios);
+		o.add(pagos);
+		o.add(cobros);
+		String message = gson.toJson(o);
+		Log.i("mensaje", message);
+	}
+	
+	
+	
+	
+	private class EnviarDatos extends AsyncTask<Void, Void , Void>{
 
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			
+			Gson gson = new Gson();
+			ArrayList<Socio> socios = adapterSocio.obtenerListaSocios();
+			ArrayList<Pago> pagos = adapterSocio.obtenerPagos();
+			ArrayList<Cobro> cobros = adapterSocio.obtenerCobros();
+			
+			
+			ArrayList<Object> o = new ArrayList<Object>();
+			o.add(socios);
+			o.add(pagos);
+			o.add(cobros);
+			String url = "http://127.0.0.1";
+			String message = gson.toJson(o);
+			
+			HttpHeaders requestHeaders = new HttpHeaders();
+			requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+			HttpEntity<ArrayList<Object>> requestEntity = new HttpEntity<ArrayList<Object>>(o, requestHeaders);
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
+			restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+			ResponseEntity<String> responseEntity = restTemplate.exchange(message, HttpMethod.POST, requestEntity, String.class);
+			String result = responseEntity.getBody();
+			return null;
+		}
+		
+	}
+	
 }

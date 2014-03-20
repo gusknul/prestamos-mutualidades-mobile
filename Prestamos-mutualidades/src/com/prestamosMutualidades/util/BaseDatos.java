@@ -1,4 +1,4 @@
-package com.prestamosMutualidades.dao;
+package com.prestamosMutualidades.util;
 
 
 import java.text.SimpleDateFormat;
@@ -214,29 +214,17 @@ public class BaseDatos extends SQLiteOpenHelper
 	
 	public ArrayList<Pago> agregarPagos(){
 		ArrayList<Pago> pagos  = new ArrayList<Pago>();
-		Pago pago1 , pago2,pago3,pago4,pago5,pago8,pago9,pago10,pago11;
+		Pago pago1 , pago2,pago3;
 		
 		Date date = new Date();
 		
 		pago1 = new Pago(1, 2, dateFormat.format(date), 111, "faltante", 13, 33 , 3 , 4.5);
-		pago2 = new Pago(2, 3, dateFormat.format(date), 222, "faltante", 21, 44 , 5 , 6);
+		pago2 = new Pago(4, 3, dateFormat.format(date), 222, "faltante", 21, 44 , 5 , 6);
 		pago3 = new Pago(3, 4, dateFormat.format(date), 333, "faltante", 22, 55 ,4 ,5);
-		pago4 = new Pago(4, 2, dateFormat.format(date), 444, "faltante", 23, 66,5,7);
-		pago5 = new Pago(5, 5, dateFormat.format(date), 555, "faltante", 27, 77,4,7);
-		pago8 = new Pago(8, 2, dateFormat.format(date), 888, "faltante", 46, 24,4,6);
-		pago9 = new Pago(9, 6, dateFormat.format(date), 999, "faltante", 243, 80,4,3);
-		pago10 = new Pago(10, 9, dateFormat.format(date), 1010, "faltante", 28, 568,2,7);
-		pago11 = new Pago(11, 6, dateFormat.format(date), 1111, "faltante", 260, 85,6,9);
 		
 		pagos.add(pago1);
 		pagos.add(pago2);
 		pagos.add(pago3);
-		pagos.add(pago4);
-		pagos.add(pago5);
-		pagos.add(pago8);
-		pagos.add(pago9);
-		pagos.add(pago10);
-		pagos.add(pago11);
 		
 		return pagos;
 	}
@@ -244,65 +232,35 @@ public class BaseDatos extends SQLiteOpenHelper
 	
 	public ArrayList<Cobro> agregarCobros(){
 		ArrayList<Cobro> cobros  = new ArrayList<Cobro>();
-		Cobro cobro1 , cobro2,cobro4,cobro5,cobro6,cobro7,cobro8,cobro9,cobro10,cobro11;
+		Cobro cobro1 , cobro2,cobro4;
 		Date date = new Date();
 		
 		cobro1 = new Cobro(1, 2, dateFormat.format(date), 1054, "faltante", 2, 3,4,7);
 		cobro2 = new Cobro(2, 3, dateFormat.format(date), 1470, "faltante", 13, 5,6,8);
 		cobro4 = new Cobro(4, 2, dateFormat.format(date), 140, "faltante", 4, 8,6,8);
-		cobro5 = new Cobro(5, 5, dateFormat.format(date), 157, "faltante", 7, 9,3,7);
-		cobro6 = new Cobro(6, 2, dateFormat.format(date), 970, "faltante", 67, 9,3,3);
-		cobro7 = new Cobro(7, 8, dateFormat.format(date), 97324, "faltante", 132, 1,1,3);
-		cobro8 = new Cobro(8, 9, dateFormat.format(date), 43270, "faltante", 98, 18,4,6);
-		cobro9 = new Cobro(9, 65, dateFormat.format(date), 97423, "faltante", 47, 6,7,7);
-		cobro10 = new Cobro(10, 34, dateFormat.format(date), 2430, "faltante", 54, 1,8,9);
-		cobro11 = new Cobro(11, 12, dateFormat.format(date), 460, "faltante", 56, 4,7,8);
-		
 		
 		cobros.add(cobro1);
 		cobros.add(cobro2);
 		cobros.add(cobro4);
-		cobros.add(cobro5);
-		cobros.add(cobro6);
-		cobros.add(cobro7);
-		cobros.add(cobro8);
-		cobros.add(cobro9);
-		cobros.add(cobro10);
-		cobros.add(cobro11);
-		
 		
 		return cobros;
 	}
 	
 	public ArrayList<Socio> agregarSocio(){
 		ArrayList<Socio> socios = new ArrayList<Socio>();
-		Socio s1 , s2 , s3, s4 , s5, s6, s7, s8, s9, s10, s11;
+		Socio s1 , s2 , s3, s4 , s5;
 		
 		s1 = new Socio("gustavo canul", "cerritos mulchechen", "9992104610");
 		s2 = new Socio("oswaldo ceballos", "fco. montejo", "9302405768");
 		s3 = new Socio("abril sonda", "chenku", "3928476395");
 		s4 = new Socio("odalys medina", "sta. isabel", "3859673923");
-		s5 = new Socio("carlos rubio", "sta. isabel", "99918594332");
-		s6 = new Socio("ivan ake", "ciudad industrial", "9991608526");
-		s7 = new Socio("roxana", "chuburna", "9991070852");
-		s8 = new Socio("cesar ricardez", "chuburna", "9991273843");
-		s9 = new Socio("andree vela", "circuito", "2930473845");
-		s10 = new Socio("irving caro", "pensiones", "0394857203");
-		s11 = new Socio("Ada leaños", "pensiones", "9992017006");
-		
+		s5 = new Socio("carlos rubio", "sta. isabel", "99918594332");		
 		
 		socios.add(s1);
 		socios.add(s2);
 		socios.add(s3);
 		socios.add(s4);
 		socios.add(s5);
-		socios.add(s6);
-		socios.add(s7);
-		socios.add(s8);
-		socios.add(s9);
-		socios.add(s10);
-		socios.add(s11);
-		
 		
 		return socios;
 	}

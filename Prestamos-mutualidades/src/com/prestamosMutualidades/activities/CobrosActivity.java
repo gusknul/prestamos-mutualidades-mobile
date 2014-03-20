@@ -4,10 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.prestamosMutualidades.adapter.AdapterClass;
-import com.prestamosMutualidades.adapter.AdapterDAO;
 import com.prestamosMutualidades.beans.R;
 import com.prestamosMutualidades.beans.Socio;
+import com.prestamosMutualidades.util.AdapterClass;
+import com.prestamosMutualidades.util.AdapterDAO;
 
 import android.os.Bundle;
 import android.annotation.SuppressLint;
@@ -86,9 +86,13 @@ public class CobrosActivity extends Activity {
 		
 		AdapterClass cl = (AdapterClass) getApplication();
 		adapterSocio = cl.getAdapter();
-		registrarEventoClick();
-		cargarLista();
-		buscarSocio();
+		if(adapterSocio != null){
+			registrarEventoClick();
+			cargarLista();
+			buscarSocio();
+		}
+		
+		else Toast.makeText(this, "No hay datos cargados", Toast.LENGTH_SHORT).show();
 		
 	}
 

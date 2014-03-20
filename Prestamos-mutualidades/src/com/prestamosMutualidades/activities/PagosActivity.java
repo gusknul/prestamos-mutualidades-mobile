@@ -4,10 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.prestamosMutualidades.adapter.AdapterClass;
-import com.prestamosMutualidades.adapter.AdapterDAO;
 import com.prestamosMutualidades.beans.R;
 import com.prestamosMutualidades.beans.Socio;
+import com.prestamosMutualidades.util.AdapterClass;
+import com.prestamosMutualidades.util.AdapterDAO;
 
 import android.os.Bundle;
 import android.annotation.SuppressLint;
@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,8 @@ public class PagosActivity extends Activity {
 	ListView listView;
 	
 	Button registrarPago;
+	Button buscar;
+	EditText editTextBuscar;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +67,21 @@ public class PagosActivity extends Activity {
 		fechaPago  = (TextView) findViewById(R.id.fecha_pago);
 		registrarPago = (Button) findViewById(R.id.btn_registrar_cobro_pagos);
 		fechaDia.setText(dateFormat.format(date));
+		buscar = (Button) findViewById(R.id.searchMenber);
+		editTextBuscar = (EditText) findViewById(R.id.buscarSocioPago);
 		
 		
 		AdapterClass cl = (AdapterClass) getApplication();
 		adapterSocio = cl.getAdapter();
-		registrarEventoClick();
-		cargarLista();
+		
+		if(adapterSocio != null){
+			registrarEventoClick();
+			cargarLista();
+			buscarSocio();
+			registrarEventoClick();
+		}
+		
+		else Toast.makeText(this, "No hay datos cargados", Toast.LENGTH_SHORT).show();;
 		
 	}
 
@@ -144,5 +156,26 @@ public class PagosActivity extends Activity {
 		});
 	}
 
+	
+
+	private void buscarSocio(){
+		buscar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				String id = editTextBuscar.getText().toString();
+				int position = Integer.parseInt(id);
+				if( position < listView.getChildCount() ){
+					listView.getChildAt(position).setFocusable(true);
+				}
+				else{
+					Toast.makeText(PagosActivity.this, "No existe un socio con ese folio", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				
+			}
+		});
+	}
 	
 }
