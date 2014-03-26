@@ -1,18 +1,14 @@
 package com.prestamosMutualidades.util;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import com.prestamosMutualidades.beans.Cobro;
 import com.prestamosMutualidades.beans.Pago;
 import com.prestamosMutualidades.beans.Socio;
-
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.util.SparseArray;
 
 

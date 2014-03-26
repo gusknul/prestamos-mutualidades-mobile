@@ -3,8 +3,6 @@ package com.prestamosMutualidades.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import com.prestamosMutualidades.beans.Cobro;
 import com.prestamosMutualidades.beans.Pago;
@@ -81,10 +79,10 @@ public class BaseDatos extends SQLiteOpenHelper
 		dataBase.execSQL(crearPagos());
 		dataBase.execSQL(crearCobros());
 		insertarDatos(dataBase,datos);
-		Log.i("datos", datos.toString());
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	private void insertarDatos(SQLiteDatabase dataBase, ArrayList<Object> datos2) {
 		// TODO Auto-generated method stub
 		ArrayList<Socio> socios = (ArrayList<Socio>) datos2.get(0);

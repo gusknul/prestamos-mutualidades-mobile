@@ -1,8 +1,6 @@
 package com.prestamosMutualidades.util;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Application;
 import android.content.Context;
 

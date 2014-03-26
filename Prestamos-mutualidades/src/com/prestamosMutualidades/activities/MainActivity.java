@@ -1,40 +1,14 @@
 package com.prestamosMutualidades.activities;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import org.json.JSONObject;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
-import com.google.gson.Gson;
-import com.prestamosMutualidades.beans.Cobro;
-import com.prestamosMutualidades.beans.Pago;
 import com.prestamosMutualidades.beans.R;
-import com.prestamosMutualidades.beans.Socio;
-import com.prestamosMutualidades.util.AdapterClass;
 import com.prestamosMutualidades.util.AdapterDAO;
 import com.prestamosMutualidades.util.RecibirDatos;
-
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -125,6 +99,8 @@ public class MainActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub					
+					
+					
 					if(!ip.getText().toString().equals("")){
 						RecibirDatos recibir = new RecibirDatos(MainActivity.this,ip.getText().toString());
 						recibir.execute();

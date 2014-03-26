@@ -1,21 +1,14 @@
 package com.prestamosMutualidades.util;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.prestamosMutualidades.activities.MainActivity;
 import com.prestamosMutualidades.beans.Cobro;
 import com.prestamosMutualidades.beans.Pago;
 import com.prestamosMutualidades.beans.Socio;
@@ -24,16 +17,15 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
-public class RecibirDatos extends AsyncTask<Void, Void, String>{
+public class RecibirDatos extends AsyncTask<Void, Integer, String>{
 	
 	Context context;
 	AdapterDAO adapter;
 	String ip;
 	String responseGson;
-	private final String TAG = "Information";
+	
 	
 	public RecibirDatos(Context context, String ip) {
 		// TODO Auto-generated constructor stub
@@ -52,6 +44,9 @@ public class RecibirDatos extends AsyncTask<Void, Void, String>{
 				//restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
 		    	restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
 				responseGson = restTemplate.getForObject(url, String.class);
+				for(int i = 0 ; i < 100; i++ ){
+					publishProgress((int) ((i / (float) params.length) * 100 ));
+				}
 				return responseGson;
 		    }
 		    else{

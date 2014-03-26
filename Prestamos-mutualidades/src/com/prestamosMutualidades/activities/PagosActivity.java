@@ -3,17 +3,14 @@ package com.prestamosMutualidades.activities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import com.prestamosMutualidades.beans.R;
 import com.prestamosMutualidades.beans.Socio;
 import com.prestamosMutualidades.util.AdapterClass;
 import com.prestamosMutualidades.util.AdapterDAO;
-
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
