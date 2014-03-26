@@ -119,16 +119,13 @@ public class MainActivity extends Activity {
 	}
 	
 	
-	private void actualizar(){
-		final String direccionIp = ip.getText().toString();
-		Log.i("ip", direccionIp);
-		
+	private void actualizar(){		
 			actualizarDB.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub					
-					if(direccionIp != ""){
+					if(!ip.getText().toString().equals("")){
 						RecibirDatos recibir = new RecibirDatos(MainActivity.this,ip.getText().toString());
 						recibir.execute();
 					}

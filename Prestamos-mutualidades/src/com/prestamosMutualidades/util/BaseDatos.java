@@ -62,13 +62,14 @@ public class BaseDatos extends SQLiteOpenHelper
 	public static final String RECARGO_PAGO = "recargo";
 	SimpleDateFormat dateFormat;	
 	private static int version = 1;
-	List<Object> datos;
+	ArrayList<Object> datos;
 	
-	public BaseDatos(Context context, List<Object> datos) 
+	public BaseDatos(Context context, ArrayList<Object> datos) 
 	{
 		super(context, NOMBRE_BASE_DATOS, null, version);
 		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		this.datos = datos;
+		onUpgrade(this.getWritableDatabase(), 1, 2);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -80,19 +81,16 @@ public class BaseDatos extends SQLiteOpenHelper
 		dataBase.execSQL(crearPagos());
 		dataBase.execSQL(crearCobros());
 		insertarDatos(dataBase,datos);
+		Log.i("datos", datos.toString());
 		
 	}
 
-	private void insertarDatos(SQLiteDatabase dataBase, List<Object> datos2) {
+	private void insertarDatos(SQLiteDatabase dataBase, ArrayList<Object> datos2) {
 		// TODO Auto-generated method stub
-		ArrayList<Socio> socios = null;
-		ArrayList<Pago> pagos = null;
-		ArrayList<Cobro> cobros = null;
-		for(int i = 0; i < datos.size(); i++){
-			socios = (ArrayList<Socio>) datos.get(0);
-			pagos = (ArrayList<Pago>) datos.get(1);
-			cobros = (ArrayList<Cobro>) datos.get(2);
-		}
+		ArrayList<Socio> socios = (ArrayList<Socio>) datos2.get(0);
+		ArrayList<Pago> pagos = (ArrayList<Pago>) datos2.get(1);
+		ArrayList<Cobro> cobros = (ArrayList<Cobro>) datos2.get(2);
+			
 		
 		for(int i = 0; i < socios.size(); i++){
 			dataBase.execSQL(insertarSocio(socios.get(i)));

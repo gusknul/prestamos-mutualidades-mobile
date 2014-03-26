@@ -6,7 +6,7 @@ public class Cobro {
 	private int idCobro;
 	private int idSocio;
 	private int idMutualidad;
-	private String date;
+	private String fecha;
 	private double monto;
 	private String estado;
 	private int folio;
@@ -22,7 +22,7 @@ public class Cobro {
 		this.idCobro = idCobro;
 		this.idSocio = idSocio;
 		this.idMutualidad = idMutualidad;
-		this.date = date;
+		this.fecha = date;
 		this.monto = monto;
 		this.estado = estado;
 		this.folio = folio;
@@ -35,7 +35,7 @@ public class Cobro {
 			double monto, String estado, int folio, double recargo,int numeroSorteo, int atraso) {
 		this.idSocio = idSocio;
 		this.idMutualidad = idMutualidad;
-		this.date = date;
+		this.fecha = date;
 		this.monto = monto;
 		this.estado = estado;
 		this.folio = folio;
@@ -70,11 +70,11 @@ public class Cobro {
 	}
 	
 	public String getDate() {
-		return date;
+		return fecha;
 	}
 	
 	public void setDate(String date) {
-		this.date = date;
+		this.fecha = date;
 	}
 	
 	public double getMonto() {
@@ -124,5 +124,22 @@ public class Cobro {
 	public void setNumeroSorteo(double numeroSorteo) {
 		this.numeroSorteo = numeroSorteo;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return    idCobro + "\n"
+				+ idSocio + "\n"
+				+ idMutualidad + "\n"
+				+ fecha + "\n"
+				+ monto + "\n"
+				+ estado + "\n"
+				+ folio + "\n"
+				+ recargo + "\n"
+				+ atraso + "\n"
+				+ numeroSorteo;
+	}
+	
+	
 
 }

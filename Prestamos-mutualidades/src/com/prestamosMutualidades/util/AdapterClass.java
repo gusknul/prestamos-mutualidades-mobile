@@ -11,7 +11,7 @@ public class AdapterClass extends Application{
 	private AdapterDAO adapter;
 	private BaseDatos baseDatos;
 	private Context context;
-	private List<Object> datos;
+	private ArrayList<Object> datos;
 	
 	public AdapterClass(Context context){
 		this.context = context;
@@ -49,11 +49,11 @@ public class AdapterClass extends Application{
 		this.context = context;
 	}
 	
-	public List<Object> getDatos(){
+	public ArrayList<Object> getDatos(){
 		return datos;
 	}
 	
-	public void setDatos(List<Object> datos){
+	public void setDatos(ArrayList<Object> datos){
 		this.datos = datos;
 	}
 	

@@ -3,7 +3,7 @@ package com.prestamosMutualidades.beans;
 
 public class Socio {
 	
-	private Integer idSocio;
+	private int idSocio;
 	private String nombreCompleto;
 	private String direccion;
 	private String telefono;
@@ -30,11 +30,11 @@ public class Socio {
 	
 
 	
-	public Integer getIdSocio() {
+	public int getIdSocio() {
 		return idSocio;
 	}
 	
-	public void setIdSocio(Integer idSocio) {
+	public void setIdSocio(int idSocio) {
 		this.idSocio = idSocio;
 	}
 	

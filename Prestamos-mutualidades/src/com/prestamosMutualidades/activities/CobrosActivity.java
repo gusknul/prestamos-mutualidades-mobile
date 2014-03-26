@@ -84,7 +84,7 @@ public class CobrosActivity extends Activity {
 		listView = (ListView) findViewById(R.id.lViewMember);
 		registrarCobro = (Button) findViewById(R.id.btn_registrar_cobro_cobros);
 		
-		AdapterClass cl = (AdapterClass) getApplication();
+		AdapterClass cl = (AdapterClass) getApplicationContext();
 		adapterSocio = cl.getAdapter();
 		if(adapterSocio != null){
 			registrarEventoClick();

@@ -1,13 +1,20 @@
 package com.prestamosMutualidades.util;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.prestamosMutualidades.activities.MainActivity;
 import com.prestamosMutualidades.beans.Cobro;
 import com.prestamosMutualidades.beans.Pago;
@@ -25,15 +32,15 @@ public class RecibirDatos extends AsyncTask<Void, Void, String>{
 	Context context;
 	AdapterDAO adapter;
 	String ip;
+	String responseGson;
+	private final String TAG = "Information";
+	
 	public RecibirDatos(Context context, String ip) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		this.ip = ip;
 	}
 	
-	
-	String responseGson;
-	private final String TAG = "Information";
 	
 	@Override
 	protected String doInBackground(Void... params) {
@@ -56,12 +63,49 @@ public class RecibirDatos extends AsyncTask<Void, Void, String>{
 	@Override
     protected void onPostExecute(String datos) {
 		Gson gson = new Gson();
-		Object[] responseData= gson.fromJson(datos.toString(), Object[].class);
-		List<Object> datosRecibidos = Arrays.asList(responseData);
+		ArrayList<Socio> socios = new ArrayList<Socio>();
+		ArrayList<Pago> pagos = new ArrayList<Pago>();
+		ArrayList<Cobro> cobros = new ArrayList<Cobro>();
+		ArrayList<Object> arrayObjetos = new ArrayList<Object>();
+		
+		try {
+			JSONArray objetos = new JSONArray(datos);
+			
+			JSONArray arraySociosJson = objetos.getJSONArray(0);
+			JSONArray arrayPagosJson = objetos.getJSONArray(1);
+			JSONArray arrayCobrosJson = objetos.getJSONArray(2);
+			
+			for(int i = 0; i < arraySociosJson.length() ; i++){
+				JSONObject jsonObject = arraySociosJson.getJSONObject(i);
+				Socio s = gson.fromJson(jsonObject.toString(), Socio.class);
+				socios.add(s);
+			}
+			
+			for(int j = 0; j < arrayPagosJson.length() ; j++){
+				JSONObject jsonObject = arrayPagosJson.getJSONObject(j);
+				Pago p = gson.fromJson(jsonObject.toString(), Pago.class);
+				pagos.add(p);
+			}
+			
+			for(int k = 0; k < arrayCobrosJson.length() ; k++){
+				JSONObject jsonObject = arrayCobrosJson.getJSONObject(k);
+				Cobro c = gson.fromJson(jsonObject.toString(), Cobro.class);
+				cobros.add(c);
+			}
+			
+			arrayObjetos.add(socios);
+			arrayObjetos.add(pagos);
+			arrayObjetos.add(cobros);
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		adapter = new AdapterDAO(context);
-		AdapterClass ad = (AdapterClass) context.getApplicationContext();
+		AdapterClass ad =  (AdapterClass) context.getApplicationContext();
 		ad.setContext(context);
-		ad.setDatos(datosRecibidos);
+		ad.setDatos(arrayObjetos);
 		ad.setAdapter(adapter);
 		ad.abrirConexion();
 		Toast.makeText(context, "Base de datos cargada con exito", Toast.LENGTH_LONG).show();

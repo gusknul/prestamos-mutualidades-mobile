@@ -12,6 +12,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.util.SparseArray;
 
 
@@ -31,7 +32,7 @@ public class AdapterDAO
 		
 	}
 	
-	public void cargarDatos(List<Object> datos){
+	public void cargarDatos(ArrayList<Object> datos){
 		baseDatos = new BaseDatos(context,datos);
 	}
 	

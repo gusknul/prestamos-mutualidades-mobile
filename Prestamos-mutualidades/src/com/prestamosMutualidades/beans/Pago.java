@@ -127,5 +127,21 @@ public class Pago {
 	public void setRecargo(double recargo) {
 		this.recargo = recargo;
 	}
+
+	@Override
+	public String toString() {
+		return    idPago  + "\n"
+	            + idSocio + "\n"
+				+ idMutualidad + "\n"
+	            + fecha + "\n"
+				+ monto + "\n" 
+	            + estado + "\n"
+				+ sorteo + "\n" 
+				+ atraso + "\n"
+				+ numeroBloc + "\n"
+				+ recargo;
+	}
+	
+	
 	
 }
