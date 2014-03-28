@@ -163,13 +163,7 @@ public class PagosActivity extends Activity {
 				// TODO Auto-generated method stub
 				String id = editTextBuscar.getText().toString();
 				int position = Integer.parseInt(id);
-				if( position < listView.getChildCount() ){
-					listView.getChildAt(position).setFocusable(true);
-				}
-				else{
-					Toast.makeText(PagosActivity.this, "No existe un socio con ese folio", Toast.LENGTH_SHORT).show();
-					return;
-				}
+				listView.smoothScrollToPosition(position);
 				
 			}
 		});

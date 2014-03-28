@@ -2,9 +2,12 @@ package com.prestamosMutualidades.activities;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import com.prestamosMutualidades.beans.R;
+import com.prestamosMutualidades.util.AdapterClass;
 import com.prestamosMutualidades.util.AdapterDAO;
 import com.prestamosMutualidades.util.RecibirDatos;
+
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -72,6 +75,11 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				activity = new Intent(MainActivity.this, PagosActivity.class);
+				AdapterDAO adapter = new AdapterDAO(MainActivity.this);
+				AdapterClass ad =  (AdapterClass) MainActivity.this.getApplication();
+				ad.setContext(MainActivity.this);
+				ad.setAdapter(adapter);
+				ad.abrirConexionSinRed();
 				startActivity(activity);
 			}
 		});
@@ -87,6 +95,12 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				
 				activity = new Intent(MainActivity.this, CobrosActivity.class);
+				AdapterDAO adapter = new AdapterDAO(MainActivity.this);
+				AdapterClass ad =  (AdapterClass) MainActivity.this.getApplication();
+				ad.setContext(MainActivity.this);
+				ad.setAdapter(adapter);
+				ad.abrirConexionSinRed();
+				
 				startActivity(activity);
 			}
 		});
@@ -123,36 +137,7 @@ public class MainActivity extends Activity {
 		});
 	}
 	
-//	private class EnviarDatos extends AsyncTask<Void, Void , Void>{
-//
-//		@Override
-//		protected Void doInBackground(Void... params) {
-//			// TODO Auto-generated method stub
-//			
-//			Gson gson = new Gson();
-//			ArrayList<Socio> socios = adapterSocio.obtenerListaSocios();
-//			ArrayList<Pago> pagos = adapterSocio.obtenerPagos();
-//			ArrayList<Cobro> cobros = adapterSocio.obtenerCobros();
-//			
-//			
-//			ArrayList<Object> o = new ArrayList<Object>();
-//			o.add(socios);
-//			o.add(pagos);
-//			o.add(cobros);
-//			String url = "http://127.0.0.1";
-//			String message = gson.toJson(o);
-//			
-//			HttpHeaders requestHeaders = new HttpHeaders();
-//			requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-//			HttpEntity<ArrayList<Object>> requestEntity = new HttpEntity<ArrayList<Object>>(o, requestHeaders);
-//			RestTemplate restTemplate = new RestTemplate();
-//			restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
-//			restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-//			ResponseEntity<String> responseEntity = restTemplate.exchange(message, HttpMethod.POST, requestEntity, String.class);
-//			String result = responseEntity.getBody();
-//			return null;
-//		}
-//		
-//	}
+
 	
 }
+

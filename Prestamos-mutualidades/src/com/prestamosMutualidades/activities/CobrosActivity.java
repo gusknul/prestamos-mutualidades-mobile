@@ -145,13 +145,7 @@ public class CobrosActivity extends Activity {
 				// TODO Auto-generated method stub
 				String id = buscarSocio.getText().toString();
 				int position = Integer.parseInt(id);
-				if( position < listView.getChildCount() ){
-					listView.getChildAt(position).setFocusable(true);
-				}
-				else{
-					Toast.makeText(CobrosActivity.this, "No existe un socio con ese folio", Toast.LENGTH_SHORT).show();
-					return;
-				}
+				listView.smoothScrollToPosition(position);
 				
 			}
 		});

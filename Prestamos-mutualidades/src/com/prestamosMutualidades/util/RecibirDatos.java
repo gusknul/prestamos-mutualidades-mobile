@@ -36,7 +36,7 @@ public class RecibirDatos extends AsyncTask<Void, Integer, String>{
 	
 	@Override
 	protected String doInBackground(Void... params) {
-		    final String url = "http://"+ip+"/datos.json";
+		    final String url = "http://"+ip+"/data.json";
 		    
 		    
 		    if (verificaConexion(context)) {
@@ -44,9 +44,6 @@ public class RecibirDatos extends AsyncTask<Void, Integer, String>{
 				//restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
 		    	restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
 				responseGson = restTemplate.getForObject(url, String.class);
-				for(int i = 0 ; i < 100; i++ ){
-					publishProgress((int) ((i / (float) params.length) * 100 ));
-				}
 				return responseGson;
 		    }
 		    else{

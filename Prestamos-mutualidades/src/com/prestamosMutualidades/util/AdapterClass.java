@@ -18,6 +18,10 @@ public class AdapterClass extends Application{
 	public AdapterClass(){
 	}
 	
+	public void abrirConexionSinRed(){
+		adapter.abrirConexion();
+	}
+	
 	public void abrirConexion(){
 		adapter.cargarDatos(datos);
 		adapter.abrirConexion();

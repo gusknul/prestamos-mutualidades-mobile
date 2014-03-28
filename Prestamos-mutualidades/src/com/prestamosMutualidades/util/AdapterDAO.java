@@ -25,6 +25,7 @@ public class AdapterDAO
 	public AdapterDAO(Context context)
 	{
 		this.context = context;
+		baseDatos = new BaseDatos(context);
 		
 	}
 	

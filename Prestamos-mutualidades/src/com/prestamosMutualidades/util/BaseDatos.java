@@ -71,6 +71,12 @@ public class BaseDatos extends SQLiteOpenHelper
 		// TODO Auto-generated constructor stub
 	}
 
+	public BaseDatos(Context context) {
+		// TODO Auto-generated constructor stub
+		super(context, NOMBRE_BASE_DATOS, null, version);
+		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	}
+
 	@Override
 	public void onCreate(SQLiteDatabase dataBase) 
 	{
