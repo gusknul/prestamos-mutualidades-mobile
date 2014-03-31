@@ -56,7 +56,8 @@
         android:layout_alignRight="@+id/pagos"
         android:layout_below="@+id/label_ip"
         android:layout_marginTop="26dp"
-        android:text="@string/actualizar" />
+        android:text="@string/actualizar"
+        android:onClick="receiveData"/>
 
     <Button
         android:id="@+id/cargarDatos"
@@ -66,7 +67,8 @@
         android:layout_alignRight="@+id/actualizar"
         android:layout_below="@+id/actualizar"
         android:layout_marginTop="14dp"
-        android:text="@string/cargar_datos" />
+        android:text="@string/cargar_datos"
+        android:onClick="sendDataToServer"/>
 
     <TextView
         android:id="@+id/totalPagos"
