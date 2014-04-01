@@ -3,14 +3,18 @@ package com.prestamosMutualidades.activities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import com.prestamosMutualidades.beans.R;
 import com.prestamosMutualidades.beans.Socio;
 import com.prestamosMutualidades.util.AdapterClass;
 import com.prestamosMutualidades.util.AdapterDAO;
+
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,15 +40,14 @@ public class PagosActivity extends Activity {
 	TextView recargo;
 	TextView numeroSorteo;
 	TextView fechaPago;
-	
 	AdapterDAO adapterSocio;
 	ArrayList<Socio> list;
 	ArrayList<View> view;
 	ListView listView;
-	
 	Button registrarPago;
-	Button buscar;
 	EditText editTextBuscar;
+	MemberAdapter adapter ;
+	SparseArray<Integer> data;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +65,9 @@ public class PagosActivity extends Activity {
 		recargo  = (TextView) findViewById(R.id.recargo_pago);
 		numeroSorteo = (TextView) findViewById(R.id.numero_sorteo_pago);
 		fechaPago  = (TextView) findViewById(R.id.fecha_pago);
-		registrarPago = (Button) findViewById(R.id.btn_registrar_cobro_pagos);
 		fechaDia.setText(dateFormat.format(date));
-		buscar = (Button) findViewById(R.id.searchMenber);
+		registrarPago = (Button)findViewById(R.id.btn_registrar_cobro_pagos);
 		editTextBuscar = (EditText) findViewById(R.id.buscarSocioPago);
-		
 		
 		AdapterClass cl = (AdapterClass) getApplication();
 		adapterSocio = cl.getAdapter();
@@ -74,8 +75,7 @@ public class PagosActivity extends Activity {
 		if(adapterSocio != null){
 			registrarEventoClick();
 			cargarLista();
-			buscarSocio();
-			registrarEventoClick();
+			generateSearch();
 		}
 		
 		else Toast.makeText(this, "No hay datos cargados", Toast.LENGTH_SHORT).show();;
@@ -90,16 +90,15 @@ public class PagosActivity extends Activity {
 	}
 	
 	private void cargarLista() {
-		  list = adapterSocio.obtenerPagosSocio(adapterSocio.obtenerSocios());
-		  
-		  ArrayAdapter<Socio> adapter = new ArrayAdapter<Socio>(this,android.R.layout.simple_list_item_1, list);
-		  listView = (ListView) findViewById(R.id.lViewMember);
-		  listView.setAdapter(adapter);
+		    list = adapterSocio.obtenerPagosSocio(adapterSocio.obtenerSocios());
+			adapter = new MemberAdapter(this, list);
+			listView = (ListView) findViewById(R.id.list_view_pay_member);
+			listView.setAdapter(adapter);
 		 
 	}
 	
 	private void registrarEventoClick() {
-		ListView myList = (ListView) findViewById(R.id.lViewMember);
+		ListView myList = (ListView) findViewById(R.id.list_view_pay_member);
 		myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@SuppressLint("NewApi")
 			@Override
@@ -155,18 +154,31 @@ public class PagosActivity extends Activity {
 
 	
 
-	private void buscarSocio(){
-		buscar.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				String id = editTextBuscar.getText().toString();
-				int position = Integer.parseInt(id);
-				listView.smoothScrollToPosition(position);
-				
+	public void searchMember(View view){
+		
+		if(!editTextBuscar.getText().toString().equals("")){
+			int position = Integer.parseInt(editTextBuscar.getText().toString());
+			if( data.indexOfKey(position) >= 0){
+				listView.smoothScrollToPosition(data.get(position));
 			}
-		});
+			else{
+				Toast.makeText(this, "No existe un usuario con ese ID, intente de nuevo", Toast.LENGTH_SHORT).show();
+			}
+		}
+		else{
+			Toast.makeText(this, "Debe ingresar un id para iniciar la busqueda", Toast.LENGTH_SHORT).show();
+		}
 	}
+
+	
+	
+	private void generateSearch(){
+		
+		data = new SparseArray<Integer>();
+		for(int i = 0; i < adapter.getCount(); i++ ){
+				data.put(adapter.getItem(i).getIdSocio() ,i);
+		}	
+	}
+	
 	
 }

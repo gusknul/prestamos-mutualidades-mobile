@@ -16,7 +16,6 @@ import android.util.SparseArray;
 public class AdapterDAO
 {
 	
-	@SuppressWarnings("unused")
 	private Context context;
 	private BaseDatos baseDatos;
 	private SQLiteDatabase baseDatosSQL;
@@ -226,6 +225,25 @@ public class AdapterDAO
 		cerrarConexion();
 
 		return a;
+	}
+	
+	
+	public Socio getMember( int position ){
+		Socio s = null;
+		baseDatosSQL = baseDatos.getReadableDatabase();
+		String query = "SELECT * FROM socio where id = " + position;		
+		Cursor cursor = baseDatosSQL.rawQuery(query, null);
+		
+		if(cursor != null) {
+			s = new Socio();
+			s.setIdSocio(cursor.getInt(0));
+			s.setNombreCompleto(cursor.getString(1));
+			s.setDireccion(cursor.getString(2));
+			s.setTelefono(cursor.getString(3));
+		}
+		cerrarConexion();
+		
+		return s;
 	}
 	
 	

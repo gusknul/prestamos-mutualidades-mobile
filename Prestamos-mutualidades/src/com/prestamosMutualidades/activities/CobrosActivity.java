@@ -3,14 +3,18 @@ package com.prestamosMutualidades.activities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import com.prestamosMutualidades.beans.R;
 import com.prestamosMutualidades.beans.Socio;
 import com.prestamosMutualidades.util.AdapterClass;
 import com.prestamosMutualidades.util.AdapterDAO;
+
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,12 +49,12 @@ public class CobrosActivity extends Activity {
 	
 	AdapterDAO adapterSocio;
 	ArrayList<Socio> list;
-	ArrayAdapter<Socio> adapter;
 	
 	EditText buscarSocio;
 	Button buscar;
 	Button registrarCobro;
-
+	MemberAdapter adapter;
+	SparseArray<Integer> data;
 	@SuppressLint("SimpleDateFormat")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,48 +81,38 @@ public class CobrosActivity extends Activity {
 		fechaPagoSocio = (TextView) findViewById(R.id.fecha_cobro);
 		
 		buscarSocio = (EditText) findViewById(R.id.buscar_socio_cobro);
-		buscar = (Button) findViewById(R.id.btn_buscar_socio_cobros);
-		listView = (ListView) findViewById(R.id.lViewMember);
 		registrarCobro = (Button) findViewById(R.id.btn_registrar_cobro_cobros);
 		
 		AdapterClass cl = (AdapterClass) getApplicationContext();
 		adapterSocio = cl.getAdapter();
 		
 		if(adapterSocio != null){
-			registrarEventoClick();
 			cargarLista();
-			buscarSocio();
+			registrarEventoClick();
+			generateSearch();
 		}
 		
 		else Toast.makeText(this, "No hay datos cargados", Toast.LENGTH_SHORT).show();
-		
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.cobros, menu);
-		return true;
-	}
-	
-	
 	private void cargarLista() {
-		  list = adapterSocio.obtenerCobrosSocio(adapterSocio.obtenerSocios());
-		  adapter = new ArrayAdapter<Socio>(this,android.R.layout.simple_list_item_1, list);
-		  listView.setAdapter(adapter);
+		list = adapterSocio.obtenerCobrosSocio(adapterSocio.obtenerSocios());
+		adapter = new MemberAdapter(this, list);
+		listView = (ListView) findViewById(R.id.list_view_payment_member);
+		listView.setAdapter(adapter);
 	}
 	
 	private void registrarEventoClick() {
-		listView.setOnItemClickListener(new OnItemClickListener() {
+		ListView myList = (ListView) findViewById(R.id.list_view_payment_member);
+		myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long idInDB){
-					setText(position,parent);
-
+					setText(position,parent,viewClicked);
 				}});
 	}
 	
-	private void setText(int position,AdapterView<?> parent){
-		Integer id = list.get(position).getIdSocio();
+	private void setText(int position,AdapterView<?> parent,View view){
+		Integer id = adapter.getItem(position).getIdSocio();
 		ArrayList<String> cobro = adapterSocio.obtenerDatosCobro(id);
 			if (cobro!= null) {
 					folioSocio.setText("Folio socio: " + cobro.get(0));
@@ -132,39 +126,20 @@ public class CobrosActivity extends Activity {
 					recargo.setText("Recargo: " + cobro.get(13) );
 					numeroSorteo.setText("# Sorteo: " + cobro.get(12));
 					fechaPagoSocio.setText("Fecha de pago al socio: " + cobro.get(7));
-					registrarCobro(id,parent);
+					registrarCobro(id,parent,view);
 	}
 
 	}
 	
-	private void buscarSocio(){
-		buscar.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				String id = buscarSocio.getText().toString();
-				int position = Integer.parseInt(id);
-				listView.smoothScrollToPosition(position);
-				
-			}
-		});
-	}
-	
-	private void registrarCobro(int id, final AdapterView<?> parent){
+	private void registrarCobro(int id, final AdapterView<?> parent,final View view){
 			final int idSocio = id;
 	    	registrarCobro.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
 					if(adapterSocio.realizarCobro(idSocio)){
-						Toast.makeText(CobrosActivity.this, "Pago realizado" ,Toast.LENGTH_SHORT).show();
-						if(idSocio < parent.getChildCount()){
-							parent.getChildAt(idSocio).setBackgroundColor(Color.GREEN);
-						}
-						else{
-							return;
-						}
+						Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
+						//adapter.getView(idSocio, view, parent);
 					}
 					else{
 						Toast.makeText(CobrosActivity.this, "no se puede realizar el pago", Toast.LENGTH_SHORT).show();
@@ -172,5 +147,30 @@ public class CobrosActivity extends Activity {
 					}
 				});
 		}
+	
+	
+	public void searchMember(View view){
+		if(!buscarSocio.getText().toString().equals("")){
+			int position = Integer.parseInt(buscarSocio.getText().toString());			
+			if( data.indexOfKey(position) >= 0){
+				listView.smoothScrollToPosition(data.get(position));
+			}
+			else{
+				Toast.makeText(this, "No existe un usuario con ese ID, intente de nuevo", Toast.LENGTH_SHORT).show();
+			}
+		}
+		else{
+			Toast.makeText(this, "Debe ingresar un id para iniciar la busqueda", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	
+	private void generateSearch(){
+		
+		data = new SparseArray<Integer>();
+		for(int i = 0; i < adapter.getCount(); i++ ){
+				data.put(adapter.getItem(i).getIdSocio() ,i);
+		}	
+	}
 	
 }

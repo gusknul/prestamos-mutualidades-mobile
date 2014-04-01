@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:text="@string/Buscar"
             android:layout_weight="1"
+            android:onClick="searchMember"
             >
 
             </Button>
@@ -59,7 +60,7 @@
             android:weightSum="2" >
         	
         <ListView
-            android:id="@+id/lViewMember"
+            android:id="@+id/list_view_payment_member"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
