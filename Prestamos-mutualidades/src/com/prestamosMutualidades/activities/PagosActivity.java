@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.prestamosMutualidades.beans.Cobro;
+import com.prestamosMutualidades.beans.Pago;
 import com.prestamosMutualidades.beans.R;
 import com.prestamosMutualidades.beans.Socio;
 import com.prestamosMutualidades.util.AdapterClass;
@@ -46,7 +48,7 @@ public class PagosActivity extends Activity {
 	ListView listView;
 	Button registrarPago;
 	EditText editTextBuscar;
-	MemberAdapter adapter ;
+	PagosAdapter adapter ;
 	SparseArray<Integer> data;
 	
 	@Override
@@ -83,17 +85,15 @@ public class PagosActivity extends Activity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.pagos, menu);
-		return true;
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 	}
 	
 	private void cargarLista() {
-		    list = adapterSocio.obtenerPagosSocio(adapterSocio.obtenerSocios());
-			adapter = new MemberAdapter(this, list);
-			listView = (ListView) findViewById(R.id.list_view_pay_member);
-			listView.setAdapter(adapter);
+		adapter = new PagosAdapter(this, adapterSocio.obtenerPagos(), adapterSocio.obtenerSocios());
+		listView = (ListView) findViewById(R.id.list_view_pay_member);
+		listView.setAdapter(adapter);
 		 
 	}
 	
@@ -110,45 +110,40 @@ public class PagosActivity extends Activity {
 	
 	
 	private void setText(int position,AdapterView<?> parent){
-		Integer id = list.get(position).getIdSocio();
-		ArrayList<String> pagos = adapterSocio.obtenerDatosPago(id);
-			if (pagos!= null) {
-				folioSocio.setText("Folio socio: " + pagos.get(0));
-				nombreSocio.setText("Nombre: " + pagos.get(1));
-				folioMutualista.setText("Folio mutualista: " + pagos.get(6));
-				fechaPago.setText("Fecha de pago al socio: " + pagos.get(7));
-				monto.setText("Monto: " + pagos.get(8));
-				numeroSorteo.setText("# sorte: " + pagos.get(10));
-				numeroBloc.setText("# Bloc: " + pagos.get(11));
-				recargo.setText("Recargo: " +pagos.get(12));
-				atraso.setText("Atraso: " + pagos.get(13));
-				registrarPago(id, parent);
+			if (adapter.getItem(position) != null) {
+				Pago pago = adapter.getItem(position);
+				folioSocio.setText("Folio socio: " + String.valueOf(adapterSocio.obtenerSocios().get(pago.getIdSocio()).getIdSocio()));
+				nombreSocio.setText("Nombre: " + adapterSocio.obtenerSocios().get(pago.getIdSocio()).getNombreCompleto());
+				folioMutualista.setText("Folio mutualista: " + pago.getIdMutualidad());
+				fechaPago.setText("Fecha de pago al socio: " + pago.getFecha());
+				monto.setText("Monto: " + pago.getMonto());
+				numeroSorteo.setText("# sorte: " + pago.getSorteo());
+				numeroBloc.setText("# Bloc: " + pago.getNumeroBloc());
+				recargo.setText("Recargo: " +pago.getRecargo());
+				atraso.setText("Atraso: " + pago.getAtraso());
+				registrarPago(position, parent);
 	}
 			
 }
 	
-	private void registrarPago(int id, final AdapterView<?> parent){
-	    final int idSocio = id;
+	private void registrarPago(final int position, final AdapterView<?> parent){
 		
 		registrarPago.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if(adapterSocio.realizarPago(idSocio)){
+				if(adapterSocio.realizarPago(adapter.getItem(position).getIdSocio())){
 					Toast.makeText(PagosActivity.this, "Pago realizado" ,Toast.LENGTH_SHORT).show();
-					if(idSocio < parent.getChildCount()){
-						parent.getChildAt(idSocio).setBackgroundColor(Color.GREEN);
-					}
-					else{
-						return;
-					}
-					
+					Pago pago = adapter.getItem(position);
+					pago.setEstado("completado");
+					listView.invalidate();
 				}
 				else{
 					Toast.makeText(PagosActivity.this, "no se puede realizar el pago", Toast.LENGTH_SHORT).show();
+					}
 				}
-			}
+			
 		});
 	}
 

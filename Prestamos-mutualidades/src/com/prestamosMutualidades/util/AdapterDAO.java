@@ -45,16 +45,19 @@ public class AdapterDAO
 	public SparseArray<Socio> obtenerSocios(){
 		baseDatosSQL = baseDatos.getReadableDatabase();
 		Cursor cursor = baseDatosSQL.rawQuery(SELECT_ALL+ BaseDatos.TABLA_SOCIO , null);
-		Socio socio;
 		SparseArray<Socio> sociosSparse = new SparseArray<Socio>();
 		
 		while(cursor.moveToNext()){
-			socio = new Socio();
-			socio.setIdSocio(cursor.getInt(0));
-			socio.setNombreCompleto(cursor.getString(1));
-			socio.setDireccion(cursor.getString(2));
-			socio.setTelefono(cursor.getString(3));
-			sociosSparse.put(cursor.getInt(0), socio);
+			int idSocio = cursor.getInt(cursor.getColumnIndex("id"));
+			String nombreCompleto = cursor.getString(cursor.getColumnIndex("nombre"));
+			String direccion = cursor.getString(cursor.getColumnIndex("direccion"));
+			String telefono = cursor.getString(cursor.getColumnIndex("telefono"));
+			Socio socio = new Socio(); 
+			socio.setIdSocio(idSocio);
+			socio.setNombreCompleto(nombreCompleto);
+			socio.setDireccion(direccion);
+			socio.setTelefono(telefono);
+			sociosSparse.put(idSocio, socio);
 			
 		}
 		cursor.close();
@@ -76,36 +79,6 @@ public class AdapterDAO
 		cursor.close();
 		cerrarConexion();
 		return socios;
-	}
-	
-	public ArrayList<Socio> obtenerCobrosSocio(SparseArray<Socio> sparseArray){
-		baseDatosSQL = baseDatos.getReadableDatabase();
-		ArrayList<Socio> s = new ArrayList<Socio>();
-		String query = " SELECT id_socio FROM cobro ";
-		Cursor cursor = baseDatosSQL.rawQuery(query, null);
-		while(cursor.moveToNext()){
-			
-				s.add(sparseArray.get(cursor.getInt(0)));
-			
-		}
-		cursor.close();
-		cerrarConexion();
-		return s;
-	}
-	
-	public ArrayList<Socio> obtenerPagosSocio(SparseArray<Socio> sparseArray){
-		baseDatosSQL = baseDatos.getReadableDatabase();
-		ArrayList<Socio> s = new ArrayList<Socio>();
-		String query = " SELECT id_socio FROM pago ";
-		Cursor cursor = baseDatosSQL.rawQuery(query, null);
-		while(cursor.moveToNext()){
-			
-				s.add(sparseArray.get(cursor.getInt(0)));
-			
-		}
-		cursor.close();
-		cerrarConexion();
-		return s;
 	}
 	
 	
@@ -165,68 +138,6 @@ public class AdapterDAO
 	}
 		
 	
-	public ArrayList<String> obtenerDatosPago(int id){
-		baseDatosSQL = baseDatos.getReadableDatabase();
-		ArrayList<String> a = new ArrayList<String>();
-		
-		String query = "SELECT * FROM socio , pago where pago.id_socio = " + id;		
-		Cursor cursor = baseDatosSQL.rawQuery(query, null);
-		if(cursor!= null){
-			if(cursor.move(id)){
-				a.add(cursor.getString(0));
-				a.add(cursor.getString(1));
-				a.add(cursor.getString(2));
-				a.add(cursor.getString(3));
-				a.add(cursor.getString(4));
-				a.add(cursor.getString(5));
-				a.add(cursor.getString(6));
-				a.add(cursor.getString(7));
-				a.add(cursor.getString(8));
-				a.add(cursor.getString(9));
-				a.add(cursor.getString(10));
-				a.add(cursor.getString(11));
-				a.add(cursor.getString(12));
-				a.add(cursor.getString(13));
-				
-			}
-		}
-		cerrarConexion();
-		return a;
-	}
-	
-	
-	public ArrayList<String> obtenerDatosCobro(int id){
-		baseDatosSQL = baseDatos.getReadableDatabase();
-		ArrayList<String> a = new ArrayList<String>();
-		
-		String query = "SELECT * FROM socio , cobro where cobro.id_socio = " + id;		
-		Cursor cursor = baseDatosSQL.rawQuery(query, null);
-		if(cursor!= null){
-			if(cursor.move(id)){
-				a.add(cursor.getString(0));
-				a.add(cursor.getString(1));
-				a.add(cursor.getString(2));
-				a.add(cursor.getString(3));
-				a.add(cursor.getString(4));
-				a.add(cursor.getString(5));
-				a.add(cursor.getString(6));
-				a.add(cursor.getString(7));
-				a.add(cursor.getString(8));
-				a.add(cursor.getString(9));
-				a.add(cursor.getString(10));
-				a.add(cursor.getString(11));
-				a.add(cursor.getString(12));
-				a.add(cursor.getString(13));
-				
-			}
-		}
-		
-		
-		cerrarConexion();
-
-		return a;
-	}
-	
 	
 	public Socio getMember( int position ){
 		Socio s = null;
@@ -251,7 +162,7 @@ public class AdapterDAO
 	public boolean realizarPago(int idSocio){
 		baseDatosSQL = baseDatos.getWritableDatabase();
 		ContentValues values = new ContentValues();
-		values.put(BaseDatos.ESTADO_PAGO, "cobrado");
+		values.put(BaseDatos.ESTADO_PAGO, "completado");
 		int cant = baseDatosSQL.update(BaseDatos.TABLA_PAGO, values, BaseDatos.ID_SOCIO_PAGO + "=" + idSocio, null);
 		
 		if(cant==1){
@@ -269,7 +180,7 @@ public class AdapterDAO
 	public boolean realizarCobro(int idSocio){
 		baseDatosSQL = baseDatos.getWritableDatabase();
 		ContentValues values = new ContentValues();
-		values.put(BaseDatos.ESTADO_COBRO, "cobrado");
+		values.put(BaseDatos.ESTADO_COBRO, "completado");
 		int cant = baseDatosSQL.update(BaseDatos.TABLA_COBRO, values, BaseDatos.ID_SOCIO_COBRO + "=" + idSocio, null);
 		
 		if(cant==1){
@@ -281,6 +192,28 @@ public class AdapterDAO
 			return false;
 		}
 		
+	}
+	
+	public float obtenerTotalPagos(){
+		baseDatosSQL = baseDatos.getReadableDatabase();
+		String query = "SELECT total ( monto ) from "+ BaseDatos.TABLA_PAGO + " where estado = 'completado' ;";		
+		Cursor cursor = baseDatosSQL.rawQuery(query, null);
+		float total = 0;
+		while(cursor.moveToNext()){
+			 total = total + cursor.getFloat(0);
+		}
+		return total;
+	}
+	
+	public float obtenerTotalCobros(){
+		baseDatosSQL = baseDatos.getReadableDatabase();
+		String query = "SELECT total ( monto ) from "+ BaseDatos.TABLA_COBRO + " where estado = 'completado' ;";		
+		Cursor cursor = baseDatosSQL.rawQuery(query, null);
+		float total = 0;
+		while(cursor.moveToNext()){
+			 total = total + cursor.getFloat(0);
+		}
+		return total;
 	}
 
 }

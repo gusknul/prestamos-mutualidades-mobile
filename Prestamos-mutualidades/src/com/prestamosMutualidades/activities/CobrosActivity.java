@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.prestamosMutualidades.beans.Cobro;
 import com.prestamosMutualidades.beans.R;
 import com.prestamosMutualidades.beans.Socio;
 import com.prestamosMutualidades.util.AdapterClass;
@@ -53,7 +54,7 @@ public class CobrosActivity extends Activity {
 	EditText buscarSocio;
 	Button buscar;
 	Button registrarCobro;
-	MemberAdapter adapter;
+	CobrosAdapter adapter;
 	SparseArray<Integer> data;
 	@SuppressLint("SimpleDateFormat")
 	@Override
@@ -94,10 +95,15 @@ public class CobrosActivity extends Activity {
 		
 		else Toast.makeText(this, "No hay datos cargados", Toast.LENGTH_SHORT).show();
 	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
 
 	private void cargarLista() {
-		list = adapterSocio.obtenerCobrosSocio(adapterSocio.obtenerSocios());
-		adapter = new MemberAdapter(this, list);
+		adapter = new CobrosAdapter(this, adapterSocio.obtenerCobros(), adapterSocio.obtenerSocios());
 		listView = (ListView) findViewById(R.id.list_view_payment_member);
 		listView.setAdapter(adapter);
 	}
@@ -107,39 +113,40 @@ public class CobrosActivity extends Activity {
 		myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long idInDB){
-					setText(position,parent,viewClicked);
+				setText(position,parent);
 				}});
 	}
 	
-	private void setText(int position,AdapterView<?> parent,View view){
-		Integer id = adapter.getItem(position).getIdSocio();
-		ArrayList<String> cobro = adapterSocio.obtenerDatosCobro(id);
-			if (cobro!= null) {
-					folioSocio.setText("Folio socio: " + cobro.get(0));
-					nombreSocio.setText("Nombre: " + cobro.get(1));
-					direccionSocio.setText("Direccion: " + cobro.get(2));
-					telefonoSocio.setText("Telefono: " + cobro.get(3));
-					folioMutualista.setText("Folio mutualista: " +cobro.get(6));
-					numeroBloque.setText("# bloc: " + cobro.get(10));
-					monto.setText("Monto: " + cobro.get(8));
-					atraso.setText("Atraso: " + cobro.get(11));
-					recargo.setText("Recargo: " + cobro.get(13) );
-					numeroSorteo.setText("# Sorteo: " + cobro.get(12));
-					fechaPagoSocio.setText("Fecha de pago al socio: " + cobro.get(7));
-					registrarCobro(id,parent,view);
+	private void setText(int position,AdapterView<?> parent){
+		
+			if (adapter.getItem(position) != null) {
+				Cobro cobro = adapter.getItem(position);
+					folioSocio.setText("Folio socio: " + String.valueOf(adapterSocio.obtenerSocios().get(cobro.getIdSocio()).getIdSocio()));
+					nombreSocio.setText("Nombre: " + adapterSocio.obtenerSocios().get(cobro.getIdSocio()).getNombreCompleto());
+					direccionSocio.setText("Direccion: " + adapterSocio.obtenerSocios().get(cobro.getIdSocio()).getDireccion());
+					telefonoSocio.setText("Telefono: " + adapterSocio.obtenerSocios().get(cobro.getIdSocio()).getTelefono());
+					folioMutualista.setText("Folio mutualista: " + String.valueOf(cobro.getIdMutualidad()));
+					numeroBloque.setText("# bloc: " + String.valueOf(cobro.getFolio()));
+					monto.setText("Monto: " + String.valueOf(cobro.getMonto()));
+					atraso.setText("Atraso: " + String.valueOf(cobro.getAtraso()));
+					recargo.setText("Recargo: " + String.valueOf(cobro.getRecargo()));
+					numeroSorteo.setText("# Sorteo: " + String.valueOf(cobro.getNumeroSorteo()));
+					fechaPagoSocio.setText("Fecha de pago al socio: " + cobro.getDate());
+					registrarCobro(position,parent);
 	}
-
 	}
 	
-	private void registrarCobro(int id, final AdapterView<?> parent,final View view){
-			final int idSocio = id;
+	private void registrarCobro(final int position, final AdapterView<?> parent){
 	    	registrarCobro.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
-					if(adapterSocio.realizarCobro(idSocio)){
+					if(adapterSocio.realizarCobro(adapter.getItem(position).getIdSocio())){
 						Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
-						//adapter.getView(idSocio, view, parent);
+						Cobro cobro = adapter.getItem(position);
+						cobro.setEstado("Completado");
+						listView.invalidate();
+
 					}
 					else{
 						Toast.makeText(CobrosActivity.this, "no se puede realizar el pago", Toast.LENGTH_SHORT).show();

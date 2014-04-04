@@ -1,8 +1,12 @@
 package com.prestamosMutualidades.util;
 
 import java.util.ArrayList;
+
+import com.prestamosMutualidades.beans.Socio;
+
 import android.app.Application;
 import android.content.Context;
+import android.util.SparseArray;
 
 public class AdapterClass extends Application{
 	
@@ -10,6 +14,7 @@ public class AdapterClass extends Application{
 	private BaseDatos baseDatos;
 	private Context context;
 	private ArrayList<Object> datos;
+	private SparseArray<Socio> socios;
 	
 	public AdapterClass(Context context){
 		this.context = context;
@@ -57,6 +62,14 @@ public class AdapterClass extends Application{
 	
 	public void setDatos(ArrayList<Object> datos){
 		this.datos = datos;
+	}
+
+	public SparseArray<Socio> getSocios() {
+		return socios;
+	}
+
+	public void setSocios(SparseArray<Socio> socios) {
+		this.socios = socios;
 	}
 	
 }

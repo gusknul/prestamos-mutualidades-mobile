@@ -28,6 +28,8 @@ public class MainActivity extends Activity {
 	Button cargarDBS;
 	EditText ip;
 	TextView fechaActual;
+	TextView pagosTotales;
+	TextView cobrosTotales;
 	
 	private static final String FORMATO_FECHA = "dd-MM-yyyy";
 	AdapterDAO adapterSocio;
@@ -39,13 +41,16 @@ public class MainActivity extends Activity {
 		initComponents();
 		
 	}
-	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		AdapterDAO adapter = new AdapterDAO(this);
+		adapter.abrirConexion();
+		pagosTotales.setText(" Total Pagos: $" + String.valueOf(adapter.obtenerTotalPagos()));
+		cobrosTotales.setText(" Total Cobranza: $" + String.valueOf(adapter.obtenerTotalCobros()));
 	}
+	
 	
 	private void initComponents(){
 		pagos = (Button)findViewById(R.id.pagos);
@@ -53,13 +58,14 @@ public class MainActivity extends Activity {
 		//actualizarDB = (Button) findViewById(R.id.actualizar); 
 		ip = (EditText) findViewById(R.id.direccionIp);
 		fechaActual = (TextView) findViewById(R.id.fecha_dia_main);
+		pagosTotales = (TextView) findViewById(R.id.totalPagos);
+		cobrosTotales = (TextView) findViewById(R.id.totalCobranza);
 		
 		SimpleDateFormat formatDate = new SimpleDateFormat(FORMATO_FECHA);
 		Date date = new Date();
 		fechaActual.setText(formatDate.format(date));		
 		pagos();
 		cobros();
-		//actualizar();
 	}
 	
 	
@@ -74,6 +80,7 @@ public class MainActivity extends Activity {
 				AdapterClass ad =  (AdapterClass) MainActivity.this.getApplication();
 				ad.setContext(MainActivity.this);
 				ad.setAdapter(adapter);
+				ad.setSocios(adapter.obtenerSocios());
 				ad.abrirConexionSinRed();
 				startActivity(activity);
 			}
@@ -94,7 +101,9 @@ public class MainActivity extends Activity {
 				AdapterClass ad =  (AdapterClass) MainActivity.this.getApplication();
 				ad.setContext(MainActivity.this);
 				ad.setAdapter(adapter);
+				ad.setSocios(adapter.obtenerSocios());
 				ad.abrirConexionSinRed();
+				
 				
 				startActivity(activity);
 			}
