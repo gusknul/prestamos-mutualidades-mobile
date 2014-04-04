@@ -9,11 +9,11 @@
     <string name="BuscarSocio">Folio Socio : </string>
     <string name="RegistrarCobro">Regitrar Cobro </string>
     <string name="RegistrarPago">Regitrar Pago </string>
-    <string name = "Cobranza"> Cobranza del dia</string>
-    <string name = "Pagos"> Pagos del dia</string>
-    <string name = "pendientes_cobros">Pendientes del dia (Cobranza)</string>
-    <string name = "pendientes_pagos">Pendientes del dia (Pagos)</string>
-    <string name = "fecha_actual"> Fecha del dia</string>
+    <string name="Cobranza"> Cobranza del dia</string>
+    <string name="Pagos"> Pagos del dia</string>
+    <string name="pendientes_cobros">Pendientes del dia (Cobranza)</string>
+    <string name="pendientes_pagos">Pendientes del dia (Pagos)</string>
+    <string name="fecha_actual"> Fecha del dia</string>
     <string name="actualizar">Actualizar</string>
     <string name="cargar_datos">Cargar datos al servidor</string>
     <string name="ip">IP Servidor</string>
@@ -30,7 +30,7 @@
     <string name="fecha_pago_socio"> Fecha de pago al socio: </string>
     <string name="telefono">Teléfono</string>
     <string name="direccion">Direccion: </string>
-    
+    <string name="title_activity_pagos_mes">PagosMes</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
-
