@@ -110,6 +110,12 @@ public class MainActivity extends Activity {
 	
 	public void pagosMes(View view){
 		Intent intent = new Intent(MainActivity.this,PagosMes.class);
+		AdapterDAO adapter = new AdapterDAO(MainActivity.this);
+		AdapterClass ad =  (AdapterClass) MainActivity.this.getApplication();
+		ad.setContext(MainActivity.this);
+		ad.setAdapter(adapter);
+		ad.setSocios(adapter.obtenerSocios());
+		ad.abrirConexionSinRed();
 		startActivity(intent);
 		
 	}
