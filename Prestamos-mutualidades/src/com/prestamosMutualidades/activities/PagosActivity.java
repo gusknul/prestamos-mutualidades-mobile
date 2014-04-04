@@ -94,7 +94,6 @@ public class PagosActivity extends Activity {
 		adapter = new PagosAdapter(this, adapterSocio.obtenerPagos(), adapterSocio.obtenerSocios());
 		listView = (ListView) findViewById(R.id.list_view_pay_member);
 		listView.setAdapter(adapter);
-		 
 	}
 	
 	private void registrarEventoClick() {

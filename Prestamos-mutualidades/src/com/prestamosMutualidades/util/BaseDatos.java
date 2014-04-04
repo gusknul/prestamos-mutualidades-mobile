@@ -43,6 +43,7 @@ public class BaseDatos extends SQLiteOpenHelper
     public static final String FOLIO_COBRO = "folio";
     public static final String RECARGO_COBRO = "recargo";
     public static final String ATRASO_COBRO = "atraso";
+    public static final String ADELANTO_COBRO = "adelanto";
     public static final String NUMERO_SORTEO_COBRO = "numero_sorteo";
 	
 	
@@ -127,7 +128,7 @@ public class BaseDatos extends SQLiteOpenHelper
 	public String crearSocio()
 	{
 		String query = " CREATE TABLE " + TABLA_SOCIO + " ( "
-				+ ID_SOCIO +" INTEGER PRIMARY KEY AUTOINCREMENT ,"
+				+ ID_SOCIO +" INTEGER PRIMARY KEY,"
 				+ NOMBRE_SOCIO + " VARCHAR NOT NULL,"
 				+ DIRECCION_SOCIO + " VARCHAR NOT NULL, "
 				+ TELEFONO_SOCIO + " VARCHAR NOT NULL"
@@ -163,7 +164,8 @@ public class BaseDatos extends SQLiteOpenHelper
 				+ FOLIO_COBRO + " INTEGER , "
 				+ ATRASO_COBRO + " INTEGER , "
 				+ NUMERO_SORTEO_COBRO + " INTEGER , "
-				+ RECARGO_COBRO + " DOUBLE "
+				+ RECARGO_COBRO + " DOUBLE, "
+				+ ADELANTO_COBRO + " INTEGER "
 				+ " ) ; ";
 		return query;
 	}
@@ -171,8 +173,9 @@ public class BaseDatos extends SQLiteOpenHelper
 	public String insertarSocio(Socio s){
 		String query = null;
 		query = " INSERT INTO " + TABLA_SOCIO
-				+ " ( nombre , direccion , telefono ) " 
-				+ " VALUES ( " 
+				+ " (id, nombre , direccion , telefono ) " 
+				+ " VALUES ( "
+				+ " ' " + s.getIdSocio() + " ' , "
 				+ " ' " + s.getNombreCompleto() + " ' , "
 				+ " ' " +  s.getDireccion() + " ' , "
 				+ " ' " + s.getTelefono()  + " ' "

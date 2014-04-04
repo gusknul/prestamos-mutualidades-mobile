@@ -52,6 +52,7 @@ public class CobrosActivity extends Activity {
 	ArrayList<Socio> list;
 	
 	EditText buscarSocio;
+	EditText adelantos;
 	Button buscar;
 	Button registrarCobro;
 	CobrosAdapter adapter;
@@ -83,6 +84,7 @@ public class CobrosActivity extends Activity {
 		
 		buscarSocio = (EditText) findViewById(R.id.buscar_socio_cobro);
 		registrarCobro = (Button) findViewById(R.id.btn_registrar_cobro_cobros);
+		adelantos = (EditText)findViewById(R.id.edit_text_adelanto);
 		
 		AdapterClass cl = (AdapterClass) getApplicationContext();
 		adapterSocio = cl.getAdapter();
@@ -134,7 +136,7 @@ public class CobrosActivity extends Activity {
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
-					if(adapterSocio.realizarCobro(adapter.getItem(position).getIdSocio())){
+					if(adapterSocio.realizarCobro(adapter.getItem(position).getIdSocio(),Integer.parseInt(adelantos.getText().toString()))){
 						Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
 						Cobro cobro = adapter.getItem(position);
 						cobro.setEstado("completado");

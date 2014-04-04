@@ -48,10 +48,10 @@ public class AdapterDAO
 		SparseArray<Socio> sociosSparse = new SparseArray<Socio>();
 		
 		while(cursor.moveToNext()){
-			int idSocio = cursor.getInt(cursor.getColumnIndex("id"));
-			String nombreCompleto = cursor.getString(cursor.getColumnIndex("nombre"));
-			String direccion = cursor.getString(cursor.getColumnIndex("direccion"));
-			String telefono = cursor.getString(cursor.getColumnIndex("telefono"));
+			int idSocio = cursor.getInt(cursor.getColumnIndex(BaseDatos.ID_SOCIO));
+			String nombreCompleto = cursor.getString(cursor.getColumnIndex(BaseDatos.NOMBRE_SOCIO));
+			String direccion = cursor.getString(cursor.getColumnIndex(BaseDatos.DIRECCION_SOCIO));
+			String telefono = cursor.getString(cursor.getColumnIndex(BaseDatos.TELEFONO_SOCIO));
 			Socio socio = new Socio(); 
 			socio.setIdSocio(idSocio);
 			socio.setNombreCompleto(nombreCompleto);
@@ -72,7 +72,12 @@ public class AdapterDAO
 		Socio socio;
 		ArrayList<Socio> socios = new ArrayList<Socio>();
 		while(cursor.moveToNext()){
-			socio = new Socio(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3));
+			socio = new Socio(
+					cursor.getInt(cursor.getColumnIndex(BaseDatos.ID_SOCIO)),
+					cursor.getString(cursor.getColumnIndex(BaseDatos.NOMBRE_SOCIO)),
+					cursor.getString(cursor.getColumnIndex(BaseDatos.DIRECCION_SOCIO)),
+					cursor.getString(cursor.getColumnIndex(BaseDatos.TELEFONO_SOCIO))
+					);
 			socios.add(socio);
 			
 		}
@@ -90,16 +95,16 @@ public class AdapterDAO
         
 		while(cursor.moveToNext()){
 			cobro = new Cobro();
-			cobro.setIdCobro(cursor.getInt(0));
-			cobro.setIdSocio(cursor.getInt(1));
-			cobro.setIdMutualidad(cursor.getInt(2));
-			cobro.setDate(cursor.getString(3));
-			cobro.setMonto(cursor.getDouble(4));
-			cobro.setEstado(cursor.getString(5));
-			cobro.setFolio(cursor.getInt(6));
-			cobro.setAtraso(cursor.getInt(7));
-			cobro.setNumeroSorteo(cursor.getInt(8));
-			cobro.setRecargo(cursor.getDouble(9));
+			cobro.setIdCobro(cursor.getInt(cursor.getColumnIndex(BaseDatos.ID_COBRO)));
+			cobro.setIdSocio(cursor.getInt(cursor.getColumnIndex(BaseDatos.ID_SOCIO_COBRO)));
+			cobro.setIdMutualidad(cursor.getInt(cursor.getColumnIndex(BaseDatos.ID_MUTUALIDAD_COBRO)));
+			cobro.setDate(cursor.getString(cursor.getColumnIndex(BaseDatos.FECHA_COBRO)));
+			cobro.setMonto(cursor.getDouble(cursor.getColumnIndex(BaseDatos.MONTO_COBRO)));
+			cobro.setEstado(cursor.getString(cursor.getColumnIndex(BaseDatos.ESTADO_COBRO)));
+			cobro.setFolio(cursor.getInt(cursor.getColumnIndex(BaseDatos.FOLIO_COBRO)));
+			cobro.setAtraso(cursor.getInt(cursor.getColumnIndex(BaseDatos.ATRASO_COBRO)));
+			cobro.setNumeroSorteo(cursor.getInt(cursor.getColumnIndex(BaseDatos.NUMERO_SORTEO_COBRO)));
+			cobro.setRecargo(cursor.getDouble(cursor.getColumnIndex(BaseDatos.RECARGO_COBRO)));
 			cobros.add(cobro);
 		}
 		
@@ -117,16 +122,16 @@ public class AdapterDAO
 		
 		while(cursor.moveToNext()){
 			pago = new Pago();
-			pago.setIdPago(cursor.getInt(0));
-			pago.setIdSocio(cursor.getInt(1));
-			pago.setIdMutualidad(cursor.getInt(2));
-			pago.setFecha(cursor.getString(3));
-			pago.setMonto(cursor.getDouble(4));
-			pago.setEstado(cursor.getString(5));
-			pago.setSorteo(cursor.getInt(6));
-			pago.setNumeroBloc(cursor.getInt(7));
-			pago.setRecargo(cursor.getInt(8));
-			pago.setAtraso(cursor.getInt(9));
+			pago.setIdPago(cursor.getInt(cursor.getColumnIndex(BaseDatos.ID_SOCIO_PAGO)));
+			pago.setIdSocio(cursor.getInt(cursor.getColumnIndex(BaseDatos.ID_SOCIO_PAGO)));
+			pago.setIdMutualidad(cursor.getInt(cursor.getColumnIndex(BaseDatos.ID_MUTUALIDAD_PAGO)));
+			pago.setFecha(cursor.getString(cursor.getColumnIndex(BaseDatos.FECHA_PAGO)));
+			pago.setMonto(cursor.getDouble(cursor.getColumnIndex(BaseDatos.MONTO_PAGO)));
+			pago.setEstado(cursor.getString(cursor.getColumnIndex(BaseDatos.ESTADO_PAGO)));
+			pago.setSorteo(cursor.getInt(cursor.getColumnIndex(BaseDatos.NUMERO_SORTEO_PAGO)));
+			pago.setNumeroBloc(cursor.getInt(cursor.getColumnIndex(BaseDatos.NUMERO_BLOC_PAGO)));
+			pago.setRecargo(cursor.getInt(cursor.getColumnIndex(BaseDatos.RECARGO_PAGO)));
+			pago.setAtraso(cursor.getInt(cursor.getColumnIndex(BaseDatos.ATRASO_PAGO)));
 			
 			pagos.add(pago);
 		}
@@ -136,28 +141,7 @@ public class AdapterDAO
 		
 		return pagos;
 	}
-		
-	
-	
-	public Socio getMember( int position ){
-		Socio s = null;
-		baseDatosSQL = baseDatos.getReadableDatabase();
-		String query = "SELECT * FROM socio where id = " + position;		
-		Cursor cursor = baseDatosSQL.rawQuery(query, null);
-		
-		if(cursor != null) {
-			s = new Socio();
-			s.setIdSocio(cursor.getInt(0));
-			s.setNombreCompleto(cursor.getString(1));
-			s.setDireccion(cursor.getString(2));
-			s.setTelefono(cursor.getString(3));
-		}
-		cerrarConexion();
-		
-		return s;
-	}
-	
-	
+
 	
 	public boolean realizarPago(int idSocio){
 		baseDatosSQL = baseDatos.getWritableDatabase();
@@ -177,10 +161,11 @@ public class AdapterDAO
 	}
 	
 	
-	public boolean realizarCobro(int idSocio){
+	public boolean realizarCobro(int idSocio , int totalAdelantos ){
 		baseDatosSQL = baseDatos.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(BaseDatos.ESTADO_COBRO, "completado");
+		values.put(BaseDatos.ADELANTO_COBRO, totalAdelantos);
 		int cant = baseDatosSQL.update(BaseDatos.TABLA_COBRO, values, BaseDatos.ID_SOCIO_COBRO + "=" + idSocio, null);
 		
 		if(cant==1){
