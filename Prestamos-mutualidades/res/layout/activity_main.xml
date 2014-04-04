@@ -96,4 +96,16 @@
         android:layout_alignLeft="@+id/cargarDatos"
         android:text="@string/total_cobranza" />
 
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/pagos"
+        android:layout_alignRight="@+id/pagos"
+        android:layout_below="@+id/pagos"
+        android:layout_marginTop="41dp"
+        android:text="@string/button_pagos_mes"
+        android:onClick="pagosMes"
+        />
+
 </RelativeLayout>

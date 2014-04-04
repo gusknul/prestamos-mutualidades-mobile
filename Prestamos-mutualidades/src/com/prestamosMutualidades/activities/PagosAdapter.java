@@ -56,4 +56,7 @@ public class PagosAdapter extends ArrayAdapter<Pago>{
 	}
 
 
+	public ArrayList<Pago> getList(){
+		return list;
+	}
 }

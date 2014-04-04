@@ -137,7 +137,9 @@ public class PagosActivity extends Activity {
 					Toast.makeText(PagosActivity.this, "Pago realizado" ,Toast.LENGTH_SHORT).show();
 					Pago pago = adapter.getItem(position);
 					pago.setEstado("completado");
-					listView.invalidate();
+					adapter = new PagosAdapter(PagosActivity.this, adapter.getList(), adapterSocio.obtenerSocios());
+					listView.setAdapter(adapter);
+					
 				}
 				else{
 					Toast.makeText(PagosActivity.this, "no se puede realizar el pago", Toast.LENGTH_SHORT).show();

@@ -103,11 +103,15 @@ public class MainActivity extends Activity {
 				ad.setAdapter(adapter);
 				ad.setSocios(adapter.obtenerSocios());
 				ad.abrirConexionSinRed();
-				
-				
 				startActivity(activity);
 			}
 		});
+	}
+	
+	public void pagosMes(View view){
+		Intent intent = new Intent(MainActivity.this,PagosMes.class);
+		startActivity(intent);
+		
 	}
 	
 	public void sendDataToServer(View view){

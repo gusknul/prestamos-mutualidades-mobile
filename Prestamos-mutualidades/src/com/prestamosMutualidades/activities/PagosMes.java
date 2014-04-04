@@ -1,4 +1,8 @@
-package com.prestamosMutualidades.beans;
+package com.prestamosMutualidades.activities;
+
+import com.prestamosMutualidades.beans.R;
+import com.prestamosMutualidades.beans.R.layout;
+import com.prestamosMutualidades.beans.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;

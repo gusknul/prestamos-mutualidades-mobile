@@ -30,7 +30,7 @@
     <string name="fecha_pago_socio"> Fecha de pago al socio: </string>
     <string name="telefono">Teléfono</string>
     <string name="direccion">Direccion: </string>
-    <string name="title_activity_pagos_mes">PagosMes</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_pagos_mes">Pagos del mes</string>
+    <string name="button_pagos_mes">Pagos del mes</string>
 
 </resources>

@@ -95,12 +95,6 @@ public class CobrosActivity extends Activity {
 		
 		else Toast.makeText(this, "No hay datos cargados", Toast.LENGTH_SHORT).show();
 	}
-	
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-	}
 
 	private void cargarLista() {
 		adapter = new CobrosAdapter(this, adapterSocio.obtenerCobros(), adapterSocio.obtenerSocios());
@@ -109,8 +103,7 @@ public class CobrosActivity extends Activity {
 	}
 	
 	private void registrarEventoClick() {
-		ListView myList = (ListView) findViewById(R.id.list_view_payment_member);
-		myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long idInDB){
 				setText(position,parent);
@@ -144,8 +137,9 @@ public class CobrosActivity extends Activity {
 					if(adapterSocio.realizarCobro(adapter.getItem(position).getIdSocio())){
 						Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
 						Cobro cobro = adapter.getItem(position);
-						cobro.setEstado("Completado");
-						listView.invalidate();
+						cobro.setEstado("completado");
+						adapter = new CobrosAdapter(CobrosActivity.this, adapter.getList(), adapterSocio.obtenerSocios());
+						listView.setAdapter(adapter);
 
 					}
 					else{

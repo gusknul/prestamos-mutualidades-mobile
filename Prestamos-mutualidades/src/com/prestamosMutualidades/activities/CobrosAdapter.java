@@ -55,5 +55,9 @@ public class CobrosAdapter extends ArrayAdapter<Cobro>{
 		
 		return rowView;
 	}
+	
+	public ArrayList<Cobro> getList(){
+		return list;
+	}
 
 }
