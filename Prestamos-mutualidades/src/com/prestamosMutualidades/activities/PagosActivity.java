@@ -78,6 +78,7 @@ public class PagosActivity extends Activity {
 			registrarEventoClick();
 			cargarLista();
 			generateSearch();
+			blocButton();
 		}
 		
 		else Toast.makeText(this, "No hay datos cargados", Toast.LENGTH_SHORT).show();;
@@ -138,6 +139,8 @@ public class PagosActivity extends Activity {
 					pago.setEstado("completado");
 					adapter = new PagosAdapter(PagosActivity.this, adapter.getList(), adapterSocio.obtenerSocios());
 					listView.setAdapter(adapter);
+					registrarPago.setEnabled(false);
+					//blocButton();
 					
 				}
 				else{
@@ -174,6 +177,19 @@ public class PagosActivity extends Activity {
 		for(int i = 0; i < adapter.getCount(); i++ ){
 				data.put(adapter.getItem(i).getIdSocio() ,i);
 		}	
+	}
+	
+	public void blocButton(){
+		for(int i = 0; i < adapter.getCount();i++){
+			if(adapter.getItem(i).getEstado().equals("completado")){
+				
+				Log.i("esado", adapter.getItem(i).getEstado());
+				registrarPago.setEnabled(false);
+			}
+			else{
+				registrarPago.setEnabled(true);
+			}
+		}
 	}
 	
 	

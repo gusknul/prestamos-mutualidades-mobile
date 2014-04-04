@@ -25,8 +25,8 @@ public class BaseDatos extends SQLiteOpenHelper
 	 * 
 	 */
 	public static final String TABLA_SOCIO = "socio";
-	public static final String ID_SOCIO = "id";
-	public static final String NOMBRE_SOCIO = "nombre";
+	public static final String ID_SOCIO = "idSocio";
+	public static final String NOMBRE_SOCIO = "nombreCompleto";
 	public static final String DIRECCION_SOCIO = "direccion";
 	public static final String TELEFONO_SOCIO = "telefono";
 	
@@ -34,9 +34,9 @@ public class BaseDatos extends SQLiteOpenHelper
 	 * Datos para la tabla de cobros
 	 */
 	public static final String TABLA_COBRO = "cobro";
-	public static final String ID_COBRO = "id_cobro";
-	public static final String ID_SOCIO_COBRO ="id_socio";
-	public static final String ID_MUTUALIDAD_COBRO = "id_mutualidad";
+	public static final String ID_COBRO = "idCobro";
+	public static final String ID_SOCIO_COBRO ="idSocio";
+	public static final String ID_MUTUALIDAD_COBRO = "idMutualidad";
 	public static final String FECHA_COBRO = "fecha";
 	public static final String MONTO_COBRO = "monto";
     public static final String ESTADO_COBRO = "estado";
@@ -44,20 +44,20 @@ public class BaseDatos extends SQLiteOpenHelper
     public static final String RECARGO_COBRO = "recargo";
     public static final String ATRASO_COBRO = "atraso";
     public static final String ADELANTO_COBRO = "adelanto";
-    public static final String NUMERO_SORTEO_COBRO = "numero_sorteo";
+    public static final String NUMERO_SORTEO_COBRO = "sorteo";
 	
 	
 	public static final String TABLA_PAGO = "pago";
 	
-	public static final String ID_PAGO = "id_pago";
-	public static final String ID_SOCIO_PAGO = "id_socio";
-	public static final String ID_MUTUALIDAD_PAGO = "id_mutualidad";
+	public static final String ID_PAGO = "idPago";
+	public static final String ID_SOCIO_PAGO = "idSocio";
+	public static final String ID_MUTUALIDAD_PAGO = "idMutualidad";
 	public static final String FECHA_PAGO = "fecha";
 	public static final String MONTO_PAGO = "monto";
 	public static final String ESTADO_PAGO = "estado";
 	public static final String NUMERO_SORTEO_PAGO = "sorteo";
 	public static final String ATRASO_PAGO = "atraso";
-	public static final String NUMERO_BLOC_PAGO = "numero_bloc";
+	public static final String NUMERO_BLOC_PAGO = "numeroBloc";
 	public static final String RECARGO_PAGO = "recargo";
 	SimpleDateFormat dateFormat;	
 	private static int version = 1;
@@ -173,7 +173,7 @@ public class BaseDatos extends SQLiteOpenHelper
 	public String insertarSocio(Socio s){
 		String query = null;
 		query = " INSERT INTO " + TABLA_SOCIO
-				+ " (id, nombre , direccion , telefono ) " 
+				+ " (idSocio, nombreCompleto , direccion , telefono ) " 
 				+ " VALUES ( "
 				+ " ' " + s.getIdSocio() + " ' , "
 				+ " ' " + s.getNombreCompleto() + " ' , "
@@ -187,7 +187,7 @@ public class BaseDatos extends SQLiteOpenHelper
 		String query = null;
 		
 		query = " INSERT INTO " + TABLA_PAGO
-				+ " ( id_socio , id_mutualidad , fecha , monto , estado , sorteo, numero_bloc, recargo , atraso ) " 
+				+ " ( idSocio , idMutualidad , fecha , monto , estado , sorteo, numeroBloc, recargo , atraso ) " 
 				+ " VALUES ( " 
 				+ " ' " +  pago.getIdSocio() + " ' , "
 				+ " ' " +  pago.getIdMutualidad() + " ' , "
@@ -206,7 +206,7 @@ public class BaseDatos extends SQLiteOpenHelper
 		String query = null;
 		
 		query = " INSERT INTO " + TABLA_COBRO
-				+ " ( id_socio , id_mutualidad , fecha , monto , estado , folio , atraso, numero_sorteo , recargo ) " 
+				+ " ( idSocio , idMutualidad , fecha , monto , estado , folio , atraso, sorteo , recargo ) " 
 				+ " VALUES ( " 
 				+ " ' " +  cobro.getIdSocio() + " ' , "
 				+ " ' " +  cobro.getIdMutualidad() + " ' , "

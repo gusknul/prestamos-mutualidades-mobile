@@ -136,18 +136,25 @@ public class CobrosActivity extends Activity {
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
-					if(adapterSocio.realizarCobro(adapter.getItem(position).getIdSocio(),Integer.parseInt(adelantos.getText().toString()))){
-						Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
-						Cobro cobro = adapter.getItem(position);
-						cobro.setEstado("completado");
-						adapter = new CobrosAdapter(CobrosActivity.this, adapter.getList(), adapterSocio.obtenerSocios());
-						listView.setAdapter(adapter);
+					
+					if(Integer.parseInt(adelantos.getText().toString()) > 0 && Integer.parseInt(adelantos.getText().toString()) <= 10 ){
+						
+						if(adapterSocio.realizarCobro(adapter.getItem(position).getIdSocio(),Integer.parseInt(adelantos.getText().toString()))){
+							Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
+							Cobro cobro = adapter.getItem(position);
+							cobro.setEstado("completado");
+							adapter = new CobrosAdapter(CobrosActivity.this, adapter.getList(), adapterSocio.obtenerSocios());
+							listView.setAdapter(adapter);
 
+						}
+						else{
+							Toast.makeText(CobrosActivity.this, "no se puede realizar el pago", Toast.LENGTH_SHORT).show();
+							}
 					}
 					else{
-						Toast.makeText(CobrosActivity.this, "no se puede realizar el pago", Toast.LENGTH_SHORT).show();
-						}
+						Toast.makeText(CobrosActivity.this, "El numero de cobros es incorrecto, ingrese otro numero", Toast.LENGTH_SHORT).show();
 					}
+										}
 				});
 		}
 	
