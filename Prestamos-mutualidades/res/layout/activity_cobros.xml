@@ -2,17 +2,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:weightSum="5">
-	
-	   <TextView
-	       android:id="@+id/fecha_dia"
-	       android:layout_width="match_parent"
-	       android:layout_height="wrap_content"
-	       android:text="@string/fecha_actual"
-	       android:textSize="18sp" >
+    android:weightSum="5" >
 
-	    </TextView>
-    
+    <TextView
+        android:id="@+id/fecha_dia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fecha_actual"
+        android:textSize="18sp" >
+    </TextView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,60 +22,51 @@
             android:id="@+id/tViewBuscar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/BuscarSocio"            
-            android:textSize="18sp"
             android:layout_weight="1"
-        >
+            android:text="@string/BuscarSocio"
+            android:textSize="18sp" >
         </TextView>
 
         <EditText
             android:id="@+id/buscar_socio_cobro"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:ems="10"
-            android:inputType="number"
-            android:layout_weight="1" 
-            />
+            android:inputType="number" />
 
         <Button
             android:id="@+id/btn_buscar_socio_cobros"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/Buscar"
             android:layout_weight="1"
             android:onClick="searchMember"
-            >
-
-            </Button>
-
+            android:text="@string/Buscar" >
+        </Button>
     </LinearLayout>
-    
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:weightSum="2" >
-        	
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
         <ListView
             android:id="@+id/list_view_payment_member"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1" >
         </ListView>
-        
-      <LinearLayout
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:weightSum="13"
-            >
+            android:weightSum="13" >
 
-          
-            
             <TextView
                 android:id="@+id/folio_socio_cobro"
                 android:layout_width="match_parent"
@@ -97,49 +87,56 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/folio_mutualista" />
+
             <TextView
                 android:id="@+id/numero_bloc_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/numero_bloc" />
+
             <TextView
                 android:id="@+id/monto_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/monto" />
+
             <TextView
                 android:id="@+id/atraso_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/atraso" />
+
             <TextView
                 android:id="@+id/recargo_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/recargo" />
+
             <TextView
                 android:id="@+id/numero_sorteo_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/numero_sorteo" />
+
             <TextView
                 android:id="@+id/fecha_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/fecha_pago_socio" />
+
             <TextView
                 android:id="@+id/telefono_cobro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/telefono" />
-            
+
             <TextView
                 android:id="@+id/direccion_cobro"
                 android:layout_width="match_parent"
@@ -147,42 +144,45 @@
                 android:layout_weight="1"
                 android:text="@string/direccion" />
 
-            
             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            >
-            
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="3" >
+
                 <TextView
-                android:id="@+id/adelanto"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:text="@string/adelanto" />
-            
+                    android:id="@+id/adelanto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/adelanto" />
+
                 <EditText
-            android:id="@+id/edit_text_adelanto"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:inputType="number"
-            android:layout_weight="1.5"
-            />
-            
+                    android:id="@+id/edit_text_adelanto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="number" />
+
+                <CheckBox
+                    android:id="@+id/check_box_aplicar_recargos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/aplicar_recargo"
+                    android:checked="true"/>
+
             </LinearLayout>
-            
+
             <Button
                 android:id="@+id/btn_registrar_cobro_cobros"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/RegistrarCobro" />
-
         </LinearLayout>
-    	</LinearLayout>
-    
+    </LinearLayout>
 
 </LinearLayout>

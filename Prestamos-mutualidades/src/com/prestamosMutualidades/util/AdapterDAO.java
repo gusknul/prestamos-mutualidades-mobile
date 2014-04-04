@@ -1,9 +1,15 @@
 package com.prestamosMutualidades.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import com.prestamosMutualidades.beans.Cobro;
 import com.prestamosMutualidades.beans.Pago;
 import com.prestamosMutualidades.beans.Socio;
+
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
@@ -161,11 +167,13 @@ public class AdapterDAO
 	}
 	
 	
-	public boolean realizarCobro(int idSocio , int totalAdelantos ){
+	public boolean realizarCobro(int idSocio , int totalAdelantos){
 		baseDatosSQL = baseDatos.getWritableDatabase();
 		ContentValues values = new ContentValues();
+		
 		values.put(BaseDatos.ESTADO_COBRO, "completado");
 		values.put(BaseDatos.ADELANTO_COBRO, totalAdelantos);
+		
 		int cant = baseDatosSQL.update(BaseDatos.TABLA_COBRO, values, BaseDatos.ID_SOCIO_COBRO + "=" + idSocio, null);
 		
 		if(cant==1){

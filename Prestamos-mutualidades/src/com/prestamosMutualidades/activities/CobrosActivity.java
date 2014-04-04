@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -57,6 +58,8 @@ public class CobrosActivity extends Activity {
 	Button registrarCobro;
 	CobrosAdapter adapter;
 	SparseArray<Integer> data;
+	CheckBox aplicarRecargo;
+	
 	@SuppressLint("SimpleDateFormat")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,7 @@ public class CobrosActivity extends Activity {
 		buscarSocio = (EditText) findViewById(R.id.buscar_socio_cobro);
 		registrarCobro = (Button) findViewById(R.id.btn_registrar_cobro_cobros);
 		adelantos = (EditText)findViewById(R.id.edit_text_adelanto);
+		aplicarRecargo = (CheckBox) findViewById(R.id.check_box_aplicar_recargos);
 		
 		AdapterClass cl = (AdapterClass) getApplicationContext();
 		adapterSocio = cl.getAdapter();
@@ -137,19 +141,38 @@ public class CobrosActivity extends Activity {
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
 					
-					if(Integer.parseInt(adelantos.getText().toString()) > 0 && Integer.parseInt(adelantos.getText().toString()) <= 10 ){
+					if(!adelantos.getText().toString().equals("") && Integer.parseInt(adelantos.getText().toString()) > 0 && Integer.parseInt(adelantos.getText().toString()) <= 10 ){
 						
-						if(adapterSocio.realizarCobro(adapter.getItem(position).getIdSocio(),Integer.parseInt(adelantos.getText().toString()))){
-							Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
-							Cobro cobro = adapter.getItem(position);
-							cobro.setEstado("completado");
-							adapter = new CobrosAdapter(CobrosActivity.this, adapter.getList(), adapterSocio.obtenerSocios());
-							listView.setAdapter(adapter);
+						if(aplicarRecargo.isChecked()){
+							
+							if(adapterSocio.realizarCobro(adapter.getItem(position).getIdSocio(),Integer.parseInt(adelantos.getText().toString()))){
+								Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
+								Cobro cobro = adapter.getItem(position);
+								cobro.setEstado("completado");
+								adapter = new CobrosAdapter(CobrosActivity.this, adapter.getList(), adapterSocio.obtenerSocios());
+								listView.setAdapter(adapter);
 
+							}
+							else{
+								Toast.makeText(CobrosActivity.this, "no se puede realizar el cobro", Toast.LENGTH_SHORT).show();
+								}
+							
 						}
 						else{
-							Toast.makeText(CobrosActivity.this, "no se puede realizar el pago", Toast.LENGTH_SHORT).show();
+							//Aplicar accion cuando no esta verificado
+							Toast.makeText(CobrosActivity.this, "desactivado", Toast.LENGTH_SHORT).show();
+							if(adapterSocio.realizarCobro(adapter.getItem(position).getIdSocio(),Integer.parseInt(adelantos.getText().toString()))){
+								Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
+								Cobro cobro = adapter.getItem(position);
+								cobro.setEstado("completado");
+								adapter = new CobrosAdapter(CobrosActivity.this, adapter.getList(), adapterSocio.obtenerSocios());
+								listView.setAdapter(adapter);
+
 							}
+							else{
+								Toast.makeText(CobrosActivity.this, "no se puede realizar el cobro", Toast.LENGTH_SHORT).show();
+								}
+						}
 					}
 					else{
 						Toast.makeText(CobrosActivity.this, "El numero de cobros es incorrecto, ingrese otro numero", Toast.LENGTH_SHORT).show();

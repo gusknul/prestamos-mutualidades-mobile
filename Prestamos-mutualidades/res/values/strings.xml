@@ -33,5 +33,6 @@
     <string name="title_activity_pagos_mes">Pagos del mes</string>
     <string name="button_pagos_mes">Pagos del mes</string>
     <string name="adelanto">Adelanto</string>
+    <string name="aplicar_recargo">Recargo</string>
 
 </resources>
