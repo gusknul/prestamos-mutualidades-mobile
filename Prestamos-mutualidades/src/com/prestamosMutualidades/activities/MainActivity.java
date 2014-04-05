@@ -3,16 +3,19 @@ package com.prestamosMutualidades.activities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import org.json.*;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.*;
 import com.prestamosMutualidades.beans.*;
 import com.prestamosMutualidades.util.*;
+
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -24,6 +27,7 @@ public class MainActivity extends Activity {
 	TextView fechaActual;
 	TextView pagosTotales;
 	TextView cobrosTotales;
+	
 	
 	private static final String FORMATO_FECHA = "dd-MM-yyyy";
 	AdapterDAO adapterSocio;
@@ -39,16 +43,19 @@ public class MainActivity extends Activity {
 		SimpleDateFormat formatDate = new SimpleDateFormat(FORMATO_FECHA);
 		Date date = new Date();
 		fechaActual.setText(formatDate.format(date));
+		ip.setFocusable(true);
 		
 	}
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		AdapterDAO adapter = new AdapterDAO(this);
-		adapter.abrirConexion();
-		pagosTotales.setText(" Total Pagos: $" + String.valueOf(adapter.obtenerTotalPagos()));
-		cobrosTotales.setText(" Total Cobranza: $" + String.valueOf(adapter.obtenerTotalCobros()));
+//			AdapterDAO adapter = new AdapterDAO(this);
+//			adapter.abrirConexion();
+//			pagosTotales.setText(" Total Pagos: $" + String.valueOf(adapter.obtenerTotalPagos()));
+//			cobrosTotales.setText(" Total Cobranza: $" + String.valueOf(adapter.obtenerTotalCobros()));
+//			Toast.makeText(this, "No hay base de datos, Actulice su base de datos", Toast.LENGTH_SHORT).show();
+//		
 	}
 
 	

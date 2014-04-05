@@ -44,6 +44,7 @@ public class AdapterDAO
 		return this;
 	}
 	
+	
 	public void cerrarConexion(){
 		baseDatos.close();
 	}
@@ -111,6 +112,7 @@ public class AdapterDAO
 			cobro.setAtraso(cursor.getInt(cursor.getColumnIndex(BaseDatos.ATRASO_COBRO)));
 			cobro.setNumeroSorteo(cursor.getInt(cursor.getColumnIndex(BaseDatos.NUMERO_SORTEO_COBRO)));
 			cobro.setRecargo(cursor.getDouble(cursor.getColumnIndex(BaseDatos.RECARGO_COBRO)));
+			cobro.setAdelanto(cursor.getInt(cursor.getColumnIndex(BaseDatos.ADELANTO_COBRO)));
 			cobros.add(cobro);
 		}
 		
@@ -149,11 +151,11 @@ public class AdapterDAO
 	}
 
 	
-	public boolean realizarPago(int idSocio){
+	public boolean realizarPago(int idPago){
 		baseDatosSQL = baseDatos.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(BaseDatos.ESTADO_PAGO, "completado");
-		int cant = baseDatosSQL.update(BaseDatos.TABLA_PAGO, values, BaseDatos.ID_SOCIO_PAGO + "=" + idSocio, null);
+		int cant = baseDatosSQL.update(BaseDatos.TABLA_PAGO, values, BaseDatos.ID_PAGO + "=" + idPago, null);
 		
 		if(cant==1){
 			baseDatosSQL.close();
@@ -167,14 +169,14 @@ public class AdapterDAO
 	}
 	
 	
-	public boolean realizarCobro(int idSocio , int totalAdelantos){
+	public boolean realizarCobro(int idCobro , int totalAdelantos){
 		baseDatosSQL = baseDatos.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		
 		values.put(BaseDatos.ESTADO_COBRO, "completado");
 		values.put(BaseDatos.ADELANTO_COBRO, totalAdelantos);
 		
-		int cant = baseDatosSQL.update(BaseDatos.TABLA_COBRO, values, BaseDatos.ID_SOCIO_COBRO + "=" + idSocio, null);
+		int cant = baseDatosSQL.update(BaseDatos.TABLA_COBRO, values, BaseDatos.ID_COBRO + "=" + idCobro, null);
 		
 		if(cant==1){
 			baseDatosSQL.close();

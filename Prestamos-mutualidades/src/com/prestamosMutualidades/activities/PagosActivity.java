@@ -137,14 +137,13 @@ public class PagosActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if(adapterSocio.realizarPago(adapter.getItem(position).getIdSocio())){
+				if(adapterSocio.realizarPago(adapter.getItem(position).getIdPago())){
 					Toast.makeText(PagosActivity.this, "Pago realizado" ,Toast.LENGTH_SHORT).show();
 					Pago pago = adapter.getItem(position);
 					pago.setEstado("completado");
 					adapter = new PagosAdapter(PagosActivity.this, adapter.getList(), adapterSocio.obtenerSocios());
 					listView.setAdapter(adapter);
 					registrarPago.setEnabled(false);
-					//blocButton();
 					
 				}
 				else{

@@ -13,6 +13,7 @@ public class Cobro {
 	private double recargo;
 	private int atraso;
 	private double numeroSorteo;
+	private int adelanto;
 	public Cobro(){
 		
 	}
@@ -29,6 +30,21 @@ public class Cobro {
 		this.recargo = recargo;
 		this.numeroSorteo = numeroSorteo;
 		this.atraso = atraso;
+	}
+	
+	public Cobro(int idCobro, int idSocio, int idMutualidad, String date,
+			double monto, String estado, int folio, double recargo,int numeroSorteo, int atraso , int adelanto) {
+		this.idCobro = idCobro;
+		this.idSocio = idSocio;
+		this.idMutualidad = idMutualidad;
+		this.fecha = date;
+		this.monto = monto;
+		this.estado = estado;
+		this.folio = folio;
+		this.recargo = recargo;
+		this.numeroSorteo = numeroSorteo;
+		this.atraso = atraso;
+		this.adelanto = adelanto;
 	}
 	
 	public Cobro(int idSocio, int idMutualidad, String date,
@@ -125,6 +141,14 @@ public class Cobro {
 		this.numeroSorteo = numeroSorteo;
 	}
 	
+	public int getAdelanto() {
+		return adelanto;
+	}
+
+	public void setAdelanto(int adelanto) {
+		this.adelanto = adelanto;
+	}
+	
 	
 	@Override
 	public String toString() {
@@ -139,7 +163,5 @@ public class Cobro {
 				+ atraso + "\n"
 				+ numeroSorteo;
 	}
-	
-	
 
 }

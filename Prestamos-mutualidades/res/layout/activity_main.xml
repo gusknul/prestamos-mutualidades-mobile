@@ -103,9 +103,8 @@
         android:id="@+id/button1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/pagos"
-        android:layout_below="@+id/pagos"
-        android:layout_marginTop="27dp"
+        android:layout_above="@+id/label_ip"
+        android:layout_alignLeft="@+id/label_ip"
         android:onClick="pagosMes"
         android:text="@string/button_pagos_mes" />
 

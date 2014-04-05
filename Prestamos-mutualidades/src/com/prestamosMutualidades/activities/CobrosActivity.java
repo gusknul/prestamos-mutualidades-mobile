@@ -145,7 +145,7 @@ public class CobrosActivity extends Activity {
 						
 						if(aplicarRecargo.isChecked()){
 							
-							if(adapterSocio.realizarCobro(adapter.getItem(position).getIdSocio(),Integer.parseInt(adelantos.getText().toString()))){
+							if(adapterSocio.realizarCobro(adapter.getItem(position).getIdCobro(),Integer.parseInt(adelantos.getText().toString()))){
 								Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
 								Cobro cobro = adapter.getItem(position);
 								cobro.setEstado("completado");
