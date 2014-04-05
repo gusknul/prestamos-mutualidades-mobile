@@ -67,11 +67,11 @@ public class CobrosActivity extends Activity {
 		setContentView(R.layout.activity_cobros);
 		
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
 		
 		fechaDia = (TextView) findViewById(R.id.fecha_dia);
-		fechaDia.setText(dateFormat.format(date));
+		fechaDia.setText("Cobros del día " + dateFormat.format(date));
 		folioSocio = (TextView) findViewById(R.id.folio_socio_cobro);
 		nombreSocio = (TextView) findViewById(R.id.nombre_socio_cobro);
 		direccionSocio = (TextView) findViewById(R.id.direccion_cobro);
@@ -113,6 +113,7 @@ public class CobrosActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long idInDB){
 				setText(position,parent);
+				adelantos.setText(String.valueOf(adapter.getItem(position).getAdelanto()));
 				}});
 	}
 	
@@ -125,11 +126,11 @@ public class CobrosActivity extends Activity {
 					direccionSocio.setText("Direccion: " + adapterSocio.obtenerSocios().get(cobro.getIdSocio()).getDireccion());
 					telefonoSocio.setText("Telefono: " + adapterSocio.obtenerSocios().get(cobro.getIdSocio()).getTelefono());
 					folioMutualista.setText("Folio mutualista: " + String.valueOf(cobro.getIdMutualidad()));
-					numeroBloque.setText("# bloc: " + String.valueOf(cobro.getFolio()));
-					monto.setText("Monto: " + String.valueOf(cobro.getMonto()));
-					atraso.setText("Atraso: " + String.valueOf(cobro.getAtraso()));
-					recargo.setText("Recargo: " + String.valueOf(cobro.getRecargo()));
-					numeroSorteo.setText("# Sorteo: " + String.valueOf(cobro.getNumeroSorteo()));
+					numeroBloque.setText("# Bloc: " + String.valueOf(cobro.getFolio()));
+					monto.setText("Monto: $" + String.valueOf(cobro.getMonto()));
+					atraso.setText("Atraso: " + String.valueOf(cobro.getAtraso()) + " dias");
+					recargo.setText("Recargo: $" + String.valueOf(cobro.getRecargo()));
+					numeroSorteo.setText("# Sorteo: " + String.valueOf(cobro.getSorteo()));
 					fechaPagoSocio.setText("Fecha de pago al socio: " + cobro.getDate());
 					registrarCobro(position,parent);
 	}
@@ -141,7 +142,7 @@ public class CobrosActivity extends Activity {
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
 					
-					if(!adelantos.getText().toString().equals("") && Integer.parseInt(adelantos.getText().toString()) > 0 && Integer.parseInt(adelantos.getText().toString()) <= 10 ){
+					if(!adelantos.getText().toString().equals("") && Integer.parseInt(adelantos.getText().toString()) >= 0){
 						
 						if(aplicarRecargo.isChecked()){
 							
@@ -149,6 +150,7 @@ public class CobrosActivity extends Activity {
 								Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
 								Cobro cobro = adapter.getItem(position);
 								cobro.setEstado("completado");
+								cobro.setAdelanto(Integer.parseInt(adelantos.getText().toString()));
 								adapter = new CobrosAdapter(CobrosActivity.this, adapter.getList(), adapterSocio.obtenerSocios());
 								listView.setAdapter(adapter);
 

@@ -26,6 +26,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:text="@string/ip"
+        android:textSize="20dp"
         />
 
     <TextView
@@ -34,15 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/totalCobranza"
         android:layout_alignParentBottom="true"
-        android:text="@string/total_pagos"/>
-
-    <TextView
-        android:id="@+id/totalCobranza"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/totalPagos"
-        android:layout_alignLeft="@+id/cargarDatos"
-        android:text="@string/total_cobranza" />
+        android:text="@string/total_pagos"
+        android:textSize="20dp"
+        />
 
     <Button
         android:id="@+id/cobros"
@@ -54,28 +49,6 @@
         android:layout_marginTop="20dp"
         android:onClick="cobros"
         android:text="@string/Cobranza" />
-
-    <Button
-        android:id="@+id/cargarDatos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/totalCobranza"
-        android:layout_alignLeft="@+id/actualizar"
-        android:layout_alignRight="@+id/button1"
-        android:layout_marginBottom="16dp"
-        android:onClick="sendDataToServer"
-        android:text="@string/cargar_datos" />
-
-    <Button
-        android:id="@+id/actualizar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/cargarDatos"
-        android:layout_alignLeft="@+id/label_ip"
-        android:layout_alignRight="@+id/button1"
-        android:layout_marginBottom="14dp"
-        android:onClick="receiveData"
-        android:text="@string/actualizar" />
 
     <Button
         android:id="@+id/pagos"
@@ -100,11 +73,40 @@
     </EditText>
 
     <Button
+        android:id="@+id/actualizar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/label_ip"
+        android:layout_below="@+id/label_ip"
+        android:layout_marginTop="49dp"
+        android:onClick="receiveData"
+        android:text="@string/actualizar" />
+
+    <Button
+        android:id="@+id/cargarDatos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/actualizar"
+        android:layout_below="@+id/actualizar"
+        android:layout_marginTop="27dp"
+        android:onClick="sendDataToServer"
+        android:text="@string/cargar_datos" />
+
+    <TextView
+        android:id="@+id/totalCobranza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/totalPagos"
+        android:layout_alignLeft="@+id/cargarDatos"
+        android:text="@string/total_cobranza"
+        android:textSize="20dp" />
+
+    <Button
         android:id="@+id/button1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/label_ip"
-        android:layout_alignLeft="@+id/label_ip"
+        android:layout_alignLeft="@+id/pagos"
+        android:layout_below="@+id/pagos"
         android:onClick="pagosMes"
         android:text="@string/button_pagos_mes" />
 

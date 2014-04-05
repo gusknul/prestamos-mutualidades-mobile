@@ -34,6 +34,7 @@ public class CobrosAdapter extends ArrayAdapter<Cobro>{
 		View rowView = inflater.inflate(R.layout.item_member, parent, false);
 		
 		TextView textViewIdMember = (TextView) rowView.findViewById(R.id.text_view_id_member);
+		TextView textVieeIdMutualidad = (TextView) rowView.findViewById(R.id.text_view_id_mutualidad);
 		TextView textViewNameMember = (TextView) rowView.findViewById(R.id.text_view_name_member);
 		TextView textViewAddress = (TextView) rowView.findViewById(R.id.text_view_address);
 		TextView textViewPhoneNumber = (TextView) rowView.findViewById(R.id.text_view_phone_number);
@@ -46,7 +47,8 @@ public class CobrosAdapter extends ArrayAdapter<Cobro>{
 		else 
 			rowView.setBackgroundColor(Color.parseColor("#3A87AD"));
 		
-		textViewIdMember.setText(String.valueOf(socio.getIdSocio()));
+		textViewIdMember.setText("Folio socio " + String.valueOf(socio.getIdSocio()));
+		textVieeIdMutualidad.setText("Folio mutualidad "+ list.get(position).getIdMutualidad());
 		textViewNameMember.setText(socio.getNombreCompleto());
 		textViewAddress.setText(socio.getDireccion());
 		textViewPhoneNumber.setText(socio.getTelefono());

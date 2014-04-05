@@ -1,10 +1,10 @@
 package com.prestamosMutualidades.activities;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import com.prestamosMutualidades.beans.Cobro;
+import java.util.Iterator;
 import com.prestamosMutualidades.beans.Pago;
 import com.prestamosMutualidades.beans.R;
 import com.prestamosMutualidades.beans.Socio;
@@ -54,20 +54,18 @@ public class PagosActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
 		setContentView(R.layout.activity_pagos);
 		fechaDia = (TextView) findViewById(R.id.fecha_dia_pagos);
 		folioSocio  = (TextView) findViewById(R.id.folio_socio_pago);
 		nombreSocio  = (TextView) findViewById(R.id.nombre_socio_pago);
 		folioMutualista  = (TextView) findViewById(R.id.folio_mutualista_pago);
-		numeroBloc  = (TextView) findViewById(R.id.numero_bloc_pago);
 		monto  = (TextView) findViewById(R.id.monto_pago);
 		atraso  = (TextView) findViewById(R.id.atraso_pago);
-		recargo  = (TextView) findViewById(R.id.recargo_pago);
 		numeroSorteo = (TextView) findViewById(R.id.numero_sorteo_pago);
 		fechaPago  = (TextView) findViewById(R.id.fecha_pago);
-		fechaDia.setText(dateFormat.format(date));
+		fechaDia.setText("Pagos del día " + dateFormat.format(date));
 		registrarPago = (Button)findViewById(R.id.btn_registrar_cobro_pagos);
 		editTextBuscar = (EditText) findViewById(R.id.buscarSocioPago);
 		
@@ -76,7 +74,12 @@ public class PagosActivity extends Activity {
 		
 		if(adapterSocio != null){
 			registrarEventoClick();
-			cargarLista();
+			try {
+				cargarLista();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			generateSearch();
 		}
 		
@@ -90,10 +93,31 @@ public class PagosActivity extends Activity {
 		super.onResume();
 	}
 	
-	private void cargarLista() {
-		adapter = new PagosAdapter(this, adapterSocio.obtenerPagos(), adapterSocio.obtenerSocios());
+	private void cargarLista() throws ParseException {
+		ArrayList<Pago> pagos = adapterSocio.obtenerPagos();
+		Iterator<Pago> itr = pagos.iterator();
+		while (itr.hasNext()) {
+			Pago pago = itr.next();
+			if (!comparaFechas(pago.getFecha())) {
+				itr.remove();
+			}
+		}
+		
+		adapter = new PagosAdapter(this, pagos , adapterSocio.obtenerSocios());
 		listView = (ListView) findViewById(R.id.list_view_pay_member);
 		listView.setAdapter(adapter);
+	}
+	
+	public boolean comparaFechas(String fechaComparar) throws ParseException{
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = new Date();
+		String fechaActual = formatoFecha.format(date);
+		if (fechaComparar.equals(fechaActual)){
+			return true;
+		}
+		else{
+		return false;
+		}
 	}
 	
 	private void registrarEventoClick() {
@@ -120,11 +144,9 @@ public class PagosActivity extends Activity {
 				nombreSocio.setText("Nombre: " + adapterSocio.obtenerSocios().get(pago.getIdSocio()).getNombreCompleto());
 				folioMutualista.setText("Folio mutualista: " + pago.getIdMutualidad());
 				fechaPago.setText("Fecha de pago al socio: " + pago.getFecha());
-				monto.setText("Monto: " + pago.getMonto());
-				numeroSorteo.setText("# sorte: " + pago.getSorteo());
-				numeroBloc.setText("# Bloc: " + pago.getNumeroBloc());
-				recargo.setText("Recargo: " +pago.getRecargo());
-				atraso.setText("Atraso: " + pago.getAtraso());
+				monto.setText("Monto: $" + pago.getMonto());
+				numeroSorteo.setText("# sorteo: " + pago.getSorteo());
+				atraso.setText("Atraso: " + pago.getAtraso() + " dias");
 				registrarPago(position, parent);
 	}
 			

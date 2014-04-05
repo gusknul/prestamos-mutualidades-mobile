@@ -13,6 +13,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 @SuppressLint("SimpleDateFormat")
 public class BaseDatos extends SQLiteOpenHelper
@@ -57,8 +58,6 @@ public class BaseDatos extends SQLiteOpenHelper
 	public static final String ESTADO_PAGO = "estado";
 	public static final String NUMERO_SORTEO_PAGO = "sorteo";
 	public static final String ATRASO_PAGO = "atraso";
-	public static final String NUMERO_BLOC_PAGO = "numeroBloc";
-	public static final String RECARGO_PAGO = "recargo";
 	SimpleDateFormat dateFormat;	
 	private static int version = 1;
 	ArrayList<Object> datos;
@@ -66,7 +65,7 @@ public class BaseDatos extends SQLiteOpenHelper
 	public BaseDatos(Context context, ArrayList<Object> datos) 
 	{
 		super(context, NOMBRE_BASE_DATOS, null, version);
-		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		this.datos = datos;
 		onUpgrade(this.getWritableDatabase(), 1, 2);
 		// TODO Auto-generated constructor stub
@@ -75,7 +74,7 @@ public class BaseDatos extends SQLiteOpenHelper
 	public BaseDatos(Context context) {
 		// TODO Auto-generated constructor stub
 		super(context, NOMBRE_BASE_DATOS, null, version);
-		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	}
 
 	@Override
@@ -85,8 +84,12 @@ public class BaseDatos extends SQLiteOpenHelper
 		dataBase.execSQL(crearSocio());
 		dataBase.execSQL(crearPagos());
 		dataBase.execSQL(crearCobros());
-		insertarDatos(dataBase,datos);
-		
+		if(datos!=null){
+			insertarDatos(dataBase,datos);
+		}
+		else{
+			
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -139,15 +142,13 @@ public class BaseDatos extends SQLiteOpenHelper
 	public String crearPagos()
 	{
 		String query = " CREATE TABLE " + TABLA_PAGO + " ( "
-				+ ID_PAGO + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+ ID_PAGO + " INTEGER PRIMARY KEY, "
 				+ ID_SOCIO_PAGO + " INTEGER,"
 				+ ID_MUTUALIDAD_PAGO + " INTEGER ,"
 				+ FECHA_PAGO + " DATE ,"
 				+ MONTO_PAGO + " DOUBLE ,"
 				+ ESTADO_PAGO + " VARCHAR,"
 				+ NUMERO_SORTEO_PAGO + " INTEGER ,"
-				+ NUMERO_BLOC_PAGO + " INTEGER ,"
-				+ RECARGO_PAGO + " DOUBLE ,"
 				+ ATRASO_PAGO + " INTEGER "
 				+ " ) ; ";
 		return query;	
@@ -155,7 +156,7 @@ public class BaseDatos extends SQLiteOpenHelper
 	
 	private String crearCobros(){
 		String query = "CREATE TABLE " + TABLA_COBRO + " ( "
-				+ ID_COBRO + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+ ID_COBRO + " INTEGER PRIMARY KEY, "
 				+ ID_SOCIO_COBRO + " INTEGER , "
 				+ ID_MUTUALIDAD_COBRO + " INTEGER , "
 				+ FECHA_COBRO + " DATE , "
@@ -175,10 +176,10 @@ public class BaseDatos extends SQLiteOpenHelper
 		query = " INSERT INTO " + TABLA_SOCIO
 				+ " (idSocio, nombreCompleto , direccion , telefono ) " 
 				+ " VALUES ( "
-				+ " ' " + s.getIdSocio() + " ' , "
-				+ " ' " + s.getNombreCompleto() + " ' , "
-				+ " ' " +  s.getDireccion() + " ' , "
-				+ " ' " + s.getTelefono()  + " ' "
+				+ " '" + s.getIdSocio() + "' , "
+				+ " '" + s.getNombreCompleto() + "' , "
+				+ " '" +  s.getDireccion() + "' , "
+				+ " '" + s.getTelefono()  + "' "
 				+ ")";
 		return query;
 	}
@@ -187,17 +188,16 @@ public class BaseDatos extends SQLiteOpenHelper
 		String query = null;
 		
 		query = " INSERT INTO " + TABLA_PAGO
-				+ " ( idSocio , idMutualidad , fecha , monto , estado , sorteo, numeroBloc, recargo , atraso ) " 
+				+ " (idPago, idSocio , idMutualidad , fecha , monto , estado , sorteo , atraso ) " 
 				+ " VALUES ( " 
-				+ " ' " +  pago.getIdSocio() + " ' , "
-				+ " ' " +  pago.getIdMutualidad() + " ' , "
-				+ " ' " +  pago.getFecha() + " ' , "
-				+ " ' " +  pago.getMonto() + " ' , "
-				+ " ' " +  pago.getEstado() + " ' , "
-				+ " ' " +  pago.getSorteo() + " ' , "
-				+ " ' " +  pago.getNumeroBloc() + " ' , "
-				+ " ' " +  pago.getRecargo() + " ' , "
-				+ " ' " +  pago.getAtraso()  + " ' "
+				+ " '" +  pago.getIdPago() + "' , "
+				+ " '" +  pago.getIdSocio() + "' , "
+				+ " '" +  pago.getIdMutualidad() + "' , "
+				+ " '" +  pago.getFecha() + "' , "
+				+ " '" +  pago.getMonto() + "' , "
+				+ " '" +  pago.getEstado() + "' , "
+				+ " '" +  pago.getSorteo() + "' , "
+				+ " '" +  pago.getAtraso()  + "' "
 				+ ")";
 		return query;
 	}
@@ -206,17 +206,18 @@ public class BaseDatos extends SQLiteOpenHelper
 		String query = null;
 		
 		query = " INSERT INTO " + TABLA_COBRO
-				+ " ( idSocio , idMutualidad , fecha , monto , estado , folio , atraso, sorteo , recargo ) " 
+				+ " ( idCobro, idSocio , idMutualidad , fecha , monto , estado , folio , atraso, sorteo , recargo ) " 
 				+ " VALUES ( " 
-				+ " ' " +  cobro.getIdSocio() + " ' , "
-				+ " ' " +  cobro.getIdMutualidad() + " ' , "
-				+ " ' " +  cobro.getDate() + " ' , "
-				+ " ' " +  cobro.getMonto() + " ' , "
-				+ " ' " +  cobro.getEstado() + " ' , "
-				+ " ' " +  cobro.getFolio() + " ' , "
-				+ " ' " +  cobro.getAtraso() + " ' , "
-				+ " ' " +  cobro.getNumeroSorteo() + " ' , "
-				+ " ' " +  cobro.getRecargo()  + " ' "
+				+ " '" +  cobro.getIdCobro() + "' , "
+				+ " '" +  cobro.getIdSocio() + "' , "
+				+ " '" +  cobro.getIdMutualidad() + "' , "
+				+ " '" +  cobro.getDate() + "' , "
+				+ " '" +  cobro.getMonto() + "' , "
+				+ " '" +  cobro.getEstado() + "' , "
+				+ " '" +  cobro.getFolio() + "' , "
+				+ " '" +  cobro.getAtraso() + "' , "
+				+ " '" +  cobro.getSorteo() + "' , "
+				+ " '" +  cobro.getRecargo()  + "' "
 				+ ")";
 		return query;
 	}

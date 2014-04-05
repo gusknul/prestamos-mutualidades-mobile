@@ -30,28 +30,7 @@ public class PagosMes extends Activity {
 		AdapterDAO adapterSocio = cl.getAdapter();
 		
 		if(adapterSocio != null){
-			ArrayList<Pago> pagos =adapterSocio.obtenerPagos(); 
-			for(int i = 0 ; i< pagos.size();i++){
-				Date date = new Date();
-				Date fechaPago = null;
-				int mesPago = date.getMonth();
-				SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-				String format = formatoFecha.format(date);
-				try {
-					fechaPago = formatoFecha.parse(pagos.get(i).getFecha());
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				if(fechaPago.getMonth() != mesPago){
-					pagos.remove(i);
-				}
-				else{
-					continue;
-				}
-				
-			}
+			ArrayList<Pago> pagos =adapterSocio.obtenerPagos();
 			PagosMesAdapter adapter = new PagosMesAdapter(this, pagos, adapterSocio.obtenerSocios());
 			ListView listView = (ListView) findViewById(R.id.list_view_pagos_mes);
 			listView.setAdapter(adapter);

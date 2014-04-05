@@ -7,20 +7,36 @@
     <TextView
         android:id="@+id/text_view_id_member"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        />
+    
+    <TextView
+        android:id="@+id/text_view_id_mutualidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        />
 
     <TextView
         android:id="@+id/text_view_name_member"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        />
 
     <TextView
         android:id="@+id/text_view_address"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        />
+    
     <TextView
         android:id="@+id/text_view_phone_number"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        />
 
 </LinearLayout>

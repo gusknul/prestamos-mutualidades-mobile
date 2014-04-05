@@ -12,14 +12,14 @@ public class Cobro {
 	private int folio;
 	private double recargo;
 	private int atraso;
-	private double numeroSorteo;
+	private int sorteo;
 	private int adelanto;
 	public Cobro(){
 		
 	}
 	
 	public Cobro(int idCobro, int idSocio, int idMutualidad, String date,
-			double monto, String estado, int folio, double recargo,int numeroSorteo, int atraso) {
+			double monto, String estado, int folio, double recargo,int sorteo, int atraso) {
 		this.idCobro = idCobro;
 		this.idSocio = idSocio;
 		this.idMutualidad = idMutualidad;
@@ -28,12 +28,12 @@ public class Cobro {
 		this.estado = estado;
 		this.folio = folio;
 		this.recargo = recargo;
-		this.numeroSorteo = numeroSorteo;
+		this.sorteo = sorteo;
 		this.atraso = atraso;
 	}
 	
 	public Cobro(int idCobro, int idSocio, int idMutualidad, String date,
-			double monto, String estado, int folio, double recargo,int numeroSorteo, int atraso , int adelanto) {
+			double monto, String estado, int folio, double recargo,int sorteo, int atraso , int adelanto) {
 		this.idCobro = idCobro;
 		this.idSocio = idSocio;
 		this.idMutualidad = idMutualidad;
@@ -42,13 +42,13 @@ public class Cobro {
 		this.estado = estado;
 		this.folio = folio;
 		this.recargo = recargo;
-		this.numeroSorteo = numeroSorteo;
+		this.sorteo = sorteo;
 		this.atraso = atraso;
 		this.adelanto = adelanto;
 	}
 	
 	public Cobro(int idSocio, int idMutualidad, String date,
-			double monto, String estado, int folio, double recargo,int numeroSorteo, int atraso) {
+			double monto, String estado, int folio, double recargo,int sorteo, int atraso) {
 		this.idSocio = idSocio;
 		this.idMutualidad = idMutualidad;
 		this.fecha = date;
@@ -56,7 +56,7 @@ public class Cobro {
 		this.estado = estado;
 		this.folio = folio;
 		this.recargo = recargo;
-		this.numeroSorteo = numeroSorteo;
+		this.sorteo = sorteo;
 		this.atraso = atraso;
 	}
 	
@@ -133,12 +133,12 @@ public class Cobro {
 		this.atraso = atraso;
 	}
 
-	public double getNumeroSorteo() {
-		return numeroSorteo;
+	public int getSorteo() {
+		return sorteo;
 	}
 
-	public void setNumeroSorteo(double numeroSorteo) {
-		this.numeroSorteo = numeroSorteo;
+	public void setSorteo(int sorteo) {
+		this.sorteo = sorteo;
 	}
 	
 	public int getAdelanto() {
@@ -161,7 +161,7 @@ public class Cobro {
 				+ folio + "\n"
 				+ recargo + "\n"
 				+ atraso + "\n"
-				+ numeroSorteo;
+				+ sorteo;
 	}
 
 }

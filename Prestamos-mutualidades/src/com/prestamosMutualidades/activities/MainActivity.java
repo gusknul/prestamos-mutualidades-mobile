@@ -1,12 +1,15 @@
 package com.prestamosMutualidades.activities;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.apache.http.entity.StringEntity;
 import org.json.*;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.loopj.android.http.*;
 import com.prestamosMutualidades.beans.*;
 import com.prestamosMutualidades.util.*;
@@ -29,7 +32,7 @@ public class MainActivity extends Activity {
 	TextView cobrosTotales;
 	
 	
-	private static final String FORMATO_FECHA = "dd-MM-yyyy";
+	private static final String FORMATO_FECHA = "dd/MM/yyyy";
 	AdapterDAO adapterSocio;
 	@Override
 	
@@ -44,29 +47,35 @@ public class MainActivity extends Activity {
 		Date date = new Date();
 		fechaActual.setText(formatDate.format(date));
 		ip.setFocusable(true);
+		adapterSocio = new AdapterDAO(this);
 		
 	}
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-//			AdapterDAO adapter = new AdapterDAO(this);
-//			adapter.abrirConexion();
-//			pagosTotales.setText(" Total Pagos: $" + String.valueOf(adapter.obtenerTotalPagos()));
-//			cobrosTotales.setText(" Total Cobranza: $" + String.valueOf(adapter.obtenerTotalCobros()));
-//			Toast.makeText(this, "No hay base de datos, Actulice su base de datos", Toast.LENGTH_SHORT).show();
-//		
+			
+			adapterSocio.abrirConexion();
+			if(adapterSocio.obtenerTotalCobros() < 0 && adapterSocio.obtenerTotalPagos() < 0){
+				Toast.makeText(this, "No hay base de datos, Actulice su base de datos", Toast.LENGTH_SHORT).show();
+			}
+			else{
+			pagosTotales.setText(" Total Pagos: $" + String.valueOf(adapterSocio.obtenerTotalPagos()));
+			cobrosTotales.setText(" Total Cobranza: $" + String.valueOf(adapterSocio.obtenerTotalCobros()));}
+		
 	}
 
 	
 	public void pagos(View view){
 		Intent activity = new Intent(MainActivity.this, PagosActivity.class);
-		AdapterDAO adapter = new AdapterDAO(MainActivity.this);
-		AdapterClass ad =  (AdapterClass) MainActivity.this.getApplication();
-		ad.setContext(MainActivity.this);
-		ad.setAdapter(adapter);
-		ad.setSocios(adapter.obtenerSocios());
-		ad.abrirConexionSinRed();
+		
+			AdapterDAO adapter = new AdapterDAO(MainActivity.this);
+			AdapterClass ad =  (AdapterClass) MainActivity.this.getApplication();
+			ad.setContext(MainActivity.this);
+			ad.setAdapter(adapter);
+			ad.setSocios(adapter.obtenerSocios());
+			ad.abrirConexionSinRed();
+		
 		startActivity(activity);
 	}
 	
@@ -97,37 +106,65 @@ public class MainActivity extends Activity {
 	}
 	
 	public void sendDataToServer(View view){
-		String  URL = "http://" + ip.getText().toString();
+		String URL = "http://"+ip.getText().toString()+"/prestamos-mutualidades/server/ws/MobileWS.php";
+		
 		AdapterDAO adapter = new AdapterDAO(this);
 		
 		adapter.abrirConexion();
-			ArrayList<Socio> socios = (ArrayList<Socio>)adapter.obtenerListaSocios();
 			ArrayList<Pago> pagos = (ArrayList<Pago>) adapter.obtenerPagos();
 			ArrayList<Cobro> cobros = (ArrayList<Cobro>)adapter.obtenerCobros();
 		adapter.cerrarConexion();
 		
 			ArrayList<Object> data = new ArrayList<Object>();
-				data.add(socios);
 				data.add(pagos);
 				data.add(cobros);
 		
 		Gson gson = new Gson();
 			String datas = gson.toJson(data);
-		final RequestParams request = new RequestParams();
-			request.put("dataBase", datas);
-			
 			if(!ip.getText().toString().equals("")){
+				
+				
+				final JSONObject jsonData = new JSONObject();
+				try {
+					jsonData.put("accion", "cargar");
+					jsonData.put("param", datas);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				StringEntity entity = null;
+				try {
+					entity = new StringEntity(jsonData.toString());
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				Log.i("data", jsonData.toString());
 				AsyncHttpClient client = new AsyncHttpClient();
-				client.get(URL, request, new AsyncHttpResponseHandler(){
-			
+				client.post(this, URL, entity, "application/json", new AsyncHttpResponseHandler(){
 					@Override
-					public void onSuccess(String response) {
-						Toast.makeText(MainActivity.this, "Base de datos enviada con exito", Toast.LENGTH_LONG).show();
+					 public void onSuccess(String response){
+						Log.i("response", response);
+						if(response.equals("yes")){
+							Toast.makeText(MainActivity.this, "Base de datos enviada con exito", Toast.LENGTH_LONG).show();
 						}
+						else{
+							Toast.makeText(MainActivity.this, "El servidor no responde", Toast.LENGTH_SHORT).show();
+						}
+						
+					 }
+					
 					@Override
-					public void onFailure(Throwable error, String content) {
-						Toast.makeText(MainActivity.this, "No hay conexion con el servidor verifique su ip y su conexion de red", Toast.LENGTH_SHORT).show();
+					public void onFailure(int statusCode, Throwable error,
+							String content) {
+						// TODO Auto-generated method stub
+						if(statusCode == 0){
+							Toast.makeText(MainActivity.this, "El servidor no responde", Toast.LENGTH_SHORT).show();
 						}
+							
+					}
 				});
 		
 			}
@@ -138,19 +175,45 @@ public class MainActivity extends Activity {
 	}
 	
 	public void receiveData(View view){		
-		String URL = "http://"+ip.getText().toString()+"/json/data.json"; 
+		String URL = "http://"+ip.getText().toString()+"/prestamos-mutualidades/server/ws/MobileWS.php"; 
+		
 		if(!ip.getText().toString().equals("")){
+			
+			JSONObject data = new JSONObject();
+			try {
+				data.put("accion", "actualizar");
+				data.put("param", new JsonObject());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			StringEntity entity = null;
+			try {
+				entity = new StringEntity(data.toString());
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			AsyncHttpClient client = new AsyncHttpClient();
-			client.get(URL, new AsyncHttpResponseHandler(){
+			client.post(this, URL, entity, "application/json", new AsyncHttpResponseHandler(){
 				@Override
-				public void onSuccess(String response) {
+				 public void onSuccess(String response){
 					loadData(response);
-					}
+				 }
+				
 				@Override
-				public void onFailure(Throwable error, String content) {
-					Toast.makeText(MainActivity.this, "No hay conexion con el servidor verifique su ip y su conexion de red", Toast.LENGTH_SHORT).show();
+				public void onFailure(int statusCode, Throwable error,
+						String content) {
+					// TODO Auto-generated method stub
+					if(statusCode == 0){
+						Toast.makeText(MainActivity.this, "El servidor no responde", Toast.LENGTH_SHORT).show();
 					}
+						
+				}
 			});
+			
 		}
 		else{
 			Toast.makeText(MainActivity.this, "Ingrese una direccion ip valida", Toast.LENGTH_SHORT).show();

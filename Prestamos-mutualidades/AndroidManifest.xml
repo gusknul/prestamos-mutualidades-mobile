@@ -20,7 +20,10 @@
         <activity
             android:name="com.prestamosMutualidades.activities.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,16 +33,26 @@
         <activity
             android:name="com.prestamosMutualidades.activities.CobrosActivity"
             android:label="@string/title_activity_cobros"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            >
         </activity>
         <activity
             android:name="com.prestamosMutualidades.activities.PagosActivity"
             android:label="@string/title_activity_pagos"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            >
         </activity>
         <activity
             android:name="com.prestamosMutualidades.activities.PagosMes"
-            android:label="@string/title_activity_pagos_mes" >
+            android:label="@string/title_activity_pagos_mes"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            >
         </activity>
     </application>
 

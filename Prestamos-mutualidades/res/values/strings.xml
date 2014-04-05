@@ -23,16 +23,16 @@
     <string name="nombre_socio">Nombre: </string>
     <string name="folio_mutualista">Folio mutualista: </string>
     <string name="numero_bloc"># Bloc: </string>
-    <string name="monto">Monto: </string>
+    <string name="monto">Monto: $</string>
     <string name="atraso">Atraso: </string>
     <string name="recargo">Recargo: </string>
     <string name="numero_sorteo"># Sorteo: </string>
     <string name="fecha_pago_socio"> Fecha de pago al socio: </string>
-    <string name="telefono">Teléfono</string>
+    <string name="telefono">Teléfono:</string>
     <string name="direccion">Direccion: </string>
     <string name="title_activity_pagos_mes">Pagos del mes</string>
     <string name="button_pagos_mes">Pagos del mes</string>
     <string name="adelanto">Adelanto</string>
-    <string name="aplicar_recargo">Recargo</string>
+    <string name="aplicar_recargo">Aplicar atrasos y recargos</string>
 
 </resources>

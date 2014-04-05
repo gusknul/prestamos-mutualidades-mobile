@@ -4,7 +4,6 @@ package com.prestamosMutualidades.beans;
 public class Pago {
 	
 	private int idPago;
-
 	private int idSocio;
 	private int idMutualidad;
 	private String fecha;
@@ -12,8 +11,6 @@ public class Pago {
 	private String estado;
 	private int sorteo;
 	private int atraso;
-	private int numeroBloc;
-	private double recargo;
 	
 	
 	public Pago(){
@@ -21,7 +18,7 @@ public class Pago {
 	}
 	
 	public Pago(int idPago , int idSocio, int idMutualidad, String fecha, double monto,
-			String estado, int sorteo, int atraso, int numeroBloc, double recargo) {
+			String estado, int sorteo, int atraso) {
 		this.idPago = idPago;
 		this.idSocio = idSocio;
 		this.idMutualidad = idMutualidad;
@@ -30,12 +27,10 @@ public class Pago {
 		this.estado = estado;
 		this.sorteo = sorteo;
 		this.atraso = atraso;
-		this.numeroBloc = numeroBloc;
-		this.recargo= recargo;
 	}
 	
 	public Pago( int idSocio, int idMutualidad, String fecha, double monto,
-			String estado, int sorteo, int atraso,int numeroBloc, double recargo) {
+			String estado, int sorteo, int atraso) {
 		this.idSocio = idSocio;
 		this.idMutualidad = idMutualidad;
 		this.fecha = fecha;
@@ -43,8 +38,6 @@ public class Pago {
 		this.estado = estado;
 		this.sorteo = sorteo;
 		this.atraso = atraso;
-		this.numeroBloc = numeroBloc;
-		this.recargo= recargo;
 	}
 
 
@@ -112,21 +105,6 @@ public class Pago {
 		this.idPago = idPago;
 	}
 
-	public int getNumeroBloc() {
-		return numeroBloc;
-	}
-
-	public void setNumeroBloc(int numeroBloc) {
-		this.numeroBloc = numeroBloc;
-	}
-
-	public double getRecargo() {
-		return recargo;
-	}
-
-	public void setRecargo(double recargo) {
-		this.recargo = recargo;
-	}
 
 	@Override
 	public String toString() {
@@ -137,9 +115,7 @@ public class Pago {
 				+ monto + "\n" 
 	            + estado + "\n"
 				+ sorteo + "\n" 
-				+ atraso + "\n"
-				+ numeroBloc + "\n"
-				+ recargo;
+				+ atraso ;
 	}
 	
 	
