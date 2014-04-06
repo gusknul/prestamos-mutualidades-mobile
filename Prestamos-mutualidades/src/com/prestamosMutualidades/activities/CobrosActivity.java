@@ -1,5 +1,6 @@
 package com.prestamosMutualidades.activities;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,9 +12,12 @@ import com.prestamosMutualidades.util.AdapterClass;
 import com.prestamosMutualidades.util.AdapterDAO;
 
 import android.os.Bundle;
+import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
@@ -32,6 +36,7 @@ import android.widget.Toast;
 @SuppressLint("ShowToast")
 public class CobrosActivity extends Activity {
 	
+	private Cobro selectedCobro = null;
 	ListView listView;
 	TextView fechaDia;
 	
@@ -90,6 +95,39 @@ public class CobrosActivity extends Activity {
 		adelantos = (EditText)findViewById(R.id.edit_text_adelanto);
 		aplicarRecargo = (CheckBox) findViewById(R.id.check_box_aplicar_recargos);
 		
+		adelantos.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int count, int after) {
+				// TODO Auto-generated method stub
+				if(selectedCobro == null){
+					return;
+				}
+				
+				int adelanto = 0;
+				
+				if(s.length() > 0)
+					adelanto = Integer.parseInt(s.toString());
+				
+				double monto = selectedCobro.getMonto();
+				CobrosActivity.this.monto.setText("Monto: $" + String.valueOf(monto + monto * adelanto));
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		AdapterClass cl = (AdapterClass) getApplicationContext();
 		adapterSocio = cl.getAdapter();
 		
@@ -112,9 +150,37 @@ public class CobrosActivity extends Activity {
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long idInDB){
+				CobrosActivity.this.selectedCobro = adapter.getItem(position);
 				setText(position,parent);
 				adelantos.setText(String.valueOf(adapter.getItem(position).getAdelanto()));
-				}});
+				
+				try {
+					if(!comparaFechas(adapter.getItem(position).getFecha())){
+						adelantos.setEnabled(false);
+					}
+					else{
+						adelantos.setEnabled(true);
+					}
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				}
+			});
+	}
+	
+	public boolean comparaFechas(String fechaComparar) throws ParseException{
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = new Date();
+		String fechaActual = formatoFecha.format(date);
+		if (fechaComparar.equals(fechaActual)){
+			return true;
+		}
+		else{
+		return false;
+		}
 	}
 	
 	private void setText(int position,AdapterView<?> parent){
@@ -127,11 +193,11 @@ public class CobrosActivity extends Activity {
 					telefonoSocio.setText("Telefono: " + adapterSocio.obtenerSocios().get(cobro.getIdSocio()).getTelefono());
 					folioMutualista.setText("Folio mutualista: " + String.valueOf(cobro.getIdMutualidad()));
 					numeroBloque.setText("# Bloc: " + String.valueOf(cobro.getFolio()));
-					monto.setText("Monto: $" + String.valueOf(cobro.getMonto()));
+					monto.setText("Monto: $" + String.valueOf(cobro.getMonto() + (cobro.getAdelanto() * cobro.getMonto())));
 					atraso.setText("Atraso: " + String.valueOf(cobro.getAtraso()) + " dias");
 					recargo.setText("Recargo: $" + String.valueOf(cobro.getRecargo()));
 					numeroSorteo.setText("# Sorteo: " + String.valueOf(cobro.getSorteo()));
-					fechaPagoSocio.setText("Fecha de pago al socio: " + cobro.getDate());
+					fechaPagoSocio.setText("Fecha de pago al socio: " + cobro.getFecha());
 					registrarCobro(position,parent);
 	}
 	}
@@ -144,7 +210,7 @@ public class CobrosActivity extends Activity {
 					
 					if(!adelantos.getText().toString().equals("") && Integer.parseInt(adelantos.getText().toString()) >= 0){
 						
-						if(aplicarRecargo.isChecked()){
+						if(aplicarRecargo.isChecked()){							
 							
 							if(adapterSocio.realizarCobro(adapter.getItem(position).getIdCobro(),Integer.parseInt(adelantos.getText().toString()))){
 								Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();

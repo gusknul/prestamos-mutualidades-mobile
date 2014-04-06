@@ -211,7 +211,7 @@ public class BaseDatos extends SQLiteOpenHelper
 				+ " '" +  cobro.getIdCobro() + "' , "
 				+ " '" +  cobro.getIdSocio() + "' , "
 				+ " '" +  cobro.getIdMutualidad() + "' , "
-				+ " '" +  cobro.getDate() + "' , "
+				+ " '" +  cobro.getFecha() + "' , "
 				+ " '" +  cobro.getMonto() + "' , "
 				+ " '" +  cobro.getEstado() + "' , "
 				+ " '" +  cobro.getFolio() + "' , "

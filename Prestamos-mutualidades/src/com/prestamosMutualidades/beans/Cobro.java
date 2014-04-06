@@ -85,12 +85,12 @@ public class Cobro {
 		this.idMutualidad = idMutualidad;
 	}
 	
-	public String getDate() {
+	public String getFecha() {
 		return fecha;
 	}
 	
-	public void setDate(String date) {
-		this.fecha = date;
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
 	}
 	
 	public double getMonto() {

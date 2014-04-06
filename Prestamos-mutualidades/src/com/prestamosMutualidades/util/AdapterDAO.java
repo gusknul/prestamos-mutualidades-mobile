@@ -84,7 +84,7 @@ public class AdapterDAO
 			cobro.setIdCobro(cursor.getInt(cursor.getColumnIndex(BaseDatos.ID_COBRO)));
 			cobro.setIdSocio(cursor.getInt(cursor.getColumnIndex(BaseDatos.ID_SOCIO_COBRO)));
 			cobro.setIdMutualidad(cursor.getInt(cursor.getColumnIndex(BaseDatos.ID_MUTUALIDAD_COBRO)));
-			cobro.setDate(cursor.getString(cursor.getColumnIndex(BaseDatos.FECHA_COBRO)));
+			cobro.setFecha(cursor.getString(cursor.getColumnIndex(BaseDatos.FECHA_COBRO)));
 			cobro.setMonto(cursor.getDouble(cursor.getColumnIndex(BaseDatos.MONTO_COBRO)));
 			cobro.setEstado(cursor.getString(cursor.getColumnIndex(BaseDatos.ESTADO_COBRO)));
 			cobro.setFolio(cursor.getInt(cursor.getColumnIndex(BaseDatos.FOLIO_COBRO)));

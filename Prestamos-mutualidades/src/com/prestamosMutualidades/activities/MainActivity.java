@@ -141,17 +141,25 @@ public class MainActivity extends Activity {
 					e.printStackTrace();
 				}
 
-				Log.i("data", jsonData.toString());
 				AsyncHttpClient client = new AsyncHttpClient();
+				client.setTimeout(60000);//tiempo de espera de la conexion 1 minuto
 				client.post(this, URL, entity, "application/json", new AsyncHttpResponseHandler(){
 					@Override
 					 public void onSuccess(String response){
-						Log.i("response", response);
-						if(response.equals("yes")){
-							Toast.makeText(MainActivity.this, "Base de datos enviada con exito", Toast.LENGTH_LONG).show();
-						}
-						else{
-							Toast.makeText(MainActivity.this, "El servidor no responde", Toast.LENGTH_SHORT).show();
+						
+						try {
+							JSONObject respuesta = new JSONObject(response);
+							boolean success = respuesta.getBoolean("success");
+							if(success){
+								Toast.makeText(MainActivity.this, "Base de datos enviada con exito", Toast.LENGTH_LONG).show();
+							}
+							else{
+								Toast.makeText(MainActivity.this, "El servidor no responde", Toast.LENGTH_SHORT).show();
+							}
+							
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 						
 					 }
