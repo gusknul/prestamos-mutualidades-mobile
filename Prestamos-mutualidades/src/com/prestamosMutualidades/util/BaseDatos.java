@@ -46,6 +46,7 @@ public class BaseDatos extends SQLiteOpenHelper
     public static final String ATRASO_COBRO = "atraso";
     public static final String ADELANTO_COBRO = "adelanto";
     public static final String NUMERO_SORTEO_COBRO = "sorteo";
+    public static final String APLICA_ATRASOS_RECARGOS = "aplicaAtrasosRecargos";
 	
 	
 	public static final String TABLA_PAGO = "pago";
@@ -166,7 +167,8 @@ public class BaseDatos extends SQLiteOpenHelper
 				+ ATRASO_COBRO + " INTEGER , "
 				+ NUMERO_SORTEO_COBRO + " INTEGER , "
 				+ RECARGO_COBRO + " DOUBLE, "
-				+ ADELANTO_COBRO + " INTEGER "
+				+ ADELANTO_COBRO + " INTEGER, "
+				+ APLICA_ATRASOS_RECARGOS + " BOOL DEFAULT true"
 				+ " ) ; ";
 		return query;
 	}
@@ -206,7 +208,7 @@ public class BaseDatos extends SQLiteOpenHelper
 		String query = null;
 		
 		query = " INSERT INTO " + TABLA_COBRO
-				+ " ( idCobro, idSocio , idMutualidad , fecha , monto , estado , folio , atraso, sorteo , recargo ) " 
+				+ " ( idCobro, idSocio , idMutualidad , fecha , monto , estado , folio , atraso, sorteo , recargo) " 
 				+ " VALUES ( " 
 				+ " '" +  cobro.getIdCobro() + "' , "
 				+ " '" +  cobro.getIdSocio() + "' , "
@@ -217,7 +219,7 @@ public class BaseDatos extends SQLiteOpenHelper
 				+ " '" +  cobro.getFolio() + "' , "
 				+ " '" +  cobro.getAtraso() + "' , "
 				+ " '" +  cobro.getSorteo() + "' , "
-				+ " '" +  cobro.getRecargo()  + "' "
+				+ " '" +  cobro.getRecargo()  + "'"
 				+ ")";
 		return query;
 	}

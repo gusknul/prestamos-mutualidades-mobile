@@ -12,20 +12,15 @@ import com.prestamosMutualidades.util.AdapterClass;
 import com.prestamosMutualidades.util.AdapterDAO;
 
 import android.os.Bundle;
-import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -212,10 +207,11 @@ public class CobrosActivity extends Activity {
 						
 						if(aplicarRecargo.isChecked()){							
 							
-							if(adapterSocio.realizarCobro(adapter.getItem(position).getIdCobro(),Integer.parseInt(adelantos.getText().toString()))){
+							if(adapterSocio.realizarCobro(adapter.getItem(position).getIdCobro(),Integer.parseInt(adelantos.getText().toString()), "true")){
 								Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
 								Cobro cobro = adapter.getItem(position);
 								cobro.setEstado("completado");
+								cobro.setAplicaAtrasosRecargos(true);
 								cobro.setAdelanto(Integer.parseInt(adelantos.getText().toString()));
 								adapter = new CobrosAdapter(CobrosActivity.this, adapter.getList(), adapterSocio.obtenerSocios());
 								listView.setAdapter(adapter);
@@ -227,12 +223,11 @@ public class CobrosActivity extends Activity {
 							
 						}
 						else{
-							//Aplicar accion cuando no esta verificado
-							Toast.makeText(CobrosActivity.this, "desactivado", Toast.LENGTH_SHORT).show();
-							if(adapterSocio.realizarCobro(adapter.getItem(position).getIdSocio(),Integer.parseInt(adelantos.getText().toString()))){
+							if(adapterSocio.realizarCobro(adapter.getItem(position).getIdSocio(),Integer.parseInt(adelantos.getText().toString()),"false")){
 								Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
 								Cobro cobro = adapter.getItem(position);
 								cobro.setEstado("completado");
+								cobro.setAplicaAtrasosRecargos(false);
 								adapter = new CobrosAdapter(CobrosActivity.this, adapter.getList(), adapterSocio.obtenerSocios());
 								listView.setAdapter(adapter);
 

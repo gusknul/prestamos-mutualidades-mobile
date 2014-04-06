@@ -15,6 +15,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.util.SparseArray;
 
 
@@ -92,6 +93,13 @@ public class AdapterDAO
 			cobro.setSorteo(cursor.getInt(cursor.getColumnIndex(BaseDatos.NUMERO_SORTEO_COBRO)));
 			cobro.setRecargo(cursor.getDouble(cursor.getColumnIndex(BaseDatos.RECARGO_COBRO)));
 			cobro.setAdelanto(cursor.getInt(cursor.getColumnIndex(BaseDatos.ADELANTO_COBRO)));
+			boolean flag = true;
+			if(!cursor.getString(cursor.getColumnIndex(BaseDatos.APLICA_ATRASOS_RECARGOS)).equals("true")){
+				flag = false;
+			}
+			
+			cobro.setAplicaAtrasosRecargos(flag);
+			
 			cobros.add(cobro);
 		}
 		
@@ -146,11 +154,12 @@ public class AdapterDAO
 	}
 	
 	
-	public boolean realizarCobro(int idCobro , int totalAdelantos){
+	public boolean realizarCobro(int idCobro , int totalAdelantos, String aplicaAtrasosRecargos){
 		baseDatosSQL = baseDatos.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(BaseDatos.ESTADO_COBRO, "completado");
 		values.put(BaseDatos.ADELANTO_COBRO, totalAdelantos);
+		values.put(BaseDatos.APLICA_ATRASOS_RECARGOS, aplicaAtrasosRecargos);
 		
 		int cant = baseDatosSQL.update(BaseDatos.TABLA_COBRO, values, BaseDatos.ID_COBRO + "=" + idCobro, null);
 		

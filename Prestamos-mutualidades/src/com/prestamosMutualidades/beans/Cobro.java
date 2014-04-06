@@ -14,6 +14,8 @@ public class Cobro {
 	private int atraso;
 	private int sorteo;
 	private int adelanto;
+	private boolean aplicaAtrasosRecargos; 
+	
 	public Cobro(){
 		
 	}
@@ -30,10 +32,11 @@ public class Cobro {
 		this.recargo = recargo;
 		this.sorteo = sorteo;
 		this.atraso = atraso;
+		
 	}
 	
 	public Cobro(int idCobro, int idSocio, int idMutualidad, String date,
-			double monto, String estado, int folio, double recargo,int sorteo, int atraso , int adelanto) {
+			double monto, String estado, int folio, double recargo,int sorteo, int atraso , int adelanto, boolean aplicaAtrasosRecargos) {
 		this.idCobro = idCobro;
 		this.idSocio = idSocio;
 		this.idMutualidad = idMutualidad;
@@ -45,6 +48,7 @@ public class Cobro {
 		this.sorteo = sorteo;
 		this.atraso = atraso;
 		this.adelanto = adelanto;
+		this.setAplicaAtrasosRecargos(aplicaAtrasosRecargos);
 	}
 	
 	public Cobro(int idSocio, int idMutualidad, String date,
@@ -150,6 +154,14 @@ public class Cobro {
 	}
 	
 	
+	public boolean isAplicaAtrasosRecargos() {
+		return aplicaAtrasosRecargos;
+	}
+
+	public void setAplicaAtrasosRecargos(boolean aplicaAtrasosRecargos) {
+		this.aplicaAtrasosRecargos = aplicaAtrasosRecargos;
+	}
+
 	@Override
 	public String toString() {
 		return    idCobro + "\n"
