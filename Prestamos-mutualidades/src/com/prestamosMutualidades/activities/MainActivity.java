@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
 		cobrosTotales = (TextView) findViewById(R.id.totalCobranza);
 		SimpleDateFormat formatDate = new SimpleDateFormat(FORMATO_FECHA);
 		Date date = new Date();
-		fechaActual.setText(formatDate.format(date));
+		fechaActual.setText("Pendientes del día: " + formatDate.format(date));
 		ip.setFocusable(true);
 		adapterSocio = new AdapterDAO(this);
 		
