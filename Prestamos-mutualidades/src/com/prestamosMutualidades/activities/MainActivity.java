@@ -213,6 +213,7 @@ public class MainActivity extends Activity {
 			}
 
 			AsyncHttpClient client = new AsyncHttpClient();
+			client.setTimeout(60000);
 			client.post(this, URL, entity, "application/json",
 					new AsyncHttpResponseHandler() {
 						@Override

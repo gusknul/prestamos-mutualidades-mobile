@@ -149,6 +149,14 @@ public class CobrosActivity extends Activity {
 				setText(position,parent);
 				adelantos.setText(String.valueOf(adapter.getItem(position).getAdelanto()));
 				
+				if(adapter.getItem(position).isAplicaAtrasosRecargos()){
+					aplicarRecargo.setChecked(true);
+				}
+				else{
+					aplicarRecargo.setChecked(false);
+				}
+				
+				
 				try {
 					if(!comparaFechas(adapter.getItem(position).getFecha())){
 						adelantos.setEnabled(false);
@@ -223,7 +231,7 @@ public class CobrosActivity extends Activity {
 							
 						}
 						else{
-							if(adapterSocio.realizarCobro(adapter.getItem(position).getIdSocio(),Integer.parseInt(adelantos.getText().toString()),"false")){
+							if(adapterSocio.realizarCobro(adapter.getItem(position).getIdCobro(),Integer.parseInt(adelantos.getText().toString()),"false")){
 								Toast.makeText(CobrosActivity.this, "Cobro realizado" ,Toast.LENGTH_SHORT).show();
 								Cobro cobro = adapter.getItem(position);
 								cobro.setEstado("completado");

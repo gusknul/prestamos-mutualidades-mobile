@@ -175,8 +175,11 @@ public class AdapterDAO
 	}
 	
 	public float obtenerTotalPagos(){
+		SimpleDateFormat d = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = new Date();
+		String fecha = d.format(date);
 		baseDatosSQL = baseDatos.getReadableDatabase();
-		String query = "SELECT total ( monto ) from "+ BaseDatos.TABLA_PAGO + " where estado = 'completado' ;";		
+		String query = "SELECT total ( monto ) from "+ BaseDatos.TABLA_PAGO + " where estado = 'completado' AND fecha = '" + fecha +"' ;";		
 		Cursor cursor = baseDatosSQL.rawQuery(query, null);
 		float total = 0;
 		while(cursor.moveToNext()){
