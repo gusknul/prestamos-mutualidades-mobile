@@ -15,12 +15,14 @@ import com.prestamosMutualidades.beans.*;
 import com.prestamosMutualidades.util.*;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.view.*;
-import android.view.View.OnClickListener;
 import android.widget.*;
 
 @SuppressLint("SimpleDateFormat")
@@ -33,6 +35,8 @@ public class MainActivity extends Activity {
 
 	private static final String FORMATO_FECHA = "dd/MM/yyyy";
 	AdapterDAO adapterSocio;
+	
+	Editor editor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +46,10 @@ public class MainActivity extends Activity {
 		fechaActual = (TextView) findViewById(R.id.fecha_dia_main);
 		pagosTotales = (TextView) findViewById(R.id.totalPagos);
 		cobrosTotales = (TextView) findViewById(R.id.totalCobranza);
-		SimpleDateFormat formatDate = new SimpleDateFormat(FORMATO_FECHA);
-		Date date = new Date();
-		fechaActual.setText("Pendientes del día: " + formatDate.format(date));
 		adapterSocio = new AdapterDAO(this);
+		SharedPreferences preferences = getSharedPreferences("fecha-actualizacion", Context.MODE_PRIVATE);
+		String fechaActualizacion = preferences.getString("fecha", "");
+		fechaActual.setText("Pendientes del día: " + fechaActualizacion);
 
 	}
 
@@ -107,7 +111,8 @@ public class MainActivity extends Activity {
 	}
 
 	public void sendDataToServer(View view) {
-		String URL = "http://" + ip.getText().toString()+"/prestamos-mutualidades/server/ws/MobileWS.php";
+		String URL = "http://" + ip.getText().toString()
+				+ "/prestamos-mutualidades/server/ws/MobileWS.php";
 
 		AdapterDAO adapter = new AdapterDAO(this);
 		adapter.abrirConexion();
@@ -190,6 +195,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void receiveData(View view) {
+
 		String URL = "http://" + ip.getText().toString()
 				+ "/prestamos-mutualidades/server/ws/MobileWS.php";
 
@@ -289,8 +295,16 @@ public class MainActivity extends Activity {
 		ad.setDatos(arrayObjetos);
 		ad.setAdapter(adapter);
 		ad.abrirConexion();
-		Toast.makeText(this, "Base de datos cargada con exito",
-				Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Base de datos cargada con exito", Toast.LENGTH_LONG).show();
+		
+		SimpleDateFormat formatDate = new SimpleDateFormat(FORMATO_FECHA);
+		Date date = new Date();
+		String fechaPendientes = formatDate.format(date);
+		SharedPreferences preferences = getSharedPreferences("fecha-actualizacion", Context.MODE_PRIVATE);
+		editor = preferences.edit();
+		editor.putString("fecha", fechaPendientes);
+		editor.commit();
+
 	}
 
 }
